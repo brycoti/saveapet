@@ -64,32 +64,21 @@ router.post('/login', async (req, res) => {
 // Endpoint per registrar un usuari
 router.post('/register', async (req, res) => {
     try {
-        const { name, email, password } = req.body; // Get name, email, and password from the request body
-
-        // Validate input
-        if (!name || !email || !password) {
-            return res.status(400).json({ error: 'Name, email, and password required' });
-        }
-
-        // Check if the email is already registered
-        const existingUser = await User.findOne({ where: { email } });
-        if (existingUser) {
-            return res.status(400).json({ error: 'Email already exists' });
-        }
-
-        // Hash the password before storing it in the database
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Create the user with the hashed password
-        const user = await User.create({ name, email, password: hashedPassword });
-
-        // Return the created user (consider excluding the password from the response)
-        const userResponse = { ...user.toJSON(), password: undefined }; // Removing password from the response
-        res.status(201).json(userResponse);
+      const { name, email, password } = req.body; // Obté el nom, email i contrasenya de la petició
+      if (!name || !email || !password) {
+        return res.status(400).json({ error: 'Name, email, i password requerits' }); // Retorna error 400 si no es proporcionen el nom, email o contrasenya
+      }
+      const existingUser = await User.findOne({ where: { email } }); // Comprova si l'email ja està registrat
+      if (existingUser) {
+        return res.status(400).json({ error: 'Email ja existeix' }); // Retorna error 400 si l'email ja està registrat
+      }
+      const user = await User.create({ name, email, password }); // Crea l'usuari amb les dades proporcionades
+  
+      res.status(201).json({id: user.id, name: user.name, email: user.email}); // Retorna l'usuari creat amb el codi d'estat 201 (Creat)
     } catch (error) {
-        res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message }); // Retorna error 500 amb el missatge d'error
     }
-});
+  });
 
 router.get('/refresh', checkToken, async (req, res) => {
     const user = await User.findByPk(req.userId); // Cerca l'usuari pel seu email
