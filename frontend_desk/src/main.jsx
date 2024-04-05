@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from './App.jsx'
-import Login from './login.jsx'
-import Register from './Register.jsx';
+import Login from './pages/Login.jsx'
+import Register from './pages/Register.jsx';
 
 import './index.css'
 
@@ -13,8 +13,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <Routes>
     <Route path="/" element={<App />}>
 
-      <Route index element={<Inici />} />
-      <Route path="/login" element={<Login/>} />
+      <Route index element={<Login />} />
+      
       <Route path="/register" element={<Register />} />
      
     </Route>
