@@ -20,6 +20,10 @@ const Center = sequelize.define('Center', {
         allowNull: false,
         unique: true
     },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     phonenumber: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -74,20 +78,16 @@ const User = sequelize.define('User', {
     },
     breed: {
       type: DataTypes.STRING,
-      allowNull: false
     },
     age: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      type: DataTypes.INTEGER,  
     },
     size: {
       type: DataTypes.ENUM('big', 'medium', 'small'),
-      allowNull: false
     },
     temper: {
-      type: DataTypes.ENUM('energetic', 'calm', 'playful'),
+      type: DataTypes.ENUM('energetic', 'calm', 'playful', 'shy'),
       defaultValue: 'calm',
-      allowNull: false
     },
     dogs_friendly: {
       type: DataTypes.BOOLEAN,
@@ -100,7 +100,6 @@ const User = sequelize.define('User', {
     urgency: {
       type: DataTypes.ENUM('urgent', 'not urgent'),
       defaultValue: 'not urgent',
-      allowNull: false
     }
   });
   
@@ -113,9 +112,7 @@ const User = sequelize.define('User', {
     }
   });
   
-  // Definir relaciones
-  User.belongsToMany(Pet, { through: 'usuario_pet', foreignKey: 'id_user' });
-  Pet.belongsToMany(User, { through: 'usuario_pet', foreignKey: 'id_pet' });
+  
 
 // Define the beforeCreate hook outside of the sequelize.define call
 User.beforeCreate(async (user) => {
@@ -123,15 +120,17 @@ User.beforeCreate(async (user) => {
     user.password = hashedPassword; // Set the user's password to the hashed password
 });
 
-// Relations 
-User.hasMany(Adoption);
-Adoption.belongs(User);
+Center.beforeCreate(async (center) => {
+  const hashedPassword = await bcrypt.hash(center.password, 10); // Encrypt the password with bcrypt
+  center.password = hashedPassword; // Set the user's password to the hashed password
+});
 
-Adoption.hasMany(Pet);
-Pet.belongs(Adoption);
- 
-Center.belongsToMany(Pet, { through: 'CenterPet' });
-Pet.belongsToMany(Center, { through: 'CenterPet' });
+// Relations
+User.belongsToMany(Pet, { through: 'usuario_pet', foreignKey: 'id_user' });
+Pet.belongsToMany(User, { through: 'usuario_pet', foreignKey: 'id_pet' });
+
+Center.hasMany(Pet);
+Pet.belongsTo(Center);
 
 // Call the function to initialize the database
 
@@ -145,7 +144,7 @@ async function iniDB() {
         console.error('Failed to synchronize database:', error);
     }
 }
-// iniDB();
+//iniDB();
 
 module.exports = {
     User,
