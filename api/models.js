@@ -32,7 +32,7 @@ const Center = sequelize.define('Center', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    addres: {
+    address: {
         type: DataTypes.STRING,
         allowNull: false,
     }
