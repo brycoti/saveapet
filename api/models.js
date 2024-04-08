@@ -42,7 +42,7 @@ async function iniDB() {
 }
 
 // Call the function to initialize the database
-// iniDB();
+ //iniDB();
 
 module.exports = {
     User,

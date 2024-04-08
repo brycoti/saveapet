@@ -1,6 +1,8 @@
 import { useState, useCallback } from 'react'
 import Contexte from "./components/contexte";
 import { Outlet } from "react-router-dom";
+import Header from './components/Header';
+import Landing from './pages/Landing';
 
 function App() {
   const [loguejat, setLoguejat] = useState(null)
@@ -17,6 +19,7 @@ function App() {
     <>
       <Contexte.Provider value={dades}>
         <div >
+          <Header />
           <Outlet />
         </div>
       </Contexte.Provider>
@@ -24,4 +27,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
