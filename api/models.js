@@ -2,9 +2,9 @@ const { Sequelize, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 
 // Initialize Sequelize connection
-const sequelize = new Sequelize('saveapet', 'root', 'admin', {
+const sequelize = new Sequelize('saveapet', 'root', 'root', {
     host: 'localhost',
-    port: 3308,
+    port: 3306,
     dialect: 'mysql'
 });
 
@@ -84,6 +84,7 @@ const User = sequelize.define('User', {
     },
     size: {
       type: DataTypes.ENUM('big', 'medium', 'small'),
+      defaultValue: 'big'
     },
     temper: {
       type: DataTypes.ENUM('energetic', 'calm', 'playful', 'shy'),
@@ -91,11 +92,13 @@ const User = sequelize.define('User', {
     },
     dogs_friendly: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: false,
+      defaultValue: false
     },
     kids_friendly: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: false,
+      defaultValue: false
     },
     urgency: {
       type: DataTypes.ENUM('urgent', 'not urgent'),
@@ -150,5 +153,6 @@ module.exports = {
     User,
     Center,
     Pet,
+    UsuarioPet,
     sequelize
 };
