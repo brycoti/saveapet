@@ -79,4 +79,38 @@ router.get('/refresh', checkToken, async (req, res) => {
     return res.json({ id: user.id, name: user.name, email: user.email })
 })
 
+router.post('/chat/usertocenter', async (req, res) => {
+    const { userId, centerId, contenido } = req.body;
+  
+    try {
+        const mensaje = await Chat.create({
+            userId,
+            centerId,
+            contenido
+        });
+        res.status(200).json(mensaje);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+  });
+  
+  
+  // TODO corregir bug validation
+  router.post('/chat/centertouser', async (req, res) => {
+    const { centerId, userId, contenido} = req.body;
+  
+    try {
+        const mensaje = await Chat.create({
+            userId,
+            centerId,
+            contenido
+        });
+        res.status(200).json(mensaje);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+  });
+  
+
+
 module.exports = router; // Exporta el router amb les rutes definides

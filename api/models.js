@@ -115,7 +115,15 @@ const User = sequelize.define('User', {
     }
   });
   
-  
+    // Definir el modelo Chat
+const Chat = sequelize.define('Chat', {
+  contenido: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  }
+  // No necesitas definir aquí las claves foráneas, Sequelize lo maneja por ti
+});
+
 
 // Define the beforeCreate hook outside of the sequelize.define call
 User.beforeCreate(async (user) => {
@@ -134,6 +142,13 @@ Pet.belongsToMany(User, { through: 'usuario_pet', foreignKey: 'id_pet' });
 
 Center.hasMany(Pet);
 Pet.belongsTo(Center);
+
+User.belongsToMany(Center, { through: Chat, foreignKey: 'userId', otherKey: 'centerId' });
+Center.belongsToMany(User, { through: Chat, foreignKey: 'centerId', otherKey: 'userId' });
+Chat.belongsTo(User, { foreignKey: 'userId' });
+Chat.belongsTo(Center, { foreignKey: 'centerId' });
+User.hasMany(Chat, { foreignKey: 'userId' });
+Center.hasMany(Chat, { foreignKey: 'centerId' });
 
 // Call the function to initialize the database
 
@@ -154,5 +169,6 @@ module.exports = {
     Center,
     Pet,
     UsuarioPet,
+    Chat,
     sequelize
 };
