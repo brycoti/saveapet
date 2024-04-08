@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken'); // Importa la llibreria jsonwebtoken per a 
 
 const SECRET_KEY = "en-pinxo-li-va-dir-a-en-panxo"; // Clau secreta per a la generació de JWT
 
-const { User } = require('./models'); // Correct way to import the User model if it's part of an exported object
+const { User,Center,Pet,UsuarioPet } = require('./models'); // Correct way to import the User model if it's part of an exported object
 
 const {
     createItem,
@@ -15,7 +15,17 @@ const {
     readItem,
     readItems,
     readItemsUser,
+    login
 } = require('./generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
+
+const { 
+  registerUser,
+  userpet
+ } = require('./userFunctions')
+const { 
+  registerCenter,
+  newPet
+ } = require('./centerFunctions')
 
 // Middleware per verificar el JWT en la cookie
 const checkToken = (req, res, next) => {
@@ -41,44 +51,25 @@ router.put('/users/:id', async (req, res) => await updateItem(req, res, User));
 router.delete('/users/:id', async (req, res) => await deleteItem(req, res, User));
 
 // Endpoint per iniciar sessió d'un usuari
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body; // Obté l'email i la contrasenya de la petició
-    try {
-      const user = await User.findOne({ where: { email } }); // Cerca l'usuari pel seu email
-      if (!user) {
-        return res.status(404).json({ error: 'User no trobat' }); // Retorna error 404 si l'usuari no es troba
-      }
-      const passwordMatch = await bcrypt.compare(password, user.password); // Compara la contrasenya proporcionada amb la contrasenya encriptada de l'usuari
-      if (!passwordMatch) {
-        return res.status(401).json({ error: 'Password incorrecte' }); // Retorna error 401 si la contrasenya és incorrecta
-      }
-      const token = jwt.sign({ userId: user.id, userName: user.name }, SECRET_KEY, { expiresIn: '2h' }); // Genera un token JWT vàlid durant 2 hores
-      res.cookie('token', token, { httpOnly: false, maxAge: 7200000 }); // Estableix el token com una cookie
-      res.json({ name: user.name, id: user.id }); // Retorna missatge d'èxit
-    } catch (error) {
-      res.status(500).json({ error: error.message }); // Retorna error 500 amb el missatge d'error
-    }
+router.post('/login/user', async (req, res) => await login(req, res, User));
+router.post('/login/center', async (req, res) => await login(req, res, Center));
+
+// Endpoint per finalitzar sessio
+  router.delete('/logout', (req, res) => {
+    res.clearCookie('token'); // Elimina la cookie
+    res.status(200).json({ message: 'Logged out' }); // Retorna missatge d'èxit
   });
-  
+
 
 // Endpoint per registrar un usuari
-router.post('/register', async (req, res) => {
-    try {
-      const { name, email, password } = req.body; // Obté el nom, email i contrasenya de la petició
-      if (!name || !email || !password) {
-        return res.status(400).json({ error: 'Name, email, i password requerits' }); // Retorna error 400 si no es proporcionen el nom, email o contrasenya
-      }
-      const existingUser = await User.findOne({ where: { email } }); // Comprova si l'email ja està registrat
-      if (existingUser) {
-        return res.status(400).json({ error: 'Email ja existeix' }); // Retorna error 400 si l'email ja està registrat
-      }
-      const user = await User.create({ name, email, password }); // Crea l'usuari amb les dades proporcionades
-  
-      res.status(201).json({id: user.id, name: user.name, email: user.email}); // Retorna l'usuari creat amb el codi d'estat 201 (Creat)
-    } catch (error) {
-      res.status(500).json({ error: error.message }); // Retorna error 500 amb el missatge d'error
-    }
-  });
+router.post('/register/user', async (req, res) => await registerUser(req, res, User));
+
+// Endpoint per registrar un Centre
+router.post('/register/center', async (req, res) => await registerCenter(req, res, Center));
+router.post('/center/newpet', checkToken, async (req, res, next) => await newPet(req, res, next, Center, Pet));
+
+// Enpoint per crear relacio user - gos
+router.post('/userpet', checkToken, async (req, res, next) => await userpet(req, res, next, User, UsuarioPet));
 
 router.get('/refresh', checkToken, async (req, res) => {
     const user = await User.findByPk(req.userId); // Cerca l'usuari pel seu email
@@ -87,5 +78,39 @@ router.get('/refresh', checkToken, async (req, res) => {
     }
     return res.json({ id: user.id, name: user.name, email: user.email })
 })
+
+router.post('/chat/usertocenter', async (req, res) => {
+    const { userId, centerId, contenido } = req.body;
+  
+    try {
+        const mensaje = await Chat.create({
+            userId,
+            centerId,
+            contenido
+        });
+        res.status(200).json(mensaje);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+  });
+  
+  
+  // TODO corregir bug validation
+  router.post('/chat/centertouser', async (req, res) => {
+    const { centerId, userId, contenido} = req.body;
+  
+    try {
+        const mensaje = await Chat.create({
+            userId,
+            centerId,
+            contenido
+        });
+        res.status(200).json(mensaje);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+  });
+  
+
 
 module.exports = router; // Exporta el router amb les rutes definides
