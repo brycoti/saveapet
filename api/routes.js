@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken'); // Importa la llibreria jsonwebtoken per a 
 
 const SECRET_KEY = "en-pinxo-li-va-dir-a-en-panxo"; // Clau secreta per a la generació de JWT
 
-const { User,Center,Pet } = require('./models'); // Correct way to import the User model if it's part of an exported object
+const { User,Center,Pet,UsuarioPet } = require('./models'); // Correct way to import the User model if it's part of an exported object
 
 const {
     createItem,
@@ -98,7 +98,7 @@ router.post('/register/user', async (req, res) => {
       if (existingUser) {
         return res.status(400).json({ error: 'Email ja existeix' }); // Retorna error 400 si l'email ja està registrat
       }
-      const user = await User.create({ name, email, password }); // Crea l'usuari amb les dades proporcionades
+      const user = await User.create({ name, email, password, phonenumber,address }); // Crea l'usuari amb les dades proporcionades
   
       res.status(201).json({id: user.id, name: user.name, email: user.email}); // Retorna l'usuari creat amb el codi d'estat 201 (Creat)
     } catch (error) {
@@ -140,6 +140,26 @@ router.post('/center/newpet', checkToken, async (req, res, next) => {
       breed,
       age,
       CenterId: req.userId
+    })
+    res.status(201).json(item); // Retorna l'usuari creat amb el codi d'estat 201 (Creat)
+  } catch (error) {
+    res.status(500).json({ error: error.message}); // Retorna error 500 amb el missatge d'error
+  }
+});
+
+router.post('/userpet', checkToken, async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.userId); // Cerca l'usuari pel seu ID
+    if (!user) {
+      return res.status(500).json({ error: 'Usuari no trobat' }); // Retorna error 500 si no es troba l'usuari
+    }
+    const { id_pet } = req.body;
+    if ( !id_pet ) {
+      return res.status(400).json({ error: 'No hi cap gos assignat' }); // Retorna error 400 si no es proporcionen el nom, email o contrasenya
+    }
+    const item = await UsuarioPet.create({
+      id_user: req.userId,
+      id_pet,
     })
     res.status(201).json(item); // Retorna l'usuari creat amb el codi d'estat 201 (Creat)
   } catch (error) {
