@@ -4,7 +4,7 @@ import Contexte from "../components/contexte";
 import { login, putUser } from "../components/generic";
 
 const Login = () => {
-    const { setLoguejat, loguejat } = useContext(Contexte)
+    const { setLoguejat } = useContext(Contexte)
     const [user, setUser] = useState({ email: "", password: "" })
     const redirect = useNavigate();
 
@@ -20,12 +20,13 @@ const Login = () => {
         e.preventDefault();
 
         const data = await login(user);
-
+        console.log("1", data)
         if (!data.error) {
             setLoguejat(data)
             if (!data.already_logged) {
+
                 const information = { already_logged: true }
-                putUser(information, loguejat.id);
+                putUser(information, data.id);
                 redirect('/profile')
             } else {
                 redirect('/')

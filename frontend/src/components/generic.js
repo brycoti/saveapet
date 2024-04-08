@@ -2,7 +2,7 @@ const API_URL = 'http://localhost:3000/api';
 
 const postApi = async (credentials, link) => {
     const options = {
-        method: 'PUT',
+        method: 'POST',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
@@ -27,7 +27,7 @@ const putApi = async (state, link) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ state })
+        body: JSON.stringify(state)
     }
 
     try {
@@ -41,9 +41,9 @@ const putApi = async (state, link) => {
 }
 
 const putUser = async (state, id) => {
-    const registerLink = '/register/user/' + id
+    const userLink = '/users/' + id
 
-    return (putApi(state, registerLink));
+    return (putApi(state, userLink));
 
 }
 

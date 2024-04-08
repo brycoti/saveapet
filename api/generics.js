@@ -10,19 +10,19 @@ const login = async (req, res, Model) => {
         const { email, password } = req.body;
         const user = await Model.findOne({ where: { email } }); // Cerca l'usuari pel seu email
         if (!user) {
-          return res.status(404).json({ error: 'User no trobat' }); // Retorna error 404 si l'usuari no es troba
+            return res.status(404).json({ error: 'User no trobat' }); // Retorna error 404 si l'usuari no es troba
         }
         const passwordMatch = await bcrypt.compare(password, user.password); // Compara la contrasenya proporcionada amb la contrasenya encriptada de l'usuari
         if (!passwordMatch) {
-          return res.status(401).json({ error: 'Password incorrecte' }); // Retorna error 401 si la contrasenya és incorrecta
+            return res.status(401).json({ error: 'Password incorrecte' }); // Retorna error 401 si la contrasenya és incorrecta
         }
         const token = jwt.sign({ userId: user.id, userName: user.name }, SECRET_KEY, { expiresIn: '2h' }); // Genera un token JWT vàlid durant 2 hores
         res.cookie('token', token, { httpOnly: false, maxAge: 7200000 }); // Estableix el token com una cookie
-        res.json({ name: user.name, id: user.id }); // Retorna missatge d'èxit
-      } catch (error) {
+        res.json({ name: user.name, id: user.id, already_logged: user.already_logged }); // Retorna missatge d'èxit
+    } catch (error) {
 
         res.status(500).json({ error: error.message }); // Retorna error 500 amb el missatge d'error
-      }
+    }
 }
 
 const createItem = async (req, res, Model) => {
