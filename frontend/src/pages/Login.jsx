@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Contexte from "../components/contexte";
+import { login } from "../components/generic";
 
 const Login = () => {
-
+    const { setLoguejat } = useContext(Contexte)
     const [user, setUser] = useState({ email: "", password: "" })
+    const redirect = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -13,8 +16,23 @@ const Login = () => {
         });
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const data = await login(user);
+
+        if (!data.error) {
+            setLoguejat(data)
+            if (!data.already_logged) {
+                redirect('/profile')
+
+
+            } else {
+                redirect('/')
+            }
+
+        }
+
 
     }
 

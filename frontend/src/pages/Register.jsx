@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createUser } from "../components/generic";
 
 const Register = () => {
     const [newUser, setNewUser] = useState({ name: "", email: "", password: "" })
+    const redirect = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -12,8 +14,12 @@ const Register = () => {
         });
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const success = await createUser(newUser);
+
+        if (success) redirect('/login')
 
     }
 
