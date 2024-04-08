@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Contexte from "../components/contexte";
-import { login } from "../components/generic";
+import { login, putUser } from "../components/generic";
 
 const Login = () => {
-    const { setLoguejat } = useContext(Contexte)
+    const { setLoguejat, loguejat } = useContext(Contexte)
     const [user, setUser] = useState({ email: "", password: "" })
     const redirect = useNavigate();
 
@@ -24,21 +24,18 @@ const Login = () => {
         if (!data.error) {
             setLoguejat(data)
             if (!data.already_logged) {
+                const information = { already_logged: true }
+                putUser(information, loguejat.id);
                 redirect('/profile')
-
-
             } else {
                 redirect('/')
             }
-
         }
-
-
     }
 
     return (<>
         <div>
-            <form action={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <div className="flex flex-col">
                     <div>Log In</div>
                     <div>

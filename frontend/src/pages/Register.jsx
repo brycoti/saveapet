@@ -25,29 +25,29 @@ const Register = () => {
 
     return (<>
         <div>
-            <form action="submit">
-                <div>
-                    <form action={handleSubmit}>
-                        <div className="flex flex-col">
-                            <div>
-                                <label htmlFor="name"></label>
-                                <input type="text" name="name" id="name" onChange={handleChange} value={newUser.name} />
-                            </div>
-                            <div>
-                                <label htmlFor="email"></label>
-                                <input type="text" name="email" id="email" onChange={handleChange} value={newUser.email} />
-                            </div>
-                            <div>
-                                <label htmlFor="password"></label>
-                                <input type="password" name="password" id="password" onChange={handleChange} value={newUser.password} />
-                            </div>
-                            <button></button>
+
+            <div>
+                <form onSubmit={handleSubmit}>
+                    <div className="flex flex-col">
+                        <div>
+                            <label htmlFor="name"></label>
+                            <input type="text" name="name" id="name" onChange={handleChange} value={newUser.name} />
                         </div>
-                    </form>
-                </div>
+                        <div>
+                            <label htmlFor="email"></label>
+                            <input type="text" name="email" id="email" onChange={handleChange} value={newUser.email} />
+                        </div>
+                        <div>
+                            <label htmlFor="password"></label>
+                            <input type="password" name="password" id="password" onChange={handleChange} value={newUser.password} />
+                        </div>
+                        <button></button>
+                    </div>
+                </form>
+            </div>
 
 
-            </form>
+
 
         </div>
     </>)
