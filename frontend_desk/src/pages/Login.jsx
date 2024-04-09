@@ -36,7 +36,7 @@ export default () => {
                 //console.log("resp", data);
                 if (!data.error) {
                     setLoguejat(data)
-                    redirect('/login')
+                    redirect('/perfil')
                 }
             })
             .catch(err => console.log(err))
