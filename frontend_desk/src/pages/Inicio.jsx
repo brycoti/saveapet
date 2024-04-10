@@ -1,3 +1,4 @@
+
 import React from 'react';
 const Inicio = () => {
     
@@ -13,3 +14,4 @@ const Inicio = () => {
 }
 
 export default Inicio;
+

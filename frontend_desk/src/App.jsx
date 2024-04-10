@@ -1,9 +1,9 @@
+
 import './App.css'
 import { Outlet, Link,useNavigate } from "react-router-dom";
 import Contexte from "./Contexte";
 import { useState, useEffect } from 'react';
 const API_URL = 'http://localhost:3000/api';
-
 
 function App() {
 
@@ -18,10 +18,12 @@ function App() {
     
   };
 
+
+function App() {
   const [loguejat, setLoguejat] = useState(null)
 
-  // REFRESH DE LES CREDENCIALS
-  // per evitar demanar el login continuament...
+  const logout = useCallback(() => {
+
 
   useEffect(() => {
     // si tenim una cookie, intentem validar-la!
@@ -50,7 +52,9 @@ function App() {
 
   const dades = { loguejat, setLoguejat, logout, API_URL };
 
+  const dades = { loguejat, setLoguejat, logout }
   return (
+
     <Contexte.Provider value={dades}>
       <div className="p-[50px]">
         {loguejat && <Link className="border px-4 py-2 bg-blue-700 text-white" to="/">Inici</Link>}
@@ -65,3 +69,4 @@ function App() {
 }
 
 export default App;
+
