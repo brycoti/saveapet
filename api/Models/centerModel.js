@@ -17,7 +17,7 @@ const Center = sequelize.define('Center', {
       allowNull: false
     },
     phonenumber: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
     },
     web: {

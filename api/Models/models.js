@@ -1,4 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
+const  { sequelize } = require('./db');
 
 
 //Models
@@ -7,6 +8,7 @@ const { Center } = require('../Models/centerModel');
 const { Chat } = require('../Models/chatModel');
 const { Pet } = require('../Models/petModel');
 const { UsuarioPet } = require('../Models/usuario_petModel')
+
 
 // Call the function to initialize the database
 
@@ -19,7 +21,9 @@ async function iniDB() {
         console.error('Failed to synchronize database:', error);
     }
 }
-iniDB();
+
+// set up
+// iniDB();
 
 // Relaciones User.belongsToMany(Pet, { through: 'usuario_pet', foreignKey: 'id_user' });
 User.belongsToMany(Center, { through: Chat, foreignKey: 'userId', otherKey: 'centerId' });
@@ -37,6 +41,19 @@ User.hasMany(Chat, { foreignKey: 'userId' });
   Pet.belongsTo(Center);
 
 // Chat relations
+
+Chat.belongsTo(User, {
+  foreignKey: {
+    name: 'userId'
+  }
+});
+
+// Un Chat pertenece a un Center
+Chat.belongsTo(Center, {
+  foreignKey: {
+    name: 'centerId'
+  }
+});
 
 module.exports = {
     User,

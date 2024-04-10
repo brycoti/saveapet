@@ -12,10 +12,11 @@ const { createItem, updateItem, deleteItem, readItem, readItems, readItemsUser, 
 } = require('./Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
 const { registerUser, userpet } = require('./Controllers/userController')
 const { registerCenter, newPet } = require('./Controllers/centerController')
-const { userChat, centerChat } = require ('./Controllers/chatController')
+const { sendChat } = require ('./Controllers/chatController')
 
 // Middleware
-const { checkToken } = require('./Middleware/checkToken') 
+const { checkToken } = require('./Middleware/checkToken'); 
+
 
 
 
@@ -58,22 +59,7 @@ router.post('/userpet', checkToken, async (req, res, next) => await userpet(req,
 
 // CHAT
 // Endpoint para enviar un mensaje
-router.post('/chat/send', async (req, res) => {
-  const { userId, centerId, message } = req.body;
-
-  try {
-      const newMessage = await Chat.create({
-          userId,
-          centerId,
-          message
-      });
-
-      res.status(201).json(newMessage);
-  } catch (error) {
-      console.error('Error al enviar mensaje:', error);
-      res.status(500).json({ message: 'Error al enviar el mensaje' });
-  }
-});
+router.post('/chat/send', async (req, res) => await  sendChat(req, res, Chat));
 
 // Endpoint para obtener los mensajes entre un usuario y un centro
 router.get('/chat/messages', async (req, res) => {
