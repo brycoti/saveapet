@@ -2,90 +2,99 @@ const express = require('express'); // Importa la llibreria Express per gestiona
 const router = express.Router(); // Crea un router d'Express
 const multer = require('multer'); // Importa la llibreria multer per gestionar peticions de fitxers
 const bcrypt = require('bcrypt'); // Importa la llibreria bcrypt per a encriptar contrasenyes
-const jwt = require('jsonwebtoken'); // Importa la llibreria jsonwebtoken per a generar i verificar JWT
 
-const SECRET_KEY = "en-pinxo-li-va-dir-a-en-panxo"; // Clau secreta per a la generació de JWT
 
-const { User } = require('./models'); // Correct way to import the User model if it's part of an exported object
+// Models
+const { User, Center, Pet, UsuarioPet, Chat } = require('./Models/models'); // Correct way to import the User model if it's part of an exported object
 
-const {
-    createItem,
-    updateItem,
-    deleteItem,
-    readItem,
-    readItems,
-    readItemsUser,
-} = require('./generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
+// Controllers
+const { createItem, updateItem, deleteItem, readItem, readItems, readItemsUser, login
+} = require('./Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
+const { registerUser, userpet } = require('./Controllers/userController')
+const { registerCenter, newPet } = require('./Controllers/centerController')
+const { userChat, centerChat } = require ('./Controllers/chatController')
 
-// Middleware per verificar el JWT en la cookie
-const checkToken = (req, res, next) => {
-    const token = req.cookies?.token; // Obté el token des de la cookie de la petició
-    if (!token) {
-        return res.status(401).json({ error: 'Unauthorized' }); // Retorna error 401 si no hi ha cap token
-    }
-
-    try {
-        const decodedToken = jwt.verify(token, SECRET_KEY); // Verifica el token utilitzant la clau secreta
-        req.userId = decodedToken.userId; // Estableix l'ID d'usuari a l'objecte de la petició
-        next(); // Passa al següent middleware
-    } catch (error) {
-        return res.status(401).json({ error: 'Invalid token' }); // Retorna error 401 si el token és invàlid
-    }
-};
+// Middleware
+const { checkToken } = require('./Middleware/checkToken') 
 
 
 
-router.get('/users', async (req, res) => await readItems(req, res, User));
+// CRUD USERS 
+router.get('/users', checkToken, async (req, res) => await readItems(req, res, User));
 router.get('/users/:id', async (req, res) => await readItem(req, res, User));
 router.put('/users/:id', async (req, res) => await updateItem(req, res, User));
 router.delete('/users/:id', async (req, res) => await deleteItem(req, res, User));
 
-// Endpoint per iniciar sessió d'un usuari
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body; // Obté l'email i la contrasenya de la petició
-    try {
-      const user = await User.findOne({ where: { email } }); // Cerca l'usuari pel seu email
-      if (!user) {
-        return res.status(404).json({ error: 'User no trobat' }); // Retorna error 404 si l'usuari no es troba
-      }
-      const passwordMatch = await bcrypt.compare(password, user.password); // Compara la contrasenya proporcionada amb la contrasenya encriptada de l'usuari
-      if (!passwordMatch) {
-        return res.status(401).json({ error: 'Password incorrecte' }); // Retorna error 401 si la contrasenya és incorrecta
-      }
-      const token = jwt.sign({ userId: user.id, userName: user.name }, SECRET_KEY, { expiresIn: '2h' }); // Genera un token JWT vàlid durant 2 hores
-      res.cookie('token', token, { httpOnly: false, maxAge: 7200000 }); // Estableix el token com una cookie
-      res.json({ name: user.name, id: user.id }); // Retorna missatge d'èxit
-    } catch (error) {
-      res.status(500).json({ error: error.message }); // Retorna error 500 amb el missatge d'error
-    }
-  });
-  
-
 // Endpoint per registrar un usuari
-router.post('/register', async (req, res) => {
-    try {
-      const { name, email, password } = req.body; // Obté el nom, email i contrasenya de la petició
-      if (!name || !email || !password) {
-        return res.status(400).json({ error: 'Name, email, i password requerits' }); // Retorna error 400 si no es proporcionen el nom, email o contrasenya
-      }
-      const existingUser = await User.findOne({ where: { email } }); // Comprova si l'email ja està registrat
-      if (existingUser) {
-        return res.status(400).json({ error: 'Email ja existeix' }); // Retorna error 400 si l'email ja està registrat
-      }
-      const user = await User.create({ name, email, password }); // Crea l'usuari amb les dades proporcionades
-  
-      res.status(201).json({id: user.id, name: user.name, email: user.email}); // Retorna l'usuari creat amb el codi d'estat 201 (Creat)
-    } catch (error) {
-      res.status(500).json({ error: error.message }); // Retorna error 500 amb el missatge d'error
-    }
+router.post('/register/user', async (req, res) => await registerUser(req, res, User));
+
+// Endpoint per iniciar sessió d'un usuari
+router.post('/login/user', async (req, res) => await login(req, res, User));
+
+
+// Endpoint per finalitzar sessio
+  router.delete('/logout', (req, res) => {
+    res.clearCookie('token'); // Elimina la cookie
+    res.status(200).json({ message: 'Logged out' }); // Retorna missatge d'èxit
   });
 
-router.get('/refresh', checkToken, async (req, res) => {
-    const user = await User.findByPk(req.userId); // Cerca l'usuari pel seu email
+  router.get('/refresh', checkToken, async (req, res) => {
+    const user = await User.findByPk(req.userId); 
     if (!user) {
-        return res.status(404).json({ error: 'User no trobat' }); // Retorna error 404 si l'usuari no es troba
+        return res.status(404).json({ error: 'User no trobat' });
     }
     return res.json({ id: user.id, name: user.name, email: user.email })
-})
+  })
+
+// CRUD CENTER
+
+// Endpoint per registrar un Centre
+router.post('/register/center', async (req, res) => await registerCenter(req, res, Center));
+router.post('/login/center', async (req, res) => await login(req, res, Center));
+router.post('/center/newpet', checkToken, async (req, res, next) => await newPet(req, res, next, Center, Pet));
+
+// Enpoint per crear relacio user - gos
+router.post('/userpet', checkToken, async (req, res, next) => await userpet(req, res, next, User, UsuarioPet));
+
+// CHAT
+// Endpoint para enviar un mensaje
+router.post('/chat/send', async (req, res) => {
+  const { userId, centerId, message } = req.body;
+
+  try {
+      const newMessage = await Chat.create({
+          userId,
+          centerId,
+          message
+      });
+
+      res.status(201).json(newMessage);
+  } catch (error) {
+      console.error('Error al enviar mensaje:', error);
+      res.status(500).json({ message: 'Error al enviar el mensaje' });
+  }
+});
+
+// Endpoint para obtener los mensajes entre un usuario y un centro
+router.get('/chat/messages', async (req, res) => {
+  const { userId, centerId } = req.query;
+
+  try {
+      const messages = await Chat.findAll({
+          where: {
+              userId,
+              centerId
+          },
+          order: [
+              ['timestamp', 'ASC'] // Ordena los mensajes por fecha de envío
+          ]
+      });
+
+      res.json(messages);
+  } catch (error) {
+      console.error('Error al obtener mensajes:', error);
+      res.status(500).json({ message: 'Error al obtener los mensajes' });
+  }
+});
 
 module.exports = router; // Exporta el router amb les rutes definides

@@ -20,35 +20,8 @@ const postApi = async (credentials, link) => {
     }
 }
 
-const putApi = async (state, link) => {
-    const options = {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(state)
-    }
-
-    try {
-        const response = await fetch(API_URL + link, options)
-        const data = await response.json()
-        return data
-
-    } catch (e) {
-        return e;
-    }
-}
-
-const putUser = async (state, id) => {
-    const userLink = '/users/' + id
-
-    return (putApi(state, userLink));
-
-}
-
 const createUser = async (credentials) => {
-    const registerLink = '/register/user'
+    const registerLink = '/register'
 
     const data = await postApi(credentials, registerLink)
     if (!data.error) return true
@@ -56,9 +29,9 @@ const createUser = async (credentials) => {
 }
 
 const login = async (credentials) => {
-    const loginLink = '/login/user'
+    const loginLink = '/login'
 
     return (postApi(credentials, loginLink));
 }
 
-export { login, createUser, putUser }
+export { login, createUser }
