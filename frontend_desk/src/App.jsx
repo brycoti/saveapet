@@ -1,18 +1,21 @@
 import './App.css'
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link,useNavigate } from "react-router-dom";
 import Contexte from "./Contexte";
 import { useState, useEffect } from 'react';
 const API_URL = 'http://localhost:3000/api';
 
+
 function App() {
+
   
- 
+ const redirect = useNavigate()
   const logout = () => {
     // Clear the authentication token cookie
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; // Set the expiration date to a past date
     setLoguejat(null)
     window.history.replaceState(null, null, "/");
     window.location.href = "/login"; // Redirect to the login page
+    
   };
 
   const [loguejat, setLoguejat] = useState(null)
@@ -36,6 +39,9 @@ function App() {
         }
       })
     }
+    if (!loguejat) {
+      return redirect("/login");
+    }
   
   }, [])
 
@@ -49,7 +55,7 @@ function App() {
       <div className="p-[50px]">
         {loguejat && <Link className="border px-4 py-2 bg-blue-700 text-white" to="/">Inici</Link>}
         {loguejat && <Link className="border px-4 py-2 bg-blue-700 text-white" to="/perfil">Perfil</Link>}
-        {loguejat && <button className="border px-4 py-2 bg-blue-700 text-white" onClick={logout}>Logout {loguejat.centerName}</button>}
+        {loguejat && <button className="border px-4 py-2 bg-blue-700 text-white" onClick={logout}>Logout {loguejat.name}</button>}
         <div className="p-10">
           <Outlet />    
         </div>

@@ -1,26 +1,16 @@
-import { useState, useContext } from "react";
-
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import Contexte from "../Contexte";
 
-
-//const API_URL = 'http://localhost:3000/api';
-
-
-export default () => {
-    const { setLoguejat, API_URL } = useContext(Contexte)
-
+export default function Login() {
+    const { loguejat, setLoguejat, API_URL } = useContext(Contexte);
     const [email, setEmail] = useState('@gmail.com');
     const [password, setPassword] = useState('');
     const redirect = useNavigate();
 
-
     const logueja = (e) => {
         e.preventDefault();
-        const credencials = {
-            email,
-            password
-        }
+        const credencials = { email, password };
         const opcions = {
             method: 'POST',
             credentials: 'include',
@@ -28,23 +18,21 @@ export default () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(credencials)
-        }
+        };
 
-        fetch(API_URL + '/login/center', opcions)
+        fetch(`${API_URL}/login/center`, opcions)
             .then(resp => resp.json())
             .then(data => {
-                //console.log("resp", data);
                 if (!data.error) {
-                    setLoguejat(data)
-                    redirect('/perfil')
+                    localStorage.setItem('token', data.cookie);
+                    setLoguejat(data);
+                    redirect('/perfil');
                 }
             })
             .catch(err => console.log(err))
-    }
-
+    };
 
     return (
-
         <div className="w-full max-w-xs m-auto">
             <form onSubmit={logueja} className="bg-blue-100 shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <h1 className="text-center">Login</h1>
@@ -75,10 +63,6 @@ export default () => {
                     </button>
                 </div>
             </form>
-
         </div>
-
-    )
+    );
 }
-
-
