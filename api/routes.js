@@ -57,9 +57,44 @@ router.post('/center/newpet', checkToken, async (req, res, next) => await newPet
 router.post('/userpet', checkToken, async (req, res, next) => await userpet(req, res, next, User, UsuarioPet));
 
 // CHAT
+// Endpoint para enviar un mensaje
+router.post('/chat/send', async (req, res) => {
+  const { userId, centerId, message } = req.body;
 
-router.post('/chat/usertocenter', async (req, res) => await userChat(req, res, Chat))
-  // TODO corregir bug validation
-router.post('/chat/centertouser', async (req, res) => await centerChat(req, res))
-    
+  try {
+      const newMessage = await Chat.create({
+          userId,
+          centerId,
+          message
+      });
+
+      res.status(201).json(newMessage);
+  } catch (error) {
+      console.error('Error al enviar mensaje:', error);
+      res.status(500).json({ message: 'Error al enviar el mensaje' });
+  }
+});
+
+// Endpoint para obtener los mensajes entre un usuario y un centro
+router.get('/chat/messages', async (req, res) => {
+  const { userId, centerId } = req.query;
+
+  try {
+      const messages = await Chat.findAll({
+          where: {
+              userId,
+              centerId
+          },
+          order: [
+              ['timestamp', 'ASC'] // Ordena los mensajes por fecha de envío
+          ]
+      });
+
+      res.json(messages);
+  } catch (error) {
+      console.error('Error al obtener mensajes:', error);
+      res.status(500).json({ message: 'Error al obtener los mensajes' });
+  }
+});
+
 module.exports = router; // Exporta el router amb les rutes definides

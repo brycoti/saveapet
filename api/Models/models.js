@@ -8,20 +8,6 @@ const { Chat } = require('../Models/chatModel');
 const { Pet } = require('../Models/petModel');
 const { UsuarioPet } = require('../Models/usuario_petModel')
 
-// Initialize Sequelize connection
-
-/* const sequelize = new Sequelize('saveapet', 'root', 'root', {
-    host: 'localhost',
-    port: 3306,
-    dialect: 'mysql'
-});   */
-
-/* const sequelize = new Sequelize('saveapet', 'root', 'admin', {
-    host: 'localhost',
-    port: 3308,
-    dialect: 'mysql'
-}); */
-
 // Call the function to initialize the database
 
 // Function to initialize the database
@@ -33,7 +19,7 @@ async function iniDB() {
         console.error('Failed to synchronize database:', error);
     }
 }
-//iniDB();
+iniDB();
 
 // Relaciones User.belongsToMany(Pet, { through: 'usuario_pet', foreignKey: 'id_user' });
 User.belongsToMany(Center, { through: Chat, foreignKey: 'userId', otherKey: 'centerId' });
@@ -44,15 +30,13 @@ User.hasMany(Chat, { foreignKey: 'userId' });
   Center.hasMany(Pet);
   Center.belongsToMany(User, { through: Chat, foreignKey: 'centerId', otherKey: 'userId' });
   Center.hasMany(Chat, { foreignKey: 'centerId' });
-   // Chat Relations
-
-   Chat.belongsTo(User, { foreignKey: 'userId' });
-   Chat.belongsTo(Center, { foreignKey: 'centerId' });
-
-     // Pet relations
+  
+// Pet relations
 
   Pet.belongsToMany(User, { through: 'usuario_pet', foreignKey: 'id_pet' });
   Pet.belongsTo(Center);
+
+// Chat relations
 
 module.exports = {
     User,
