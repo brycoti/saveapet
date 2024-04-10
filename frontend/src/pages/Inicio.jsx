@@ -6,6 +6,7 @@ const Inicio = () => {
 
         <>
             <h1>Esto es el inicio</h1>
+            <a href="/profile">al perfil</a>
         </>
     )
 

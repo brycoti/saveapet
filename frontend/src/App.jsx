@@ -19,7 +19,6 @@ function App() {
     <>
       <Contexte.Provider value={dades}>
         <div >
-          <Header />
           <Outlet />
         </div>
       </Contexte.Provider>
