@@ -1,14 +1,13 @@
 
 import './App.css'
 import { Outlet, Link,useNavigate } from "react-router-dom";
-import Contexte from "./Contexte";
+import Contexte from "./components/contexte";
 import { useState, useEffect } from 'react';
 const API_URL = 'http://localhost:3000/api';
 
 function App() {
-
-  
- const redirect = useNavigate()
+  const redirect = useNavigate()
+  const [loguejat, setLoguejat] = useState(null)
   const logout = () => {
     // Clear the authentication token cookie
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; // Set the expiration date to a past date
@@ -17,13 +16,9 @@ function App() {
     window.location.href = "/login"; // Redirect to the login page
     
   };
+ 
 
-
-function App() {
-  const [loguejat, setLoguejat] = useState(null)
-
-  const logout = useCallback(() => {
-
+  
 
   useEffect(() => {
     // si tenim una cookie, intentem validar-la!
@@ -52,7 +47,7 @@ function App() {
 
   const dades = { loguejat, setLoguejat, logout, API_URL };
 
-  const dades = { loguejat, setLoguejat, logout }
+ 
   return (
 
     <Contexte.Provider value={dades}>

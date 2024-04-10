@@ -1,7 +1,7 @@
 
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import Contexte from "../Contexte";
+import Contexte from "../components/contexte";
 
 export default function Login() {
     const { loguejat, setLoguejat, API_URL } = useContext(Contexte);

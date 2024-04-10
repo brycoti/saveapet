@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Contexte from "../Contexte";
+import Contexte from "../components/contexte";
 
 const ListaAnimales = () => {
     const [animales, setAnimales] = useState([]);
