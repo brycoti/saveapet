@@ -40,7 +40,7 @@ const putApi = async (state, link) => {
     }
 }
 
-const putUser = async (state, id) => {
+const editUser = async (state, id) => {
     const userLink = '/users/' + id
 
     return (putApi(state, userLink));
@@ -61,4 +61,4 @@ const login = async (credentials) => {
     return (postApi(credentials, loginLink));
 }
 
-export { login, createUser, putUser }
+export { login, createUser, editUser }
