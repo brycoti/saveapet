@@ -1,35 +1,18 @@
-const {sequelize, DataTypes } = require('./db');
-
+const { sequelize, DataTypes } = require('./db');
+const { User } = require('./userModel');
+const { Center } = require('./centerModel');
+const { BIGINT } = require('sequelize');
 
 // Definir el modelo Chat
 const Chat = sequelize.define('Chat', {
-  centerId: {
-    type: DataTypes.BIGINT,
-    allowNull: false,
-    references: {
-        model: 'Center', // Asegúrate de que el nombre del modelo coincida
-        key: 'id'
-    }
-},
 
-// ID del usuario: referencia al usuario en la conversación
-userId: {
-  type: DataTypes.BIGINT,
-  allowNull: false,
-  references: {
-      model: 'User', // Asegúrate de que el nombre del modelo coincida
-      key: 'id'
-  }
-},
-// ID del centro: referencia al centro en la conversación
-centerId: {
-  type: DataTypes.BIGINT,
-  allowNull: false,
-  references: {
-      model: 'Center', // Asegúrate de que el nombre del modelo coincida
-      key: 'id'
-  }
-},
+  id:{
+    type: DataTypes.BIGINT,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+
+  },
   contenido: {
     type: DataTypes.TEXT,
     allowNull: false
@@ -38,7 +21,16 @@ centerId: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW
   },
+  userId: {
+    type: DataTypes.BIGINT,
+    allowNull: false
+  },
+  centerId: {
+    type: DataTypes.BIGINT,
+    allowNull: false
+  }
 });
+
 
 
 module.exports = {
