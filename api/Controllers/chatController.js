@@ -1,18 +1,24 @@
-const sendChat = async (req, res, Chat, Msg) => {
-    
-
+const sendChat = async (req, res, Chat) => {
   try {
     const { userId, centerId, contenido } = req.body;
-    const newMessage = await Chat.create({
+
+    if (!userId) {
+      return res.status(400).json({error: 'id de cuenta user incorrecto'})
+    } 
+
+    if (!centerId) {
+      return res.status(400).json({error: 'id de cuenta centro incorrecto'})
+    } 
+    
+    
+    const newChat = await Chat.create({
           userId,
           centerId,
-          contenido
       });
 
-      res.status(201).json(newMessage);
+      res.status(201).json(newChat);
   } catch (error) {
-      console.error('Error al enviar mensaje:', error);
-      res.status(500).json({ contenido: 'Error al enviar el mensaje' });
+      res.status(500).json({error: error.message});
   }
 }
 

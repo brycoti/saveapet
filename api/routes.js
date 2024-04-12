@@ -13,6 +13,7 @@ const { createItem, updateItem, deleteItem, readItem, readItems, readItemsUser, 
 const { registerUser, userpet } = require('./Controllers/userController')
 const { registerCenter, newPet } = require('./Controllers/centerController')
 const { sendChat } = require ('./Controllers/chatController')
+const { sendMsg } = require ('./Controllers/mensajeController')
 
 // Middleware
 const { checkToken } = require('./Middleware/checkToken'); 
@@ -58,29 +59,11 @@ router.post('/center/newpet', checkToken, async (req, res, next) => await newPet
 router.post('/userpet', checkToken, async (req, res, next) => await userpet(req, res, next, User, UsuarioPet));
 
 // CHAT
+// Endpoint para crear
+router.post('/chat/', async (req, res) => await  sendChat(req, res, Chat));
 // Endpoint para enviar un mensaje
-router.post('/chat/send', async (req, res) => await  sendChat(req, res, Chat));
+router.post('/chat/message/send', async (req, res) => await sendMsg(req, res));
 
-// Endpoint para obtener los mensajes entre un usuario y un centro
-router.get('/chat/messages', async (req, res) => {
-  const { userId, centerId } = req.query;
 
-  try {
-      const messages = await Chat.findAll({
-          where: {
-              userId,
-              centerId
-          },
-          order: [
-              ['timestamp', 'ASC'] // Ordena los mensajes por fecha de envío
-          ]
-      });
-
-      res.json(messages);
-  } catch (error) {
-      console.error('Error al obtener mensajes:', error);
-      res.status(500).json({ message: 'Error al obtener los mensajes' });
-  }
-});
 
 module.exports = router; // Exporta el router amb les rutes definides
