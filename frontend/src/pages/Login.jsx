@@ -10,8 +10,10 @@ const Login = () => {
     const redirect = useNavigate();
 
     useEffect(() => {
-        console.log("Value of loguejat changed:", loguejat);
-    }, [loguejat]);
+        if (loguejat) {
+            redirect('/');
+        }
+    }, [loguejat, redirect]);
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -30,10 +32,8 @@ const Login = () => {
                 const information = { already_logged: true }
                 editUser(information, data.id);
                 redirect('/profile')
-                console.log("1", data)
             } else {
                 redirect('/')
-                console.log("2")
             }
         }
     }
