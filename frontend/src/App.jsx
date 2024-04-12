@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import Contexte from "./components/contexte";
 import { Outlet } from "react-router-dom";
 
+
 function App() {
   const [loguejat, setLoguejat] = useState(null)
 
@@ -24,4 +25,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
