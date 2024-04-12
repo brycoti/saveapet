@@ -24,7 +24,7 @@ async function iniDB() {
 }
 
 // set up
-iniDB();
+// iniDB();
 
 // Relaciones User.belongsToMany(Pet, { through: 'usuario_pet', foreignKey: 'id_user' });
 User.belongsToMany(Center, { through: Chat, foreignKey: 'userId', otherKey: 'centerId' });
@@ -51,8 +51,8 @@ Chat.belongsTo(Center, { foreignKey: {name: 'centerId'}});
 Chat.hasMany(Mensaje, { foreignKey: 'chatid' });
 
 Mensaje.belongsTo(Chat, { foreignKey: 'chatid' });
-Mensaje.belongsTo(User, { foreignKey: 'userId', allowNull: true });
-Mensaje.belongsTo(Center, { foreignKey: 'centerId', allowNull: true })
+Mensaje.belongsTo(User, { foreignKey: 'userId'});
+Mensaje.belongsTo(Center, { foreignKey: 'centerId'})
 
 module.exports = {
     User,
