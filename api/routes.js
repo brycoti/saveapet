@@ -60,10 +60,10 @@ router.delete('/centers/:id', checkToken, async (req, res) => await deleteItem(r
 // CRUD PET
 
 router.post('/center/newpet', checkToken, async (req, res, next) => await newPet(req, res, next, Center, Pet));
-router.get('/pets', checkToken, async (req, res) => await readItems(req, res, User));
-router.get('/pets/:id', checkToken, async (req, res) => await readItem(req, res, User));
-router.put('/pets/:id', checkToken, async (req, res) => await updateItem(req, res, User));
-router.delete('/pets/:id', checkToken, async (req, res) => await deleteItem(req, res, User));
+router.get('/pets', checkToken, async (req, res) => await readItems(req, res, Pet));
+router.get('/pets/:id', checkToken, async (req, res) => await readItem(req, res, Pet));
+router.put('/pets/:id', checkToken, async (req, res) => await updateItem(req, res, Pet));
+router.delete('/pets/:id', checkToken, async (req, res) => await deleteItem(req, res, Pet));
 
 // Enpoint per crear relacio user - gos
 router.post('/userpet', checkToken, async (req, res, next) => await userpet(req, res, next, User, UsuarioPet));

@@ -20,12 +20,12 @@ const Pet = sequelize.define('pet', {
       type: DataTypes.ENUM('energetic', 'calm', 'playful', 'shy'),
       defaultValue: 'calm',
     },
-    dogs_friendly: { // bug desde postman
+    dogs_friendly: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
     },
-    kids_friendly: { // bug desde postman
+    kids_friendly: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false

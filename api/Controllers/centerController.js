@@ -26,7 +26,7 @@ const newPet =  async (req, res, next, Center, Pet) => {
       if (!center) {
         return res.status(500).json({ error: 'Center no trobat' }); // Retorna error 500 si no es troba l'usuari
       }
-      const { name, breed, age } = req.body;
+      const { name, breed, age, size, temper, dogs_friendly, kids_friendly, urgency } = req.body;
       if (!name || !breed || !age) {
         return res.status(400).json({ error: 'Nom issue, tipus i ID projecte requerit' }); // Retorna error 400 si no es proporcionen el nom, email o contrasenya
       }
@@ -34,6 +34,11 @@ const newPet =  async (req, res, next, Center, Pet) => {
         name,
         breed,
         age,
+        size,
+        temper,
+        dogs_friendly,
+        kids_friendly,
+        urgency,
         CenterId: req.userId
       })
       res.status(201).json(item); // Retorna l'usuari creat amb el codi d'estat 201 (Creat)
