@@ -62,7 +62,7 @@ router.post('/userpet', checkToken, async (req, res, next) => await userpet(req,
 // Endpoint para crear
 router.post('/chat/', async (req, res) => await  sendChat(req, res, Chat));
 // Endpoint para enviar un mensaje
-router.post('/chat/message/send', async (req, res) => await sendMsg(req, res));
+router.post('/chat/message/send', async (req, res) => await sendMsg(req, res, Msg));
 
 
 

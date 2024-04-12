@@ -1,6 +1,6 @@
-const sendChat = async (req, res, Chat) => {
+const sendChat = async (req, res, Chat, User, Center) => {
   try {
-    const { userId, centerId, contenido } = req.body;
+    const { userId, centerId } = req.body;
 
     if (!userId) {
       return res.status(400).json({error: 'id de cuenta user incorrecto'})

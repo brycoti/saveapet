@@ -1,4 +1,4 @@
-const sendMsg = async (req, res) => {
+const sendMsg = async (req, res, Mensaje) => {
   try {
     const { userId, centerId, chatId, text } = req.body;
 
