@@ -6,7 +6,7 @@ const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [phonenumber, setPhoneNumber] = useState('');
     const [web, setWeb] = useState('');
     const [city, setCity] = useState('');
     const [address, setAddress] = useState('');
@@ -20,7 +20,7 @@ const Register = () => {
             name,
             email,
             password,
-            phoneNumber,
+            phonenumber,
             web,
             city,
             address
@@ -70,7 +70,7 @@ const Register = () => {
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phoneNumber">
                         Número de teléfono:
                     </label>
-                    <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phoneNumber" />
+                    <input type="text" value={phonenumber} onChange={(e) => setPhoneNumber(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phonenumber" />
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="web">

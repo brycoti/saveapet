@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { where } = require("sequelize");
+const SECRET_KEY = "en-pinxo-li-va-dir-a-en-panxo";
 
 const registerCenter = async (req, res, Center) => {
     try {
@@ -14,7 +15,7 @@ const registerCenter = async (req, res, Center) => {
       }
       const center = await Center.create({ name, email, password, phonenumber, web, city, address }); // Crea l'usuari amb les dades proporcionades
   
-      res.status(201).json({message: {id: center.id, name: center.name, email: center.email, phonenumber : center.phonenumber, web: center.web, city: center.city, addres: center.addres}}); // Retorna l'usuari creat amb el codi d'estat 201 (Creat)
+      res.status(201).json({message: {id: center.id, name: center.name, email: center.email, phonenumber : center.phonenumber, web: center.web, city: center.city, addres: center.address}}); // Retorna l'usuari creat amb el codi d'estat 201 (Creat)
     } catch (error) {
       res.status(500).json({ error: error.message }); // Retorna error 500 amb el missatge d'error
     }
@@ -41,8 +42,27 @@ const newPet =  async (req, res, next, Center, Pet) => {
       res.status(500).json({ error: error.message}); // Retorna error 500 amb el missatge d'error
     }
   }
+  const login2 = async (req, res, Model) => {
+    try {
+        const { email, password } = req.body;
+        const user = await Model.findOne({ where: { email } }); // Cerca l'usuari pel seu email
+        if (!user) {
+          return res.status(404).json({ error: 'User no trobat' }); // Retorna error 404 si l'usuari no es troba
+        }
+        const passwordMatch = await bcrypt.compare(password, user.password); // Compara la contrasenya proporcionada amb la contrasenya encriptada de l'usuari
+        if (!passwordMatch) {
+          return res.status(401).json({ error: 'Password incorrecte' }); // Retorna error 401 si la contrasenya és incorrecta
+        }
+        const token = jwt.sign({ userId: user.id, userName: user.name }, SECRET_KEY, { expiresIn: '2h' }); // Genera un token JWT vàlid durant 2 hores
+        res.cookie('token', token, { httpOnly: false, maxAge: 7200000 }); // Estableix el token com una cookie
+        res.json({id: user.id, name: user.name, email: user.email, phonenumber : user.phonenumber, web: user.web, city: user.city, address: user.address}); // Retorna missatge d'èxit
+      } catch (error) {
 
+        res.status(500).json({ error: error.message }); // Retorna error 500 amb el missatge d'error
+      }
+}
   module.exports = {
     registerCenter,
-    newPet
+    newPet,
+    login2
   }
