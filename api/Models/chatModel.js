@@ -1,7 +1,4 @@
 const { sequelize, DataTypes } = require('./db');
-const { User } = require('./userModel');
-const { Center } = require('./centerModel');
-const { BIGINT } = require('sequelize');
 
 // Definir el modelo Chat
 const Chat = sequelize.define('Chat', {
@@ -11,11 +8,6 @@ const Chat = sequelize.define('Chat', {
     primaryKey: true,
     autoIncrement: true,
     allowNull: false,
-
-  },
-  contenido: {
-    type: DataTypes.TEXT,
-    allowNull: false
   },
   timestamp: {
     type: DataTypes.DATE,

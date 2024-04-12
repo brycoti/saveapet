@@ -3,30 +3,34 @@ const bcrypt = require('bcrypt');
 
 // Define the User model
 const User = sequelize.define('User', {
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    phonenumber: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    address: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    already_logged: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    }
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+},name: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  phonenumber: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  address: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  already_logged: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  }
   });
 
   // Define the beforeCreate hook outside of the sequelize.define call
