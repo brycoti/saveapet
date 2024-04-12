@@ -13,6 +13,7 @@ const { createItem, updateItem, deleteItem, readItem, readItems, readItemsUser, 
 const { registerUser, userpet } = require('./Controllers/userController')
 const { registerCenter, newPet } = require('./Controllers/centerController')
 const { sendChat } = require ('./Controllers/chatController')
+const { sendMsg } = require ('./Controllers/mensajeController')
 
 // Middleware
 const { checkToken } = require('./Middleware/checkToken'); 
@@ -26,61 +27,55 @@ router.get('/users/:id', async (req, res) => await readItem(req, res, User));
 router.put('/users/:id', async (req, res) => await updateItem(req, res, User));
 router.delete('/users/:id', async (req, res) => await deleteItem(req, res, User));
 
-// Endpoint per registrar un usuari
 router.post('/register/user', async (req, res) => await registerUser(req, res, User));
-
-// Endpoint per iniciar sessió d'un usuari
 router.post('/login/user', async (req, res) => await login(req, res, User));
 
 
 // Endpoint per finalitzar sessio
-  router.delete('/logout', (req, res) => {
-    res.clearCookie('token'); // Elimina la cookie
-    res.status(200).json({ message: 'Logged out' }); // Retorna missatge d'èxit
-  });
+router.delete('/logout', (req, res) => {
+res.clearCookie('token'); // Elimina la cookie
+res.status(200).json({ message: 'Logged out' }); // Retorna missatge d'èxit
+});
 
-  router.get('/refresh', checkToken, async (req, res) => {
-    const user = await User.findByPk(req.userId); 
-    if (!user) {
-        return res.status(404).json({ error: 'User no trobat' });
-    }
-    return res.json({ id: user.id, name: user.name, email: user.email })
-  })
+router.get('/refresh', checkToken, async (req, res) => {
+const user = await User.findByPk(req.userId); 
+  if (!user) {
+    return res.status(404).json({ error: 'User no trobat' });
+  }
+  return res.json({ id: user.id, name: user.name, email: user.email })
+})
 
 // CRUD CENTER
 
 // Endpoint per registrar un Centre
 router.post('/register/center', async (req, res) => await registerCenter(req, res, Center));
 router.post('/login/center', async (req, res) => await login(req, res, Center));
+
+router.get('/centers', checkToken, async (req, res) => await readItems(req, res, Center));
+router.get('/centers/:id', checkToken , async (req, res) => await readItem(req, res, Center));
+router.put('/centers/:id', checkToken,  async (req, res) => await updateItem(req, res, Center));
+router.delete('/centers/:id', checkToken, async (req, res) => await deleteItem(req, res, Center));
+
+
+// CRUD PET
+
 router.post('/center/newpet', checkToken, async (req, res, next) => await newPet(req, res, next, Center, Pet));
+router.get('/pets', checkToken, async (req, res) => await readItems(req, res, User));
+router.get('/pets/:id', checkToken, async (req, res) => await readItem(req, res, User));
+router.put('/pets/:id', checkToken, async (req, res) => await updateItem(req, res, User));
+router.delete('/pets/:id', checkToken, async (req, res) => await deleteItem(req, res, User));
 
 // Enpoint per crear relacio user - gos
 router.post('/userpet', checkToken, async (req, res, next) => await userpet(req, res, next, User, UsuarioPet));
 
+
+/* TO DO
 // CHAT
+// Endpoint para crear
+router.post('/chat/', async (req, res) => await  sendChat(req, res, Chat));
 // Endpoint para enviar un mensaje
-router.post('/chat/send', async (req, res) => await  sendChat(req, res, Chat));
+router.post('/chat/message/send', async (req, res) => await sendMsg(req, res, Msg));
+*/
 
-// Endpoint para obtener los mensajes entre un usuario y un centro
-router.get('/chat/messages', async (req, res) => {
-  const { userId, centerId } = req.query;
-
-  try {
-      const messages = await Chat.findAll({
-          where: {
-              userId,
-              centerId
-          },
-          order: [
-              ['timestamp', 'ASC'] // Ordena los mensajes por fecha de envío
-          ]
-      });
-
-      res.json(messages);
-  } catch (error) {
-      console.error('Error al obtener mensajes:', error);
-      res.status(500).json({ message: 'Error al obtener los mensajes' });
-  }
-});
 
 module.exports = router; // Exporta el router amb les rutes definides
