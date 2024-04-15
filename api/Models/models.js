@@ -1,15 +1,12 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const  { sequelize } = require('./db');
 
-
 //Models
 const { User } = require('../Models/userModel');
 const { Center } = require('../Models/centerModel');
-const { Chat } = require('../Models/chatModel');
 const { Pet } = require('../Models/petModel');
 const { UsuarioPet } = require('../Models/usuario_petModel');
-const { Mensaje } = require('./mensajeModel');
-
+const { UserPetMatch } = require('./userPetMatchModel');
 
 // Call the function to initialize the database
 
@@ -27,39 +24,19 @@ async function iniDB() {
 
 // iniDB();
 
-// Relaciones User.belongsToMany(Pet, { through: 'usuario_pet', foreignKey: 'id_user' });
-User.belongsToMany(Center, { through: Chat, foreignKey: 'userId', otherKey: 'centerId' });
-User.hasMany(Chat, { foreignKey: 'userId' });
 
-  // Center Relation 
+// User can match a dog
+  Pet.belongsTo(User);
+  User.hasMany(Pet);
 
-  Center.hasMany(Pet);
-  Center.belongsToMany(User, { through: Chat, foreignKey: 'centerId', otherKey: 'userId' });
-  Center.hasMany(Chat, { foreignKey: 'centerId' });
-  
-// Pet relations
-
-  Pet.belongsToMany(User, { through: 'usuario_pet', foreignKey: 'id_pet' });
+// Center can create a pet
   Pet.belongsTo(Center);
-
-// Chat relations
-
-Chat.belongsTo(User, { foreignKey: { name: 'userId'}});
-
-// Un Chat pertenece a un Center
-Chat.belongsTo(Center, { foreignKey: {name: 'centerId'}});
-
-Chat.hasMany(Mensaje, { foreignKey: 'chatid' });
-
-Mensaje.belongsTo(Chat, { foreignKey: 'chatid' });
-Mensaje.belongsTo(User, { foreignKey: 'userId'});
-Mensaje.belongsTo(Center, { foreignKey: 'centerId'})
+  Center.hasMany(Pet);
 
 module.exports = {
     User,
     Center,
     Pet,
     UsuarioPet,
-    Chat,
-    Mensaje
+    UserPetMatch
 };

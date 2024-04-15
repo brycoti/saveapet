@@ -1,7 +1,7 @@
 const {sequelize, DataTypes } = require('./db');
 
 // Definir modelo pet
-const Pet = sequelize.define('pet', {
+const Pet = sequelize.define('Pet', {
     name: {
       type: DataTypes.STRING,
       allowNull: false

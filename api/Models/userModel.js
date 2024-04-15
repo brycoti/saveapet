@@ -1,4 +1,5 @@
-const {sequelize, DataTypes } = require('./db');
+
+const { sequelize, DataTypes } = require('./db');
 const bcrypt = require('bcrypt');
 
 // Define the User model
