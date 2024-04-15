@@ -24,6 +24,7 @@ async function iniDB() {
 }
 
 // set up
+
 // iniDB();
 
 // Relaciones User.belongsToMany(Pet, { through: 'usuario_pet', foreignKey: 'id_user' });
