@@ -18,12 +18,26 @@ const Perfil = () => {
     setEditMode(true);
   };
 
-  const handleSave = () => {
-    // Aquí puedes enviar los datos editados al backend
-    // Por simplicidad, solo mostraremos los datos en la consola
-    const editedData = { name, email, password, phonenumber, web, city, address };
-    console.log(editedData);
-    setEditMode(false);
+  const handleSave = async () => {
+    try {
+      const editedData = { name, email, password, phonenumber, web, city, address };
+      const response = await fetch(`${API_URL}/centers/${loguejat.userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(editedData)
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al guardar los cambios');
+      }
+
+      setEditMode(false);
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
