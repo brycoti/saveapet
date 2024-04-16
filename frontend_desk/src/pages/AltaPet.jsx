@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import contexte from '../components/contexte';
 
 const AltaMascota = () => {
+    const token = localStorage.getItem('token');
+    const {API_URL}=useContext(contexte)
     const [nombre, setNombre] = useState('');
     const [raza, setRaza] = useState('');
     const [edad, setEdad] = useState('');
@@ -30,10 +33,11 @@ const AltaMascota = () => {
 
         // Enviar datos al servidor para dar de alta la mascota
         try {
-            const response = await fetch('/center/newpet', {
+            const response =  await fetch(`${API_URL}/center/newpet`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(nuevaMascota)
             });
@@ -76,7 +80,12 @@ const AltaMascota = () => {
                 </div>
                 <div>
                     <label>Temperamento:</label>
-                    <input type="text" value={temperamento} onChange={(e) => setTemperamento(e.target.value)} />
+                    <select value={temperamento} onChange={(e) => setTemperamento(e.target.value)}>
+                        <option value="energetic">Energico</option>
+                        <option value="calm">tranquilo</option>
+                        <option value="playful">playful</option>
+                        <option value="shy">shy</option>
+                    </select>
                 </div>
                 <div>
                     <label>Amigable con Perros:</label>
