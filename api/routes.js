@@ -11,18 +11,11 @@ const { User, Center, Pet, UserPetMatch } = require('./Models/models'); // Corre
 const { createItem, updateItem, deleteItem, readItem, readItems, readItemsUser, login
 } = require('./Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
 const { registerUser, userandpet } = require('./Controllers/userController')
-
 const { registerCenter, newPet ,login2} = require('./Controllers/centerController')
-
-
-const { userandpet } = require('./Controllers/userController')
 
 
 // Middleware
 const { checkToken } = require('./Middleware/checkToken'); 
-
-
-
 
 // CRUD USERS 
 router.get('/users', checkToken, async (req, res) => await readItems(req, res, User));
