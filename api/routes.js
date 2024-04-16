@@ -15,6 +15,9 @@ const { registerUser, userandpet } = require('./Controllers/userController')
 const { registerCenter, newPet ,login2} = require('./Controllers/centerController')
 
 
+const { userandpet } = require('./Controllers/userController')
+
+
 // Middleware
 const { checkToken } = require('./Middleware/checkToken'); 
 
