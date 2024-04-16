@@ -1,6 +1,6 @@
 const { sequelize, DataTypes } = require('./db');
 
-// Definir el modelo Chat
+
 const UserPetMatch = sequelize.define('UserPetMatch', {
 
   id:{
@@ -8,10 +8,13 @@ const UserPetMatch = sequelize.define('UserPetMatch', {
     primaryKey: true,
     autoIncrement: true,
     allowNull: false,
+  },
+  adopted: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
   }
 });
-
-
 
 module.exports = {
   UserPetMatch

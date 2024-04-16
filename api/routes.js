@@ -68,5 +68,6 @@ router.delete('/pets/:id', checkToken, async (req, res) => await deleteItem(req,
 router.post('/userpet', checkToken, async (req, res, next) => await userpet(req, res, next, User, UsuarioPet));
 router.post('/user/petmatch', checkToken, async (req, res, next) => await userandpet(req, res, next, User, UserPetMatch));
 
+// 
 
 module.exports = router; // Exporta el router amb les rutes definides

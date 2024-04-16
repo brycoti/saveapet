@@ -22,12 +22,12 @@ async function iniDB() {
 
 // set up
 
-// iniDB();
+ // iniDB();
 
 
 // User can match a dog
-  Pet.belongsTo(User);
-  User.hasMany(Pet);
+  Pet.belongsToMany(User, { through: 'UserPetMatch' });
+  User.belongsToMany(Pet, { through: 'UserPetMatch' });
 
 // Center can create a pet
   Pet.belongsTo(Center);

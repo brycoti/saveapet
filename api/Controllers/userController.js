@@ -54,22 +54,19 @@ const userpet = async (req, res, next, User, UsuarioPet) => {
   const userandpet = async (req, res, next, User, UserPetmatch) => {
     try {
       const userId = await User.findByPk(req.userId); 
-      const {id_pet } = req.body;
+      const {petId } = req.body;
 
-
-      if (!user) {
+      if (!userId) {
         return res.status(400).json({ error: 'User not found' });
       }
       
-    
-      if (!id_pet) {
-        return res.status(400).json({error: 'id de cuenta pet incorrecto'}) 
+      if ( !petId ) {
+        return res.status(400).json({error: 'Pet not found'}) 
       } 
       
-      
       const newMatch = await UserPetmatch.create({
-            userId : userId,
-            id_pet,
+        UserId: req.userId,
+        PetId : petId
         });
   
         res.status(201).json(newMatch);
@@ -78,6 +75,7 @@ const userpet = async (req, res, next, User, UsuarioPet) => {
       console.error("Error processing request:", error);
         res.status(500).json({error: error.message});
     }
+    
   }
   
   module.exports = {
