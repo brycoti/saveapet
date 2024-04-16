@@ -5,17 +5,14 @@ const bcrypt = require('bcrypt'); // Importa la llibreria bcrypt per a encriptar
 
 
 // Models
-const { User, Center, Pet, UsuarioPet, UserPetMatch } = require('./Models/models'); // Correct way to import the User model if it's part of an exported object
+const { User, Center, Pet, UserPetMatch } = require('./Models/models'); // Correct way to import the User model if it's part of an exported object
 
 // Controllers
 const { createItem, updateItem, deleteItem, readItem, readItems, readItemsUser, login
 } = require('./Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
-const { registerUser, userpet } = require('./Controllers/userController')
+const { registerUser, userandpet } = require('./Controllers/userController')
 
 const { registerCenter, newPet ,login2} = require('./Controllers/centerController')
-)
-
-const { userandpet } = require('./Controllers/userController')
 
 
 // Middleware
@@ -69,9 +66,8 @@ router.put('/pets/:id', checkToken, async (req, res) => await updateItem(req, re
 router.delete('/pets/:id', checkToken, async (req, res) => await deleteItem(req, res, Pet));
 
 // Enpoint per crear relacio user - gos
-router.post('/userpet', checkToken, async (req, res, next) => await userpet(req, res, next, User, UsuarioPet));
-router.post('/user/petmatch', checkToken, async (req, res, next) => await userandpet(req, res, next, User, UserPetMatch));
 
-// 
+router.post('/user/petmatch', checkToken, async (req, res, next) => await userandpet(req, res, next, User, UserPetMatch));
+ 
 
 module.exports = router; // Exporta el router amb les rutes definides

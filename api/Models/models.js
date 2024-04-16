@@ -5,7 +5,6 @@ const  { sequelize } = require('./db');
 const { User } = require('../Models/userModel');
 const { Center } = require('../Models/centerModel');
 const { Pet } = require('../Models/petModel');
-const { UsuarioPet } = require('../Models/usuario_petModel');
 const { UserPetMatch } = require('./userPetMatchModel');
 
 // Call the function to initialize the database
@@ -37,6 +36,5 @@ module.exports = {
     User,
     Center,
     Pet,
-    UsuarioPet,
     UserPetMatch
 };

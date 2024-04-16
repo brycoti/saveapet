@@ -20,37 +20,6 @@ const registerUser = async (req, res, User) => {
     }
 }
 
-const userpet = async (req, res, next, User, UsuarioPet) => {
-    try {
-      const user = await User.findByPk(req.userId); // Cerca l'usuari pel seu ID
-     
-     
-    // console.log(user)
-     
-      if (!user) {
-        return res.status(400).json({ error: 'Usuari no trobat' }); // Retorna error 500 si no es troba l'usuari
-      }
-
-    const { id_pet} = req.body;
-
-
-      console.log(id_pet)
-
-      if ( !id_pet ) {
-        return res.status(400).json({ error: 'No hi cap gos assignat' }); // Retorna error 400 si no es proporcionen el nom, email o contrasenya
-      }
-
-      const item = await UsuarioPet.create({
-        UserId: req.userId,
-        id_pet,
-       adopted
-      })
-      res.status(201).json(item); // Retorna l'usuari creat amb el codi d'estat 201 (Creat)
-    } catch (error) {
-      res.status(500).json({ error: error.message}); // Retorna error 500 amb el missatge d'error
-    }
-  }
-
   const userandpet = async (req, res, next, User, UserPetmatch) => {
     try {
       const userId = await User.findByPk(req.userId); 
@@ -80,6 +49,5 @@ const userpet = async (req, res, next, User, UsuarioPet) => {
   
   module.exports = {
     registerUser,
-    userpet,
     userandpet
   }
