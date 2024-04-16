@@ -5,15 +5,18 @@ const bcrypt = require('bcrypt'); // Importa la llibreria bcrypt per a encriptar
 
 
 // Models
-const { User, Center, Pet, UsuarioPet, Chat } = require('./Models/models'); // Correct way to import the User model if it's part of an exported object
+const { User, Center, Pet, UsuarioPet, UserPetMatch } = require('./Models/models'); // Correct way to import the User model if it's part of an exported object
 
 // Controllers
 const { createItem, updateItem, deleteItem, readItem, readItems, readItemsUser, login
 } = require('./Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
 const { registerUser, userpet } = require('./Controllers/userController')
+
 const { registerCenter, newPet ,login2} = require('./Controllers/centerController')
-const { sendChat } = require ('./Controllers/chatController')
-const { sendMsg } = require ('./Controllers/mensajeController')
+)
+
+const { userandpet } = require('./Controllers/userController')
+
 
 // Middleware
 const { checkToken } = require('./Middleware/checkToken'); 
@@ -60,22 +63,15 @@ router.delete('/centers/:id', checkToken, async (req, res) => await deleteItem(r
 // CRUD PET
 
 router.post('/center/newpet', checkToken, async (req, res, next) => await newPet(req, res, next, Center, Pet));
-router.get('/pets', checkToken, async (req, res) => await readItems(req, res, User));
-router.get('/pets/:id', checkToken, async (req, res) => await readItem(req, res, User));
-router.put('/pets/:id', checkToken, async (req, res) => await updateItem(req, res, User));
-router.delete('/pets/:id', checkToken, async (req, res) => await deleteItem(req, res, User));
+router.get('/pets', checkToken, async (req, res) => await readItems(req, res, Pet));
+router.get('/pets/:id', checkToken, async (req, res) => await readItem(req, res, Pet));
+router.put('/pets/:id', checkToken, async (req, res) => await updateItem(req, res, Pet));
+router.delete('/pets/:id', checkToken, async (req, res) => await deleteItem(req, res, Pet));
 
 // Enpoint per crear relacio user - gos
 router.post('/userpet', checkToken, async (req, res, next) => await userpet(req, res, next, User, UsuarioPet));
+router.post('/user/petmatch', checkToken, async (req, res, next) => await userandpet(req, res, next, User, UserPetMatch));
 
-
-/* TO DO
-// CHAT
-// Endpoint para crear
-router.post('/chat/', async (req, res) => await  sendChat(req, res, Chat));
-// Endpoint para enviar un mensaje
-router.post('/chat/message/send', async (req, res) => await sendMsg(req, res, Msg));
-*/
-
+// 
 
 module.exports = router; // Exporta el router amb les rutes definides
