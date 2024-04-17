@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import contexte from '../components/contexte';
 
 const AltaMascota = () => {
-    const token = localStorage.getItem('token');
-    const {API_URL}=useContext(contexte)
+   
+    const { API_URL } = useContext(contexte)
     const [nombre, setNombre] = useState('');
     const [raza, setRaza] = useState('');
     const [edad, setEdad] = useState('');
@@ -14,7 +14,7 @@ const AltaMascota = () => {
     const [amigableNiños, setAmigableNiños] = useState(false);
     const [urgencia, setUrgencia] = useState('not urgent');
     const [error, setError] = useState('');
-    const navigate = useNavigate();
+    const redirect = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,26 +31,27 @@ const AltaMascota = () => {
             urgency: urgencia
         };
 
-        // Enviar datos al servidor para dar de alta la mascota
-        try {
-            const response =  await fetch(`${API_URL}/center/newpet`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(nuevaMascota)
-            });
-
-            if (!response.ok) {
-                throw new Error('Error al dar de alta la mascota');
-            }
-
-            // Redirigir a la lista de mascotas después de dar de alta con éxito
-            navigate('/list');
-        } catch (error) {
-            setError(error.message);
+        const options = {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(nuevaMascota)
         }
+
+        try {
+            const response = await fetch(API_URL + '/center/newpet', options)
+            const data = await response.json()
+            console.log("daata", data)
+           
+        } catch (e) {
+            console.log("error", error)
+        }
+
+        redirect("/list")
+
+
     };
 
     return (
@@ -73,6 +74,7 @@ const AltaMascota = () => {
                 <div>
                     <label>Tamaño:</label>
                     <select value={tamaño} onChange={(e) => setTamaño(e.target.value)}>
+
                         <option value="big">Grande</option>
                         <option value="medium">Mediano</option>
                         <option value="small">Pequeño</option>

@@ -23,15 +23,16 @@ function App() {
   useEffect(() => {
     // si tenim una cookie, intentem validar-la!
     if(document.cookie.includes('token')){
-      fetch(API_URL+'/refresh', {credentials: "include"})
+      fetch(`${API_URL}/refresh/center`, {credentials: "include"})
       .then(e => e.json())
       .then(data => {
         if (data.error){
           // api rebutja la cookie local, l'esborrem per mitjà de la funció logout()
-          logout();
+          //logout();
         } else {
           // api accepta la cookie, simulem login desant les dades rebudes a "loguejat"
           setLoguejat(data)
+          redirect("perfil")
           console.log(loguejat) 
         }
       })

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Contexte from '../components/contexte';
 
 const Perfil = () => {
-  const { loguejat } = useContext(Contexte);
+  const { loguejat, API_URL } = useContext(Contexte);
   const navigate = useNavigate();
   const [editMode, setEditMode] = useState(false);
   const [name, setName] = useState(loguejat ? loguejat.name : 'Nombre del Centro');
@@ -18,87 +18,100 @@ const Perfil = () => {
     setEditMode(true);
   };
 
-  const handleSave = async () => {
-    try {
-      const editedData = { name, email, password, phonenumber, web, city, address };
-      const response = await fetch(`${API_URL}/centers/${loguejat.userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(editedData)
-      });
+  const handleSave = async (e) => {
+    e.preventDefault();
+    const editedData = {
+      name: name,
+      email: email,
+      password: password,
+      phonenumber: phonenumber,
+      web: web,
+      city: city,
+      address: address
+    };
+    const options = {
+      method: 'PUT',
+      credentials:'include',
+      headers: {
+        'Content-Type': 'application/json',
 
-      if (!response.ok) {
-        throw new Error('Error al guardar los cambios');
-      }
-
-      setEditMode(false);
-    } catch (error) {
-      setError(error.message);
+      },
+      body: JSON.stringify(editedData)
     }
-  };
 
-  return (
-    <div>
-      <h1>Perfil</h1>
-      {editMode ? (
-        <form>
-          <label>
-            Nombre:
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-          </label>
-          <br />
-          <label>
-            Email:
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          </label>
-          <br />
-          <label>
-            Contraseña:
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          </label>
-          <br />
-          <label>
-            Número de teléfono:
-            <input type="text" value={phonenumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-          </label>
-          <br />
-          <label>
-            Sitio web:
-            <input type="text" value={web} onChange={(e) => setWeb(e.target.value)} />
-          </label>
-          <br />
-          <label>
-            Ciudad:
-            <input type="text" value={city} onChange={(e) => setCity(e.target.value)} />
-          </label>
-          <br />
-          <label>
-            Dirección:
-            <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
-          </label>
-          <br />
-          <button onClick={handleSave}>Guardar</button>
-        </form>
-      ) : (
-        <div>
-          <p>Nombre: {name}</p>
-          <p>Email: {email}</p>
-          <p>Contraseña: {password}</p>
-          <p>Número de teléfono: {phonenumber}</p>
-          <p>Sitio web: {web}</p>
-          <p>Ciudad: {city}</p>
-          <p>Dirección: {address}</p>
-          <button onClick={handleEdit}>Editar</button>
-        </div>
-      )}
-      <button className="border p-3 bg-red-200" onClick={() => navigate('/list')}>Tus animales</button>
-      <button className="border p-3 bg-red-200" onClick={() => navigate('/alta')}>new pet</button>
-      <br />
-    </div>
-  );
+  
+  try {
+    const response = await fetch(`${API_URL}/centers/${loguejat.id}`, options)
+    const data = await response.json()
+    console.log("daata", data)
+
+    setEditMode(false);
+
+  } catch (e) {
+    console.error("error", error);
+    // Manejar el error según tu lógica de la aplicación
+  }
+};
+
+return (
+  <div>
+    <h1>Perfil</h1>
+    {editMode ? (
+      <form>
+        <label>
+          Nombre:
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+        </label>
+        <br />
+        <label>
+          Email:
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </label>
+        <br />
+        <label>
+          Contraseña:
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </label>
+        <br />
+        <label>
+          Número de teléfono:
+          <input type="text" value={phonenumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+        </label>
+        <br />
+        <label>
+          Sitio web:
+          <input type="text" value={web} onChange={(e) => setWeb(e.target.value)} />
+        </label>
+        <br />
+        <label>
+          Ciudad:
+          <input type="text" value={city} onChange={(e) => setCity(e.target.value)} />
+        </label>
+        <br />
+        <label>
+          Dirección:
+          <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
+        </label>
+        <br />
+        <button onClick={handleSave}>Guardar</button>
+      </form>
+    ) : (
+      <div>
+        <p>Nombre: {name}</p>
+        <p>Email: {email}</p>
+        <p>Contraseña: {password}</p>
+        <p>Número de teléfono: {phonenumber}</p>
+        <p>Sitio web: {web}</p>
+        <p>Ciudad: {city}</p>
+        <p>Dirección: {address}</p>
+        <button onClick={handleEdit}>Editar</button>
+      </div>
+    )}
+    <button className="border p-3 bg-red-200" onClick={() => navigate('/list')}>Tus animales</button>
+    <button className="border p-3 bg-red-200" onClick={() => navigate('/alta')}>new pet</button>
+    <br />
+  </div>
+);
 };
 
 export default Perfil;
