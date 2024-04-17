@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { where } = require("sequelize");
+const { Pet } = require('../Models/petModel');
 const SECRET_KEY = "en-pinxo-li-va-dir-a-en-panxo";
 
 const registerCenter = async (req, res, Center) => {
@@ -53,6 +54,7 @@ const newPet = async (req, res, next, Center, Pet) => {
 }
 const login2 = async (req, res, Model) => {
   try {
+
     const { email, password } = req.body;
     const user = await Model.findOne({ where: { email } }); // Cerca l'usuari pel seu email
     if (!user) {
@@ -70,8 +72,29 @@ const login2 = async (req, res, Model) => {
     res.status(500).json({ error: error.message }); // Retorna error 500 amb el missatge d'error
   }
 }
+
+const centerAnimals = async (req, res, Pet,Center) => {
+  try {
+    const center = await Center.findByPk(req.id); // Cerca l'usuari pel seu ID
+    
+    const Pets = await Pet.findAll({ where: { CenterId: center.id } }); // Buscar el centro por el ID de usuario
+    console.log("1",userId)
+    console.log("2",Pet)
+    if (!Pet) {
+      return res.status(404).json({ error: 'Centro no encontrado' }); // Devolver error 404 si no se encuentra el centro
+    }
+
+    // Devolver los datos del centro
+    res.json(Pets);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' }); // Devolver error 500 en caso de error interno
+  }
+}
+
 module.exports = {
   registerCenter,
   newPet,
-  login2
+  login2,
+  centerAnimals
 }

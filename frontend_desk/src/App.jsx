@@ -23,7 +23,7 @@ function App() {
   useEffect(() => {
     // si tenim una cookie, intentem validar-la!
     if(document.cookie.includes('token')){
-      fetch(`${API_URL}/refresh`, {credentials: "include"})
+      fetch(`${API_URL}/refresh/center`, {credentials: "include"})
       .then(e => e.json())
       .then(data => {
         if (data.error){

@@ -14,9 +14,10 @@ const ListaAnimales = () => {
             credentials: 'include',
         };
 
-        fetch(API_URL + '/animales', opcions) // Modifica la ruta según la API
+        fetch(API_URL + '/centers/pets', opcions) // Modifica la ruta según la API
             .then(resp => resp.json())
             .then(data => {
+                console.log(data)
                 if (data.error === "Unauthorized") {
                     logout();
                 }

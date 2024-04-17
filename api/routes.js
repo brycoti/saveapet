@@ -11,7 +11,7 @@ const { User, Center, Pet, UserPetMatch } = require('./Models/models'); // Corre
 const { createItem, updateItem, deleteItem, readItem, readItems, readItemsUser, login
 } = require('./Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
 const { registerUser, userandpet } = require('./Controllers/userController')
-const { registerCenter, newPet ,login2} = require('./Controllers/centerController')
+const { registerCenter, newPet ,login2, centerAnimals} = require('./Controllers/centerController')
 
 
 // Middleware
@@ -39,7 +39,16 @@ const user = await User.findByPk(req.userId);
     return res.status(404).json({ error: 'User no trobat' });
   }
   return res.json({ id: user.id, name: user.name, email: user.email })
+
+
 })
+router.get('/refresh/center', checkToken, async (req, res) => {
+  const user = await Center.findByPk(req.id); 
+    if (!user) {
+      return res.status(404).json({ error: 'User no trobat' });
+    }
+    return res.json({name: user.name, id: user.id, email: user.email, phonenumber: user.phonenumber, web: user.web, city: user.city, address: user.address })
+  })
 
 // CRUD CENTER
 
@@ -51,6 +60,7 @@ router.get('/centers', checkToken, async (req, res) => await readItems(req, res,
 router.get('/centers/:id', checkToken , async (req, res) => await readItem(req, res, Center));
 router.put('/centers/:id', checkToken,  async (req, res) => await updateItem(req, res, Center));
 router.delete('/centers/:id', checkToken, async (req, res) => await deleteItem(req, res, Center));
+router.get('/centers/pets',checkToken,async (req,res)=> await centerAnimals(req,res,Pet,Center));
 
 
 // CRUD PET
@@ -60,6 +70,7 @@ router.get('/pets', checkToken, async (req, res) => await readItems(req, res, Pe
 router.get('/pets/:id', checkToken, async (req, res) => await readItem(req, res, Pet));
 router.put('/pets/:id', checkToken, async (req, res) => await updateItem(req, res, Pet));
 router.delete('/pets/:id', checkToken, async (req, res) => await deleteItem(req, res, Pet));
+
 
 // Enpoint per crear relacio user - gos
 

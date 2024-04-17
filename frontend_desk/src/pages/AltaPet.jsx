@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import contexte from '../components/contexte';
 
 const AltaMascota = () => {
-    const token = localStorage.getItem('token');
+   
     const { API_URL } = useContext(contexte)
     const [nombre, setNombre] = useState('');
     const [raza, setRaza] = useState('');
@@ -14,7 +14,7 @@ const AltaMascota = () => {
     const [amigableNiños, setAmigableNiños] = useState(false);
     const [urgencia, setUrgencia] = useState('not urgent');
     const [error, setError] = useState('');
-    const navigate = useNavigate();
+    const redirect = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -44,11 +44,12 @@ const AltaMascota = () => {
             const response = await fetch(API_URL + '/center/newpet', options)
             const data = await response.json()
             console.log("daata", data)
-
+           
         } catch (e) {
             console.log("error", error)
         }
 
+        redirect("/list")
 
 
     };
