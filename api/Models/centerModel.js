@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const {sequelize, DataTypes } = require('./db');
+const {sequelize, DataTypes } = require('../db');
 
 // Define the Center model
 const Center = sequelize.define('Center', {

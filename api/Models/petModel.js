@@ -1,4 +1,4 @@
-const {sequelize, DataTypes } = require('./db');
+const {sequelize, DataTypes } = require('../db');
 
 // Definir modelo pet
 const Pet = sequelize.define('Pet', {
@@ -33,10 +33,12 @@ const Pet = sequelize.define('Pet', {
     urgency: {
       type: DataTypes.ENUM('urgent', 'not urgent'),
       defaultValue: 'not urgent',
+    },
+    foto: {
+      type: DataTypes.STRING,
+      allowNull: true // Es permet valor nul per a la foto
     }
   });
-
-
 
   module.exports = {
     Pet
