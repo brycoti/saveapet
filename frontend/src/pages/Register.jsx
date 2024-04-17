@@ -25,7 +25,6 @@ const Register = () => {
 
     return (<>
         <div>
-
             <div>
                 <form onSubmit={handleSubmit}>
                     <div className="flex flex-col">
@@ -54,10 +53,6 @@ const Register = () => {
                     </div>
                 </form>
             </div>
-
-
-
-
         </div>
     </>)
 }

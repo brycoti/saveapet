@@ -28,6 +28,7 @@ const Login = () => {
         const data = await login(user);
         if (!data.error) {
             setLoguejat(data)
+
             if (!data.already_logged) {
                 const information = { already_logged: true }
                 editUser(information, data.id);

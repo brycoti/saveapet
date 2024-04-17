@@ -1,22 +1,9 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import contexte from "../components/contexte";
 
 const Profile = () => {
-  const [usuario, setUsuario] = useState({});
-  const [error, setError] = useState(false);
   const { loguejat } = useContext(contexte);
 
-  // Verifica si loguejat está definido antes de acceder a sus propiedades
-  const nombreUsuario = loguejat ? loguejat.name : "";
-
-  useEffect(() => {
-    // Realiza alguna lógica adicional que necesites cuando loguejat cambie
-    // Por ejemplo, podrías hacer una llamada a la API para obtener más datos del usuario
-    if (loguejat) {
-      // Aquí podrías realizar alguna lógica adicional, como cargar más datos del usuario
-      console.log("Usuario logueado:", loguejat);
-    }
-  }, [loguejat]);
 
   return (
     <div>
@@ -39,24 +26,24 @@ const Profile = () => {
           <div className=" ">
             <div className="text-center px-14">
               <h2 className="text-gray-800 text-3xl font-bold">
-                {nombreUsuario}
+                {loguejat?.name}
               </h2>
               <p className="text-gray-400 mt-2"></p>
               <p className="mt-2 text-gray-500 text-sm">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
+                industry. Lorem Ipsum has been the industry standard dummy
                 text ever since the 1500s,
               </p>
 
               <p className="mt-5 mb-1 text-gray-800 font-extrabold">Favourite dogs</p>
               <div className="overflow-auto">
                 <div className="flex">
-                <img className="w-20 h-auto mr-2" src="https://img.freepik.com/foto-gratis/vertical-adorable-perro-raza-mixta-sobre-azul_181624-45053.jpg"/>
-                <img className="w-20 h-auto mr-2" src="https://previews.123rf.com/images/mirawonderland/mirawonderland1606/mirawonderland160600030/59794518-retrato-vertical-de-un-perro-pastor-de-shetland-bonita-en-un-fondo-blanco-frente-a-la-c%C3%A1mara.jpg"/>
-                <img className="w-20 h-auto mr-2" src="https://st4.depositphotos.com/27201292/41849/i/450/depositphotos_418498294-stock-photo-vertical-shot-white-dog-forest.jpg"/>
-                <img className="w-20 h-auto mr-2" src="https://st4.depositphotos.com/27201292/41849/i/450/depositphotos_418498294-stock-photo-vertical-shot-white-dog-forest.jpg"/>
-                <img className="w-20 h-auto mr-2" src="https://st4.depositphotos.com/27201292/41849/i/450/depositphotos_418498294-stock-photo-vertical-shot-white-dog-forest.jpg"/>
-                <img className="w-20 h-auto mr-2" src="https://st4.depositphotos.com/27201292/41849/i/450/depositphotos_418498294-stock-photo-vertical-shot-white-dog-forest.jpg"/>
+                  <img className="w-20 h-auto mr-2" src="https://img.freepik.com/foto-gratis/vertical-adorable-perro-raza-mixta-sobre-azul_181624-45053.jpg" />
+                  <img className="w-20 h-auto mr-2" src="https://previews.123rf.com/images/mirawonderland/mirawonderland1606/mirawonderland160600030/59794518-retrato-vertical-de-un-perro-pastor-de-shetland-bonita-en-un-fondo-blanco-frente-a-la-c%C3%A1mara.jpg" />
+                  <img className="w-20 h-auto mr-2" src="https://st4.depositphotos.com/27201292/41849/i/450/depositphotos_418498294-stock-photo-vertical-shot-white-dog-forest.jpg" />
+                  <img className="w-20 h-auto mr-2" src="https://st4.depositphotos.com/27201292/41849/i/450/depositphotos_418498294-stock-photo-vertical-shot-white-dog-forest.jpg" />
+                  <img className="w-20 h-auto mr-2" src="https://st4.depositphotos.com/27201292/41849/i/450/depositphotos_418498294-stock-photo-vertical-shot-white-dog-forest.jpg" />
+                  <img className="w-20 h-auto mr-2" src="https://st4.depositphotos.com/27201292/41849/i/450/depositphotos_418498294-stock-photo-vertical-shot-white-dog-forest.jpg" />
 
                 </div>
               </div>
