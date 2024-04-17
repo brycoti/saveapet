@@ -1,18 +1,57 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Contexte from '../components/contexte';
 
 const Perfil = () => {
-  const { loguejat } = useContext(Contexte);
+  const { loguejat ,API_URL} = useContext(Contexte);
   const navigate = useNavigate();
   const [editMode, setEditMode] = useState(false);
-  const [name, setName] = useState(loguejat ? loguejat.name : 'Nombre del Centro');
-  const [email, setEmail] = useState(loguejat ? loguejat.email : 'centro@example.com');
+  const [userData, setUserData] = useState(null); // Estado para almacenar los datos de usuario
+  const [name, setName] = useState('Nombre del Centro');
+  const [email, setEmail] = useState('centro@example.com');
   const [password, setPassword] = useState('********');
-  const [phonenumber, setPhoneNumber] = useState(loguejat ? loguejat.phonenumber : '123456789');
-  const [web, setWeb] = useState(loguejat ? loguejat.web : 'www.centro.com');
-  const [city, setCity] = useState(loguejat ? loguejat.city : 'Ciudad');
-  const [address, setAddress] = useState(loguejat ? loguejat.address : 'Dirección');
+  const [phonenumber, setPhoneNumber] = useState('123456789');
+  const [web, setWeb] = useState('www.centro.com');
+  const [city, setCity] = useState('Ciudad');
+  const [address, setAddress] = useState('Dirección');
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`${API_URL}/centers/${loguejat.id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Error al obtener los datos del usuario');
+        }
+
+        const userData = await response.json();
+        setUserData(userData);
+      } catch (error) {
+        console.error(error);
+        // Manejar el error según tu lógica de la aplicación
+      }
+    };
+
+    if (loguejat) {
+      fetchUserData();
+    }
+  }, []); // El efecto se activará cuando cambie el id almacenado en loguejat
+
+  useEffect(() => {
+    if (userData) {
+      setName(userData.name || 'Nombre del Centro');
+      setEmail(userData.email || 'centro@example.com');
+      setPhoneNumber(userData.phonenumber || '123456789');
+      setWeb(userData.web || 'www.centro.com');
+      setCity(userData.city || 'Ciudad');
+      setAddress(userData.address || 'Dirección');
+    }
+  }, [userData]); // El efecto se activará cuando cambien los datos de usuario
 
   const handleEdit = () => {
     setEditMode(true);
@@ -21,7 +60,7 @@ const Perfil = () => {
   const handleSave = async () => {
     try {
       const editedData = { name, email, password, phonenumber, web, city, address };
-      const response = await fetch(`${API_URL}/centers/${loguejat.userId}`, {
+      const response = await fetch(`${API_URL}/centers/${loguejat.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -36,7 +75,8 @@ const Perfil = () => {
 
       setEditMode(false);
     } catch (error) {
-      setError(error.message);
+      console.error(error);
+      // Manejar el error según tu lógica de la aplicación
     }
   };
 
