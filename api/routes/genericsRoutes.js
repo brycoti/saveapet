@@ -4,7 +4,7 @@ const router = express.Router(); // Crea un router d'Express
 const { checkToken } = require('../Middleware/checkToken'); 
 
 // Models
-const { User } = require('../Models/models'); // Correct way to import the User model if it's part of an exported object
+const { User, Center } = require('../Models/models'); // Correct way to import the User model if it's part of an exported object
 
 // Endpoint per finalitzar sessio
 router.delete('/logout', (req, res) => {
@@ -14,7 +14,16 @@ router.delete('/logout', (req, res) => {
   
   // endpoint para refrescar el token
   router.get('/refresh', checkToken, async (req, res) => {
-    const user = await User.findByPk(req.userId); 
+    const user = await User.findByPk(req.id); 
+    if (!user) {
+      return res.status(404).json({ error: 'User no trobat' });
+    }
+    return res.json({ id: user.id, name: user.name, email: user.email })
+  })
+
+  
+  router.get('/refresh/center', checkToken, async (req, res) => {
+    const user = await Center.findByPk(req.id); 
     if (!user) {
       return res.status(404).json({ error: 'User no trobat' });
     }
