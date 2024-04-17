@@ -10,7 +10,7 @@ const {Center} = require('../Models/models'); // Correct way to import the User 
 
 // Controllers
 const { createItem, updateItem, deleteItem, readItem, readItems} = require('../Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
-const { registerCenter, login2} = require('../Controllers/centerController')
+const { registerCenter, login2, centerAnimal} = require('../Controllers/centerController')
 
 /*
 // Configuració de multer per gestionar la pujada de fitxers
@@ -52,5 +52,7 @@ router.get('/centers', checkToken, async (req, res) => await readItems(req, res,
 router.get('/centers/:id', checkToken , async (req, res) => await readItem(req, res, Center));
 router.put('/centers/:id', checkToken,  async (req, res) => await updateItem(req, res, Center));
 router.delete('/centers/:id', checkToken, async (req, res) => await deleteItem(req, res, Center));
+
+router.get('/centers/animals', checkToken, async (req, res) => await centerAnimal(req, res, Center));
 
 module.exports = router; // Exporta el router amb les rutes definides
