@@ -26,11 +26,11 @@ const registerUser = async (req, res, User) => {
       const {petId } = req.body;
 
       if (!userId) {
-        return res.status(400).json({ error: 'User not found' });
+        return res.status(404).json({ error: 'User not found' });
       }
       
       if ( !petId ) {
-        return res.status(400).json({error: 'Pet not found'}) 
+        return res.status(404).json({error: 'Pet not found'}) 
       } 
       
       const newMatch = await UserPetmatch.create({
