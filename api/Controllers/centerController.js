@@ -15,7 +15,7 @@ const registerCenter = async (req, res, Center) => {
       }
       const center = await Center.create({ name, email, password, phonenumber, web, city, address }); // Crea l'usuari amb les dades proporcionades
   
-      res.status(201).json({message: {userId: center.id, name: center.name, email: center.email, phonenumber : center.phonenumber, web: center.web, city: center.city, addres: center.address}}); // Retorna l'usuari creat amb el codi d'estat 201 (Creat)
+      res.status(201).json({message: {id: center.id, name: center.name, email: center.email, phonenumber : center.phonenumber, web: center.web, city: center.city, addres: center.address}}); // Retorna l'usuari creat amb el codi d'estat 201 (Creat)
     } catch (error) {
       res.status(500).json({ error: error.message }); // Retorna error 500 amb el missatge d'error
     }
@@ -23,7 +23,7 @@ const registerCenter = async (req, res, Center) => {
   
 const newPet =  async (req, res, next, Center, Pet) => {
     try {
-      const center = await Center.findByPk(req.userId); // Cerca l'usuari pel seu ID
+      const center = await Center.findByPk(req.id); // Cerca l'usuari pel seu ID
 
       console.log(center)
 
@@ -43,7 +43,7 @@ const newPet =  async (req, res, next, Center, Pet) => {
         dogs_friendly,
         kids_friendly,
         urgency,
-        CenterId: req.userId
+        CenterId: req.id
       })
       res.status(201).json(item); // Retorna l'usuari creat amb el codi d'estat 201 (Creat)
     } catch (error) {
