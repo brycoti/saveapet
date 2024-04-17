@@ -6,7 +6,7 @@ const Perfil = () => {
   const { loguejat, API_URL } = useContext(Contexte);
   const navigate = useNavigate();
   const [editMode, setEditMode] = useState(false);
-  const [name, setName] = useState(loguejat ? loguejat.name : 'Nombre del Centro');
+  const [name, setName] = useState(loguejat ? loguejat.userName : 'Nombre del Centro');
   const [email, setEmail] = useState(loguejat ? loguejat.email : 'centro@example.com');
   const [password, setPassword] = useState('********');
   const [phonenumber, setPhoneNumber] = useState(loguejat ? loguejat.phonenumber : '123456789');
@@ -41,7 +41,7 @@ const Perfil = () => {
 
   
   try {
-    const response = await fetch(`${API_URL}/centers/${loguejat.id}`, options)
+    const response = await fetch(`${API_URL}/centers/${loguejat.userId}`, options)
     const data = await response.json()
     console.log("daata", data)
 

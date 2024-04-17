@@ -55,7 +55,7 @@ function App() {
       <div className="p-[50px]">
         {loguejat && <Link className="border px-4 py-2 bg-blue-700 text-white" to="/">Inici</Link>}
         {loguejat && <Link className="border px-4 py-2 bg-blue-700 text-white" to="/perfil">Perfil</Link>}
-        {loguejat && <button className="border px-4 py-2 bg-blue-700 text-white" onClick={logout}>Logout {loguejat.name}</button>}
+        {loguejat && <button className="border px-4 py-2 bg-blue-700 text-white" onClick={logout}>Logout {loguejat.userName}</button>}
         <div className="p-10">
           <Outlet />    
         </div>

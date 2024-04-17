@@ -27,7 +27,7 @@ router.delete('/logout', (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User no trobat' });
     }
-    return res.json({ userId: user.id, name: user.name, email: user.email })
+    return res.json({ userName: user.name, userId: user.id, email: user.email, phonenumber : user.phonenumber, web: user.web, city: user.city, address: user.address})
   })
 
   module.exports = router; // Exporta el router amb les rutes definides
