@@ -14,20 +14,20 @@ router.delete('/logout', (req, res) => {
   
   // endpoint para refrescar el token
   router.get('/refresh', checkToken, async (req, res) => {
-    const user = await User.findByPk(req.id); 
+    const user = await User.findByPk(req.userId); 
     if (!user) {
       return res.status(404).json({ error: 'User no trobat' });
     }
-    return res.json({ id: user.id, name: user.name, email: user.email })
+    return res.json({ userId: user.id, name: user.name, email: user.email })
   })
 
   
   router.get('/refresh/center', checkToken, async (req, res) => {
-    const user = await Center.findByPk(req.id); 
+    const user = await Center.findByPk(req.userId); 
     if (!user) {
       return res.status(404).json({ error: 'User no trobat' });
     }
-    return res.json({ id: user.id, name: user.name, email: user.email })
+    return res.json({ userId: user.id, name: user.name, email: user.email })
   })
 
   module.exports = router; // Exporta el router amb les rutes definides

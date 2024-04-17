@@ -11,7 +11,7 @@ const checkToken = (req, res, next) => {
 
     try {
         const decodedToken = jwt.verify(token, SECRET_KEY); // Verifica el token utilitzant la clau secreta
-        req.id = decodedToken.id; // Estableix l'ID d'usuari a l'objecte de la petició
+        req.userId = decodedToken.userId; // Estableix l'ID d'usuari a l'objecte de la petició
         next(); // Passa al següent middleware
     } catch (error) {
         return res.status(401).json({ error: 'Invalid token' }); // Retorna error 401 si el token és invàlid

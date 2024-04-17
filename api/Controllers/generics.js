@@ -19,7 +19,7 @@ const login = async (req, res, Model) => {
         const token = jwt.sign({ userId: user.id, userName: user.name }, SECRET_KEY, { expiresIn: '2h' }); // Genera un token JWT vàlid durant 2 hores
         res.cookie('token', token, { httpOnly: false, maxAge: 7200000 }); // Estableix el token com una cookie
 
-        res.json({ name: user.name, id: user.id, already_logged: user.already_logged }); // Retorna missatge d'èxit
+        res.json({ name: user.name, userId: user.id, already_logged: user.already_logged }); // Retorna missatge d'èxit
     } catch (error) {
 
 

@@ -14,7 +14,7 @@ const registerUser = async (req, res, User) => {
       }
       const user = await User.create({ name, email, password, phonenumber,address }); // Crea l'usuari amb les dades proporcionades
   
-      res.status(201).json({id: user.id, name: user.name, email: user.email}); // Retorna l'usuari creat amb el codi d'estat 201 (Creat)
+      res.status(201).json({userId: user.id, name: user.name, email: user.email}); // Retorna l'usuari creat amb el codi d'estat 201 (Creat)
     } catch (error) {
       res.status(500).json({ error: "Cannot create" }); // Retorna error 500 amb el missatge d'error
     }
