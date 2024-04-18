@@ -9,7 +9,12 @@ const UserPetMatch = sequelize.define('UserPetMatch', {
     autoIncrement: true,
     allowNull: false,
   },
-  adopted: {
+  liked:{ // true si un user le ha dado like
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
+  adopted: { // si esta adopted true, no deberia salir en el front. Es el center quien da el valor de true pq elige a mano que suser puede adoptar
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: false
