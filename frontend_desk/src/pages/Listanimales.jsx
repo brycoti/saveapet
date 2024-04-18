@@ -6,7 +6,7 @@ const ListaAnimales = () => {
     const [animales, setAnimales] = useState([]);
     const [error, setError] = useState('');
     const [actualitza, setActualitza] = useState(0);
-    const { logout, API_URL } = useContext(Contexte);
+    const { logout, API_URL,loguejat } = useContext(Contexte);
     const redirect = useNavigate();
 
     useEffect(() => {
@@ -14,7 +14,7 @@ const ListaAnimales = () => {
             credentials: 'include',
         };
 
-        fetch(API_URL + '/centers/animals', opcions) // Modifica la ruta según la API
+        fetch(`${API_URL}/centers/${loguejat.userId}/animals`, opcions) // Modifica la ruta según la API
             .then(resp => resp.json())
             .then(data => {
                 console.log(data)
@@ -29,10 +29,11 @@ const ListaAnimales = () => {
             })
             .catch(err => {
                 console.error('Error fetching data:', error);
-                setError('Error al obtener los datos');
+                setError(error)
             });
 
     }, [actualitza]);
+    console.log(animales)
 
     const remove = (item) => {
         const opcions = {

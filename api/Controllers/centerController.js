@@ -22,8 +22,12 @@ const registerCenter = async (req, res, Center) => {
 
     const center = await Center.create({ name, email, password, phonenumber, web, city, address });
 
-    res.status(201).json({ message: { userId: center.id, name: center.name, email: center.email,
-    phonenumber: center.phonenumber, web: center.web, city: center.city, addres: center.address } });
+    res.status(201).json({
+      message: {
+        userId: center.id, name: center.name, email: center.email,
+        phonenumber: center.phonenumber, web: center.web, city: center.city, addres: center.address
+      }
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -78,7 +82,7 @@ const newPet = async (req, res, next, Center, Pet) => {
     }
   });
 }
-*/ 
+*/
 const login2 = async (req, res, Model) => {
   try {
     const { email, password } = req.body;
@@ -93,7 +97,7 @@ const login2 = async (req, res, Model) => {
     }
     const token = jwt.sign({ userId: user.id, userName: user.name }, SECRET_KEY, { expiresIn: '2h' }); // Genera un token JWT vàlid durant 2 hores
     res.cookie('token', token, { httpOnly: false, maxAge: 7200000 }); // Estableix el token com una cookie
-        res.json({ userName: user.name, userId: user.id, email: user.email, phonenumber : user.phonenumber, web: user.web, city: user.city, address: user.address}); // Retorna missatge d'èxit
+    res.json({ userName: user.name, userId: user.id, email: user.email, phonenumber: user.phonenumber, web: user.web, city: user.city, address: user.address }); // Retorna missatge d'èxit
   } catch (error) {
 
     res.status(500).json({ error: error.message });
@@ -102,10 +106,10 @@ const login2 = async (req, res, Model) => {
 
 // Configuración de multer para guardar imágenes en el servidor
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     cb(null, '../frontend_desk/public/img') // Especifica la carpeta de destino de los archivos subidos
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     const uniqueSuffix = `${Date.now()}_${Math.round(Math.random() * 1E9)}`;
     cb(null, uniqueSuffix + '_' + file.originalname) // Asigna un nombre único a los archivos subidos
   }
@@ -129,7 +133,7 @@ const upload = multer({
 }).single('foto');
 
 const newPet = async (req, res, next, Center, Pet) => {
-  upload(req, res, async function(err) {
+  upload(req, res, async function (err) {
     if (err instanceof multer.MulterError) {
       // Errores específicos de multer
       return res.status(500).json({ error: err.message });
@@ -177,8 +181,27 @@ const newPet = async (req, res, next, Center, Pet) => {
   });
 };
 
+const centerAnimal = async (req, res, Center, Pet) => {
+  try {
+    const centerId = req.params.id; // Obtener el ID del centro del token verificado
+    
+    // Verificar si el centro existe
+    const center = await Center.findByPk(centerId);
+    if (!center) {
+      return res.status(404).json({ error: 'Centro no encontradovv' });
+    }
+
+    // El centro existe, ahora podemos buscar los animales asociados a él
+    const animales = await Pet.findAll({ where: { CenterId: centerId } }); // Buscar animales asociados al centro
+    res.json(animales); // Enviar los animales al cliente
+  } catch (error) {
+    res.status(500).json({ error: error.message }); // Manejar errores
+  }
+};
+
 module.exports = {
   registerCenter,
   newPet,
-  login2
+  login2,
+  centerAnimal
 }

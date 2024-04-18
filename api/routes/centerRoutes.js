@@ -53,6 +53,6 @@ router.get('/centers/:id', checkToken , async (req, res) => await readItem(req, 
 router.put('/centers/:id', checkToken,  async (req, res) => await updateItem(req, res, Center));
 router.delete('/centers/:id', checkToken, async (req, res) => await deleteItem(req, res, Center));
 
-router.get('/centers/animals', checkToken, async (req, res) => await centerAnimal(req, res, Center,Pet));
+router.get('/centers/:id/animals', checkToken, async (req, res) => await centerAnimal(req, res, Center,Pet));
 
 module.exports = router; // Exporta el router amb les rutes definides
