@@ -11,7 +11,7 @@ const bcrypt = require('bcrypt'); // Importa la llibreria bcrypt per a encriptar
 const { User, UserPetMatch } = require('../Models/models'); // Correct way to import the User model if it's part of an exported object
 
 // Controllers
-const { updateItem, deleteItem, readItem, readItems, login} = require('../Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
+const { updateItem, deleteItem, readItem, readItems, readItemsUser, login} = require('../Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
 const { registerUser, userandpet } = require('../Controllers/userController')
 
 // CRUD USERS 
@@ -25,5 +25,5 @@ router.post('/login/user', async (req, res) => await login(req, res, User));
 
 // Enpoint per crear relacio user - gos
 router.post('/user/petmatch', checkToken, async (req, res, next) => await userandpet(req, res, next, User, UserPetMatch));
- 
+router.get('/user/petmatch', checkToken, async (req, res) => await readItemsUser(req, res, UserPetMatch)); 
 module.exports = router; // Exporta el router amb les rutes definides

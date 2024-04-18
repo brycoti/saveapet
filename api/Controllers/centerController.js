@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const { where } = require("sequelize");
 const { Pet } = require('../Models/petModel');
+const { UserPetMatch } = require('../Models/userPetMatchModel');
+const { Center } = require('../Models/centerModel');
 const SECRET_KEY = "en-pinxo-li-va-dir-a-en-panxo";
 
 
@@ -199,9 +201,51 @@ const centerAnimal = async (req, res, Center, Pet) => {
   }
 };
 
+
+const animalLikedByUsers = async (req, res, UserPetMatch, Pet) => {
+  try {
+    const petId = req.params.petId;
+
+    // Retrieve the pet and associated center with likes
+    const pet = await Pet.findOne({
+      where: { id: petId },
+      include: [
+        {
+          model: Center,
+          attributes: ['id']
+        },
+        {
+          model: UserPetMatch,
+          as: 'likes',  // Use the alias defined in the association
+          attributes: ['userId'],
+          where: { liked: true }
+        }
+      ]
+    });
+
+    if (!pet) {
+      return res.status(404).json({ error: 'Pet not found' });
+    }
+
+    const userIds = pet.likes.map(like => like.userId);
+
+    // Prepare the response object
+    const result = {
+      pet: pet,  // This now includes likes embedded within
+    };
+
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+
 module.exports = {
   registerCenter,
   newPet,
   login2,
-  centerAnimal
+  centerAnimal,
+  animalLikedByUsers
 }
