@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
 const { where } = require("sequelize");
 const { Pet } = require('../Models/petModel');
 const SECRET_KEY = "en-pinxo-li-va-dir-a-en-panxo";
@@ -14,10 +15,6 @@ const storage = multer.diskStorage({
     cb(null, `${Date.now()}_${file.originalname}`) // Assigna un nom únic als fitxers pujats
   }
 })
-
-const upload = multer({ storage: storage }).single('foto'); // Configura multer per a gestionar la pujada d'un únic fitxer amb el camp 'foto'
-
-
 
 
 const registerCenter = async (req, res, Center) => {
@@ -44,41 +41,57 @@ const registerCenter = async (req, res, Center) => {
 }
 
 const newPet = async (req, res, next, Center, Pet) => {
-  try {
-    const center = await Center.findByPk(req.userId);
+  // Create multer instance specific for this function
+  const upload = multer({ storage: storage }).single('foto');
 
-    if (!center){
-      return res.status(400).json({ error: 'Center no trobat' });
+  // Use the multer instance to handle the file upload
+  upload(req, res, async function(err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      return res.status(500).json({ error: err.message });
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      return res.status(500).json({ error: err.message });
     }
 
-    const { name, breed, age, size, temper, dogs_friendly, kids_friendly, urgency } = req.body;
-    if (!name || !breed || !age) {
-    return res.status(400).json({ error: 'todos los campos son necesarios' });
+    // No errors during upload, proceed with the rest of the logic
+    try {
+      const center = await Center.findByPk(req.userId);
+
+      if (!center) {
+        return res.status(400).json({ error: 'Center not found' });
+      }
+
+      const { name, breed, age, size, temper, dogs_friendly, kids_friendly, urgency } = req.body;
+      if (!name || !breed || !age) {
+        return res.status(400).json({ error: 'All fields are required' });
+      }
+
+      if (req.file) {
+        req.body.foto = req.file.filename; // Assigns the uploaded file name to 'foto' field
+      }
+
+      const item = await Pet.create({
+        name,
+        breed,
+        age,
+        size,
+        temper,
+        dogs_friendly,
+        kids_friendly,
+        urgency,
+        CenterId: req.userId,
+        foto: req.body.foto
+      });
+      res.status(201).json(item);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
-
-  
-    if (req.file) {
-        req.body.foto = req.file.filename; // Assigna el nom del fitxer pujat al camp 'foto'
-    }
-
-
-    const item = await Pet.create({
-      name,
-      breed,
-      age,
-      size,
-      temper,
-      dogs_friendly,
-      kids_friendly,
-      urgency,
-      CenterId: req.userId,
-      foto: req.body.foto
-    })
-  res.status(201).json(item);
-} catch (error) {
-    res.status(500).json({ error: error.message});
+  });
 }
-  }
+
+
+
   const login2 = async (req, res, Model) => {
     try {
         const { email, password } = req.body;

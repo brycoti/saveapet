@@ -108,7 +108,7 @@ const AltaMascota = () => {
                 </div>
                 <div>
                     <label for="formfile" className="form-label">File</label>
-                    <input className="form-control " id="formfile" type="file" name="file" onChange={(e) => setImatge(e.target.files[0])} />
+                    <input className="form-control " id="formfile" type="file" name="foto" onChange={(e) => setImatge(e.target.files[0])} />
                 </div>
                 <button type="submit">Dar de Alta</button>
             </form>

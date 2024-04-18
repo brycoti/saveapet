@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { where } = require("sequelize");
 
+
+
 const registerUser = async (req, res, User) => {
     try {
       const { name, email, password, phonenumber, address } = req.body; 
