@@ -9,6 +9,9 @@ const ListaAnimales = () => {
     const { logout, API_URL,loguejat } = useContext(Contexte);
     const redirect = useNavigate();
 
+  
+
+    
     useEffect(() => {
         const opcions = {
             credentials: 'include',
@@ -33,7 +36,7 @@ const ListaAnimales = () => {
             });
 
     }, [actualitza]);
-    console.log(animales)
+    
 
     const remove = (item) => {
         const opcions = {
@@ -43,7 +46,7 @@ const ListaAnimales = () => {
                 "Content-Type": "application/json"
             }
         };
-        fetch(API_URL + '/projects/' + item.id, opcions)
+        fetch(API_URL + '/pets/' + item.id, opcions)
             .then(r => r.json())
             .then(data => {
                 if (data.error === 'Unauthorized') {
@@ -68,7 +71,7 @@ const ListaAnimales = () => {
                         <h3 className="text-lg font-semibold mb-2">{animal.name}</h3>
                         <p className="text-sm mb-2">{animal.age} years</p>
                         <img src={`/img/${animal.foto}`} alt={animal.breed} className="mb-2"/>
-                        {/* Otros campos de información */}
+                    
                         <button className="border p-2 bg-blue-300 text-white mt-auto" onClick={() => redirect(`/modificar/${animal.id}`)}>Modificar a {animal.name}</button>
                         <button className="mt-2 p-2 bg-red-500 text-white" onClick={() => remove(animal)}>Eliminar</button>
                     </div>

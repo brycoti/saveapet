@@ -42,6 +42,7 @@ function App() {
     }
   
   }, [])
+  
 
 
   console.log(loguejat);

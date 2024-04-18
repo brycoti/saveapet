@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Contexte from "../components/contexte";
-
-const ModificarAnimal = ({ animalId }) => {
+import { useParams } from 'react-router-dom'; // Importa useParams
+const ModificarAnimal = () => {
+    const { id } = useParams();
    
     const [nombre, setNombre] = useState('');
     const [raza, setRaza] = useState('');
@@ -13,13 +14,13 @@ const ModificarAnimal = ({ animalId }) => {
     const [amigableNiños, setAmigableNiños] = useState(false);
     const [urgencia, setUrgencia] = useState('not urgent');
     const [error, setError] = useState('');
-    const { logout, API_URL, } = useContext(Contexte);
-    const navigate = useNavigate();
+    const { logout, API_URL } = useContext(Contexte);
+    const redirect = useNavigate();
 
     useEffect(() => {
         const fetchAnimalData = async () => {
             try {
-                const response = await fetch(`${API_URL}/animales/${animalId}`, { credentials: 'include' });
+                const response = await fetch(`${API_URL}/pets/${id}`, { credentials: 'include' });
                 if (!response.ok) {
                     throw new Error('Error al obtener los datos del animal');
                     logout();
@@ -40,7 +41,7 @@ const ModificarAnimal = ({ animalId }) => {
         };
 
         fetchAnimalData();
-    }, [animalId]);
+    }, []);
 
     const handleModificar = async () => {
         const newData = {
@@ -55,7 +56,7 @@ const ModificarAnimal = ({ animalId }) => {
         };
 
         try {
-            const response = await fetch(`${API_URL}/animales/${animalId}`, {
+            const response = await fetch(`${API_URL}/pets/${id}`, {
                 method: 'PUT',
                 credentials: 'include',
                 headers: {
@@ -69,7 +70,7 @@ const ModificarAnimal = ({ animalId }) => {
                 logout();
             }
 
-            navigate('/list');
+            redirect("/list");
         } catch (error) {
             console.error('Error modifying animal data:', error);
             setError(error.message);
@@ -123,7 +124,7 @@ const ModificarAnimal = ({ animalId }) => {
                 <option value="not urgent">No Urgente</option>
             </select>
         </div>
-        <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">Dar de Alta</button>
+        <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">Modificar</button>
     </form>
 </div>
 
