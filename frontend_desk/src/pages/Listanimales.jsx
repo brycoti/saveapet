@@ -61,22 +61,23 @@ const ListaAnimales = () => {
 
     return (
         <>
-            <h2 className="text-2xl font-bold mb-4">Tus animales</h2>
-            <div className="grid grid-cols-3 gap-4">
+            <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">Tus animales</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {animales.map((animal, index) => (
-                    <div key={index} className="border border-gray-300 rounded-md p-4">
+                    <div key={index} className="border border-gray-300 rounded-md p-4 flex flex-col">
                         <h3 className="text-lg font-semibold mb-2">{animal.name}</h3>
-                        <p className="text-sm">{animal.age} years</p>
+                        <p className="text-sm mb-2">{animal.age} years</p>
+                        <img src={`/img/${animal.foto}`} alt={animal.breed} className="mb-2"/>
                         {/* Otros campos de información */}
-                        <button className="border p-3 bg-red-200" onClick={() => redirect(`/modificar/${animal.id}`)}>Modificar  a {animal.name}</button>
-                        <button onClick={() => remove(animal)}>Eliminar</button>
+                        <button className="border p-2 bg-blue-300 text-white mt-auto" onClick={() => redirect(`/modificar/${animal.id}`)}>Modificar a {animal.name}</button>
+                        <button className="mt-2 p-2 bg-red-500 text-white" onClick={() => remove(animal)}>Eliminar</button>
                     </div>
                 ))}
-                <button className="border p-3 bg-red-200" onClick={() => redirect(`/alta`)}>Subir nuevo animal</button>
-
+                <button className="col-span-1 sm:col-span-2 lg:col-span-3 border p-3 bg-red-200" onClick={() => redirect(`/alta`)}>Subir nuevo animal</button>
             </div>
         </>
     );
+      
 };
 
 export default ListaAnimales;
