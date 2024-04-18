@@ -11,7 +11,7 @@ const login = async (req, res, Model) => {
         if (!user) {
             return res.status(404).json({ error: 'User no trobat' }); 
         }
-        const passwordMatch = await bcrypt.compare(password, user.password); // Compara la contrasenya proporcionada amb la contrasenya encriptada 
+        // const passwordMatch = await bcrypt.compare(password, user.password); // Compara la contrasenya proporcionada amb la contrasenya encriptada 
        
         if (!passwordMatch) {
             return res.status(401).json({ error: 'Password incorrecte' }); 

@@ -104,6 +104,11 @@ const AltaMascota = () => {
                     <label htmlFor="formfile" className="form-label">Imagen</label>
                     <input className="form-control" id="formfile" type="file" name="foto" onChange={(e) => setImatge(e.target.files[0])} />
                 </div>
+                <div className="text-center">
+                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        subir pet nuevo
+                    </button>
+                </div>
             </form>
         </div>
     );
