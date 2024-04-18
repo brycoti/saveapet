@@ -54,62 +54,56 @@ const Perfil = () => {
 };
 
 return (
-  <div className="text-black font-bold">
-    <h1>Perfil</h1>
+  <div className="text-green-800 font-bold px-4 sm:px-6 lg:px-8">
+    <h1 className="text-xl lg:text-2xl">Perfil</h1>
     {editMode ? (
-      <form>
-        <label>
-          Nombre:
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-        </label>
-        <br />
-        <label>
-          Email:
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </label>
-        <br />
-        <label>
-          Contraseña:
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </label>
-        <br />
-        <label>
-          Número de teléfono:
-          <input type="text" value={phonenumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-        </label>
-        <br />
-        <label>
-          Sitio web:
-          <input type="text" value={web} onChange={(e) => setWeb(e.target.value)} />
-        </label>
-        <br />
-        <label>
-          Ciudad:
-          <input type="text" value={city} onChange={(e) => setCity(e.target.value)} />
-        </label>
-        <br />
-        <label>
-          Dirección:
-          <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
-        </label>
-        <br />
-        <button onClick={handleSave}>Guardar</button>
+      <form className="space-y-4">
+        <div className="flex flex-col">
+          <label>Nombre:</label>
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="form-input mt-1 block w-full"/>
+        </div>
+        <div className="flex flex-col">
+          <label>Email:</label>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-input mt-1 block w-full"/>
+        </div>
+        <div className="flex flex-col">
+          <label>Contraseña:</label>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="form-input mt-1 block w-full"/>
+        </div>
+        <div className="flex flex-col">
+          <label>Número de teléfono:</label>
+          <input type="text" value={phonenumber} onChange={(e) => setPhoneNumber(e.target.value)} className="form-input mt-1 block w-full"/>
+        </div>
+        <div className="flex flex-col">
+          <label>Sitio web:</label>
+          <input type="text" value={web} onChange={(e) => setWeb(e.target.value)} className="form-input mt-1 block w-full"/>
+        </div>
+        <div className="flex flex-col">
+          <label>Ciudad:</label>
+          <input type="text" value={city} onChange={(e) => setCity(e.target.value)} className="form-input mt-1 block w-full"/>
+        </div>
+        <div className="flex flex-col">
+          <label>Dirección:</label>
+          <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} className="form-input mt-1 block w-full"/>
+        </div>
+        <button onClick={handleSave} className="mt-5 bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Guardar</button>
       </form>
     ) : (
-      <div>
+      <div className="space-y-2">
         <p>Nombre: {name}</p>
         <p>Email: {email}</p>
         <p>Número de teléfono: {phonenumber}</p>
         <p>Sitio web: {web}</p>
         <p>Ciudad: {city}</p>
         <p>Dirección: {address}</p>
-        <button onClick={handleEdit}>Editar</button>
+        <button onClick={handleEdit} className="bg-blue-300 mt-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Editar</button>
       </div>
     )}
-    <button className="border p-3 bg-red-200" onClick={() => navigate('/list')}>Tus animales</button>
-    <button className="border p-3 bg-red-200" onClick={() => navigate('/alta')}>new pet</button>
+    <button className="mt-4  mx-2 border p-3 text-white bg-red-300 hover:bg-red-500" onClick={() => navigate('/list')}>Tus animales</button>
+    <button className="mt-4 border p-3 text-white bg-red-300 hover:bg-red-500" onClick={() => navigate('/alta')}>new pet</button>
     <br />
-  </div>
+</div>
+
 );
 };
 
