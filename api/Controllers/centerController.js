@@ -6,17 +6,6 @@ const { Pet } = require('../Models/petModel');
 const SECRET_KEY = "en-pinxo-li-va-dir-a-en-panxo";
 
 
-// Configuració de multer per gestionar la pujada de fitxers
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, '../frontend_desk/public/img') // Especifica la carpeta de destinació dels fitxers pujats
-  },
-  filename: function (req, file, cb) {
-    cb(null, `${Date.now()}_${file.originalname}`) // Assigna un nom únic als fitxers pujats
-  }
-})
-
-
 const registerCenter = async (req, res, Center) => {
   try {
     const { name, email, password, phonenumber, web, city, address } = req.body;
@@ -39,7 +28,7 @@ const registerCenter = async (req, res, Center) => {
     res.status(500).json({ error: error.message });
   }
 }
-
+/*
 const newPet = async (req, res, next, Center, Pet) => {
   // Create multer instance specific for this function
   const upload = multer({ storage: storage }).single('foto');
@@ -89,9 +78,7 @@ const newPet = async (req, res, next, Center, Pet) => {
     }
   });
 }
-
-
-
+*/ 
 const login2 = async (req, res, Model) => {
   try {
     const { email, password } = req.body;
@@ -113,26 +100,85 @@ const login2 = async (req, res, Model) => {
   }
 }
 
-const centerAnimal = async (req, res, Center, Pet) => {
-  try {
-    const centerId = req.userId; // Obtener el ID del centro del token verificado
+// Configuración de multer para guardar imágenes en el servidor
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, '../frontend_desk/public/img') // Especifica la carpeta de destino de los archivos subidos
+  },
+  filename: function(req, file, cb) {
+    const uniqueSuffix = `${Date.now()}_${Math.round(Math.random() * 1E9)}`;
+    cb(null, uniqueSuffix + '_' + file.originalname) // Asigna un nombre único a los archivos subidos
+  }
+});
 
-    // Verificar si el centro existe
-    const center = await Center.findByPk(centerId);
-    if (!center) {
-      return res.status(404).json({ error: 'Centro no encontrado' });
+const fileFilter = (req, file, cb) => {
+  // Aceptar solo archivos de imagen
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new Error('Not an image! Please upload only images.'), false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+  limits: {
+    fileSize: 1024 * 1024 * 5 // 5MB limit
+  }
+}).single('foto');
+
+const newPet = async (req, res, next, Center, Pet) => {
+  upload(req, res, async function(err) {
+    if (err instanceof multer.MulterError) {
+      // Errores específicos de multer
+      return res.status(500).json({ error: err.message });
+    } else if (err) {
+      // Otros errores desconocidos
+      return res.status(500).json({ error: err.message });
     }
 
-    // El centro existe, ahora podemos buscar los animales asociados a él
-    const animales = await Pet.findAll({ where: { CenterId: centerId } }); // Buscar animales asociados al centro
-    res.json(animales); // Enviar los animales al cliente
-  } catch (error) {
-    res.status(500).json({ error: error.message }); // Manejar errores
-  }
-}
+    // No hay errores de carga, proceder con la lógica de negocio
+    try {
+      const center = await Center.findByPk(req.userId);
+      if (!center) {
+        return res.status(400).json({ error: 'Center not found' });
+      }
+
+      const { name, breed, age, size, temper, dogs_friendly, kids_friendly, urgency } = req.body;
+      if (!name || !breed || !age) {
+        return res.status(400).json({ error: 'Name, breed, and age are required' });
+      }
+
+      if (req.file) {
+        req.body.foto = req.file.filename; // Asignar el nombre del archivo subido al campo 'foto'
+      }
+
+      const pet = await Pet.create({
+        name,
+        breed,
+        age,
+        size,
+        temper,
+        dogs_friendly,
+        kids_friendly,
+        urgency,
+        CenterId: req.userId,
+        foto: req.body.foto
+      });
+
+
+      console.log(pet)
+
+      res.status(201).json(pet);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+};
+
 module.exports = {
   registerCenter,
   newPet,
-  login2,
-  centerAnimal
+  login2
 }

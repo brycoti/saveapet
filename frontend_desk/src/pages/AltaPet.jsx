@@ -1,10 +1,9 @@
 import React, { useContext, useState } from 'react';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import contexte from '../components/contexte';
 
 const AltaMascota = () => {
-
-    const { API_URL } = useContext(contexte)
+    const { API_URL } = useContext(contexte);
     const [nombre, setNombre] = useState('');
     const [raza, setRaza] = useState('');
     const [edad, setEdad] = useState('');
@@ -14,46 +13,42 @@ const AltaMascota = () => {
     const [amigableNiños, setAmigableNiños] = useState(false);
     const [urgencia, setUrgencia] = useState('not urgent');
     const [error, setError] = useState('');
-    const [imatge, setImatge] = useState();
-    const redirect = useNavigate();
+    const [imatge, setImatge] = useState(null);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Crear objeto de mascota
-        const nuevaMascota = {
-            name: nombre,
-            breed: raza,
-            age: parseInt(edad),
-            size: tamaño,
-            temper: temperamento,
-            dogs_friendly: amigablePerros,
-            kids_friendly: amigableNiños,
-            urgency: urgencia,
-            foto: imatge
-        };
+        const formData = new FormData();
+        formData.append('name', nombre);
+        formData.append('breed', raza);
+        formData.append('age', parseInt(edad));
+        formData.append('size', tamaño);
+        formData.append('temper', temperamento);
+        formData.append('dogs_friendly', amigablePerros);
+        formData.append('kids_friendly', amigableNiños);
+        formData.append('urgency', urgencia);
+        if (imatge) {
+            formData.append('foto', imatge);
+        }
 
         const options = {
             method: 'POST',
             credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(nuevaMascota)
-        }
+            body: formData
+        };
 
         try {
-            const response = await fetch(API_URL + '/center/newpet', options)
-            const data = await response.json()
-            console.log("data", data)
-
+            const response = await fetch(API_URL + '/center/newpet', options);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to upload new pet');
+            }
+            await response.json(); // We might want to use this response data for something
+            navigate("/list");
         } catch (e) {
-            console.log("error", error)
+            console.error("Upload error:", e);
+            setError(e.message || 'Error uploading pet.');
         }
-
-        redirect("/list")
-
-
     };
 
     return (
@@ -76,7 +71,6 @@ const AltaMascota = () => {
                 <div>
                     <label>Tamaño:</label>
                     <select value={tamaño} onChange={(e) => setTamaño(e.target.value)}>
-
                         <option value="big">Grande</option>
                         <option value="medium">Mediano</option>
                         <option value="small">Pequeño</option>
@@ -86,9 +80,9 @@ const AltaMascota = () => {
                     <label>Temperamento:</label>
                     <select value={temperamento} onChange={(e) => setTemperamento(e.target.value)}>
                         <option value="energetic">Energico</option>
-                        <option value="calm">tranquilo</option>
-                        <option value="playful">playful</option>
-                        <option value="shy">shy</option>
+                        <option value="calm">Tranquilo</option>
+                        <option value="playful">Juguetón</option>
+                        <option value="shy">Tímido</option>
                     </select>
                 </div>
                 <div>
@@ -107,13 +101,15 @@ const AltaMascota = () => {
                     </select>
                 </div>
                 <div>
-                    <label for="formfile" className="form-label">File</label>
-                    <input className="form-control " id="formfile" type="file" name="foto" onChange={(e) => setImatge(e.target.files[0])} />
+                    <label htmlFor="formfile" className="form-label">Imagen</label>
+                    <input className="form-control" id="formfile" type="file" name="foto" onChange={(e) => setImatge(e.target.files[0])} />
                 </div>
                 <button type="submit">Dar de Alta</button>
             </form>
         </div>
     );
 };
+
+
 
 export default AltaMascota;

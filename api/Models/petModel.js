@@ -8,17 +8,21 @@ const Pet = sequelize.define('Pet', {
     },
     breed: {
       type: DataTypes.STRING,
+      allowNull: false
     },
     age: {
       type: DataTypes.INTEGER,  
+      allowNull: false
     },
     size: {
       type: DataTypes.ENUM('big', 'medium', 'small'),
+      allowNull: false,
       defaultValue: 'big'
     },
     temper: {
       type: DataTypes.ENUM('energetic', 'calm', 'playful', 'shy'),
-      defaultValue: 'calm',
+      allowNull: false,
+      defaultValue: 'energetic'
     },
     dogs_friendly: {
       type: DataTypes.BOOLEAN,
@@ -32,7 +36,8 @@ const Pet = sequelize.define('Pet', {
     },
     urgency: {
       type: DataTypes.ENUM('urgent', 'not urgent'),
-      defaultValue: 'not urgent',
+      allowNull: false,
+      defaultValue: 'not urgent'
     },
     foto: {
       type: DataTypes.STRING,
