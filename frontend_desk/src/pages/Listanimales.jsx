@@ -14,7 +14,7 @@ const ListaAnimales = () => {
             credentials: 'include',
         };
 
-        fetch(API_URL + '/centers/pets', opcions) // Modifica la ruta según la API
+        fetch(API_URL + '/centers/animals', opcions) // Modifica la ruta según la API
             .then(resp => resp.json())
             .then(data => {
                 console.log(data)
@@ -28,7 +28,7 @@ const ListaAnimales = () => {
                 }
             })
             .catch(err => {
-                console.error('Error fetching data:', err);
+                console.error('Error fetching data:', error);
                 setError('Error al obtener los datos');
             });
 
@@ -67,11 +67,11 @@ const ListaAnimales = () => {
                         <h3 className="text-lg font-semibold mb-2">{animal.name}</h3>
                         <p className="text-sm">{animal.age} years</p>
                         {/* Otros campos de información */}
-                        <button className="border p-3 bg-red-200" onClick={()=>redirect(`/modificar/${animal.id}`)}>Modificar  a {animal.name}</button>
+                        <button className="border p-3 bg-red-200" onClick={() => redirect(`/modificar/${animal.id}`)}>Modificar  a {animal.name}</button>
                         <button onClick={() => remove(animal)}>Eliminar</button>
                     </div>
                 ))}
-                 <button className="border p-3 bg-red-200" onClick={()=>redirect(`/alta`)}>Subir nuevo animal</button>
+                <button className="border p-3 bg-red-200" onClick={() => redirect(`/alta`)}>Subir nuevo animal</button>
 
             </div>
         </>

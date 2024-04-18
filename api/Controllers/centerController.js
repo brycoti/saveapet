@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
 
 const registerCenter = async (req, res, Center) => {
   try {
-    const { name, email, password, phonenumber, web, city, address } = req.body; 
+    const { name, email, password, phonenumber, web, city, address } = req.body;
 
     if (!name || !email || !password, !phonenumber, !web, !city, !address) {
       return res.status(400).json({ error: ' Company name, email, password, phonenumber, web, city y addres requerits' });
@@ -28,7 +28,7 @@ const registerCenter = async (req, res, Center) => {
     const existingCenter = await Center.findOne({ where: { email } });
 
     if (existingCenter) {
-      return res.status(400).json({ error: 'Email ja existeix' }); 
+      return res.status(400).json({ error: 'Email ja existeix' });
     }
 
     const center = await Center.create({ name, email, password, phonenumber, web, city, address });
@@ -92,28 +92,47 @@ const newPet = async (req, res, next, Center, Pet) => {
 
 
 
-  const login2 = async (req, res, Model) => {
-    try {
-        const { email, password } = req.body;
-        
-        const user = await Model.findOne({ where: { email } });
-        if (!user) {
-          return res.status(404).json({ error: 'User no trobat' });
-        }
-        const passwordMatch = await bcrypt.compare(password, user.password); // Compara la contrasenya
-        if (!passwordMatch) {
-          return res.status(401).json({ error: 'Password incorrecte' });
-        }
-        const token = jwt.sign({ userId: user.id, userName: user.name }, SECRET_KEY, { expiresIn: '2h' }); // Genera un token JWT vàlid durant 2 hores
-        res.cookie('token', token, { httpOnly: false, maxAge: 7200000 }); // Estableix el token com una cookie
+const login2 = async (req, res, Model) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await Model.findOne({ where: { email } });
+    if (!user) {
+      return res.status(404).json({ error: 'User no trobat' });
+    }
+    const passwordMatch = await bcrypt.compare(password, user.password); // Compara la contrasenya
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Password incorrecte' });
+    }
+    const token = jwt.sign({ userId: user.id, userName: user.name }, SECRET_KEY, { expiresIn: '2h' }); // Genera un token JWT vàlid durant 2 hores
+    res.cookie('token', token, { httpOnly: false, maxAge: 7200000 }); // Estableix el token com una cookie
         res.json({ userName: user.name, userId: user.id, email: user.email, phonenumber : user.phonenumber, web: user.web, city: user.city, address: user.address}); // Retorna missatge d'èxit
-      } catch (error) {
+  } catch (error) {
 
     res.status(500).json({ error: error.message });
   }
 }
-  module.exports = {
-    registerCenter,
-    newPet,
-    login2
+
+const centerAnimal = async (req, res, Center, Pet) => {
+  try {
+    const centerId = req.userId; // Obtener el ID del centro del token verificado
+
+    // Verificar si el centro existe
+    const center = await Center.findByPk(centerId);
+    if (!center) {
+      return res.status(404).json({ error: 'Centro no encontrado' });
+    }
+
+    // El centro existe, ahora podemos buscar los animales asociados a él
+    const animales = await Pet.findAll({ where: { CenterId: centerId } }); // Buscar animales asociados al centro
+    res.json(animales); // Enviar los animales al cliente
+  } catch (error) {
+    res.status(500).json({ error: error.message }); // Manejar errores
   }
+}
+module.exports = {
+  registerCenter,
+  newPet,
+  login2,
+  centerAnimal
+}

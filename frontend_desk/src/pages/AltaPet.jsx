@@ -3,7 +3,7 @@ import {  useNavigate } from 'react-router-dom';
 import contexte from '../components/contexte';
 
 const AltaMascota = () => {
-   
+
     const { API_URL } = useContext(contexte)
     const [nombre, setNombre] = useState('');
     const [raza, setRaza] = useState('');
@@ -46,7 +46,7 @@ const AltaMascota = () => {
             const response = await fetch(API_URL + '/center/newpet', options)
             const data = await response.json()
             console.log("data", data)
-           
+
         } catch (e) {
             console.log("error", error)
         }

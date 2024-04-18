@@ -6,7 +6,7 @@ const multer = require('multer'); // Importa la llibreria multer per gestionar p
 
 
 // Models
-const {Center} = require('../Models/models'); // Correct way to import the User model if it's part of an exported object
+const {Center,Pet} = require('../Models/models'); // Correct way to import the User model if it's part of an exported object
 
 // Controllers
 const { createItem, updateItem, deleteItem, readItem, readItems} = require('../Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
@@ -53,6 +53,6 @@ router.get('/centers/:id', checkToken , async (req, res) => await readItem(req, 
 router.put('/centers/:id', checkToken,  async (req, res) => await updateItem(req, res, Center));
 router.delete('/centers/:id', checkToken, async (req, res) => await deleteItem(req, res, Center));
 
-router.get('/centers/animals', checkToken, async (req, res) => await centerAnimal(req, res, Center));
+router.get('/centers/animals', checkToken, async (req, res) => await centerAnimal(req, res, Center,Pet));
 
 module.exports = router; // Exporta el router amb les rutes definides
