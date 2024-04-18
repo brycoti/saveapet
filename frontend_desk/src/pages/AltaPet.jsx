@@ -14,6 +14,7 @@ const AltaMascota = () => {
     const [amigableNiños, setAmigableNiños] = useState(false);
     const [urgencia, setUrgencia] = useState('not urgent');
     const [error, setError] = useState('');
+    const [imatge, setImatge] = useState();
     const redirect = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -28,7 +29,8 @@ const AltaMascota = () => {
             temper: temperamento,
             dogs_friendly: amigablePerros,
             kids_friendly: amigableNiños,
-            urgency: urgencia
+            urgency: urgencia,
+            foto: imatge
         };
 
         const options = {
@@ -43,7 +45,7 @@ const AltaMascota = () => {
         try {
             const response = await fetch(API_URL + '/center/newpet', options)
             const data = await response.json()
-            console.log("daata", data)
+            console.log("data", data)
            
         } catch (e) {
             console.log("error", error)
@@ -103,6 +105,10 @@ const AltaMascota = () => {
                         <option value="urgent">Urgente</option>
                         <option value="not urgent">No Urgente</option>
                     </select>
+                </div>
+                <div>
+                    <label for="formfile" className="form-label">File</label>
+                    <input className="form-control " id="formfile" type="file" name="file" onChange={(e) => setImatge(e.target.files[0])} />
                 </div>
                 <button type="submit">Dar de Alta</button>
             </form>

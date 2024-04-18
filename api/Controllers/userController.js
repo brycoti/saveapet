@@ -4,26 +4,30 @@ const { where } = require("sequelize");
 
 const registerUser = async (req, res, User) => {
     try {
-      const { name, email, password, phonenumber, address } = req.body; // Obté el nom, email i contrasenya de la petició
+      const { name, email, password, phonenumber, address } = req.body; 
+
       if (!name || !email || !password, !phonenumber, !address) {
-        return res.status(400).json({ error: 'name, email, password, phonenumber i address requerits' }); // Retorna error 400 si no es proporcionen el nom, email o contrasenya
+        return res.status(400).json({ error: 'name, email, password, phonenumber i address requerits' }); 
       }
-      const existingUser = await User.findOne({ where: { email } }); // Comprova si l'email ja està registrat
+
+      const existingUser = await User.findOne({ where: { email } });
+
       if (existingUser) {
-        return res.status(400).json({ error: 'Email ja existeix' }); // Retorna error 400 si l'email ja està registrat
+        return res.status(400).json({ error: 'Email ja existeix' }); 
       }
-      const user = await User.create({ name, email, password, phonenumber,address }); // Crea l'usuari amb les dades proporcionades
+
+      const user = await User.create({ name, email, password, phonenumber, address }); 
   
-      res.status(201).json({userId: user.id, name: user.name, email: user.email}); // Retorna l'usuari creat amb el codi d'estat 201 (Creat)
+      res.status(201).json({userId: user.id, name: user.name, email: user.email});
     } catch (error) {
-      res.status(500).json({ error: "Cannot create" }); // Retorna error 500 amb el missatge d'error
+        res.status(500).json({ error: "Cannot create" });
     }
 }
 
   const userandpet = async (req, res, next, User, UserPetmatch) => {
     try {
       const userId = await User.findByPk(req.userId); 
-      const {petId } = req.body;
+      const {petId} = req.body;
 
       if (!userId) {
         return res.status(404).json({ error: 'User not found' });
