@@ -54,7 +54,7 @@ const Perfil = () => {
 };
 
 return (
-  <div>
+  <div className="text-black font-bold">
     <h1>Perfil</h1>
     {editMode ? (
       <form>
@@ -99,7 +99,6 @@ return (
       <div>
         <p>Nombre: {name}</p>
         <p>Email: {email}</p>
-        <p>Contraseña: {password}</p>
         <p>Número de teléfono: {phonenumber}</p>
         <p>Sitio web: {web}</p>
         <p>Ciudad: {city}</p>
