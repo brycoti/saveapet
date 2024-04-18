@@ -11,7 +11,7 @@ const AltaMascota = () => {
     const [temperamento, setTemperamento] = useState('');
     const [amigablePerros, setAmigablePerros] = useState(false);
     const [amigableNiños, setAmigableNiños] = useState(false);
-    const [urgencia, setUrgencia] = useState('not urgent');
+    const [urgencia, setUrgencia] = useState('');
     const [error, setError] = useState('');
     const [imatge, setImatge] = useState(null);
     const navigate = useNavigate();
@@ -71,6 +71,7 @@ const AltaMascota = () => {
                 <div>
                     <label>Tamaño:</label>
                     <select value={tamaño} onChange={(e) => setTamaño(e.target.value)}>
+                    <option value="" selected>seleccione una opcion</option>
                         <option value="big">Grande</option>
                         <option value="medium">Mediano</option>
                         <option value="small">Pequeño</option>
@@ -79,6 +80,7 @@ const AltaMascota = () => {
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="temperamento">Temperamento:</label>
                     <select id="temperamento" value={temperamento} onChange={(e) => setTemperamento(e.target.value)} className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="" selected>seleccione una opcion</option>
                         <option value="energetic">Energico</option>
                         <option value="calm">Tranquilo</option>
                         <option value="playful">Juguetón</option>
@@ -96,6 +98,7 @@ const AltaMascota = () => {
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="urgencia">Urgencia:</label>
                     <select id="urgencia" value={urgencia} onChange={(e) => setUrgencia(e.target.value)} className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" selected>seleccione una opcion</option>
                         <option value="urgent">Urgente</option>
                         <option value="not urgent">No Urgente</option>
                     </select>
