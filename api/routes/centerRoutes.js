@@ -10,7 +10,7 @@ const {Center,Pet, UserPetMatch} = require('../Models/models'); // Correct way t
 
 // Controllers
 const { createItem, updateItem, deleteItem, readItem, readItems} = require('../Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
-const { registerCenter, login2, centerAnimal} = require('../Controllers/centerController')
+const { registerCenter, login2, centerAnimal, animalLikedByUsers} = require('../Controllers/centerController')
 
 /*
 // Configuració de multer per gestionar la pujada de fitxers
@@ -54,5 +54,10 @@ router.put('/centers/:id', checkToken,  async (req, res) => await updateItem(req
 router.delete('/centers/:id', checkToken, async (req, res) => await deleteItem(req, res, Center));
 
 router.get('/centers/:id/animals', checkToken, async (req, res) => await centerAnimal(req, res, Center,Pet));
+
+// devuelve todos los likes con valor true de users
 router.get('/center/petmatches', checkToken, async (req, res) => await readItems(req, res, UserPetMatch)); 
+
+// devuelve el id de un perro con los likes con valor true de users del mismo centro id
+router.get('/center/petmatches/:petId', checkToken, async (req, res) => await animalLikedByUsers(req, res, UserPetMatch, Pet));
 module.exports = router; // Exporta el router amb les rutes definides

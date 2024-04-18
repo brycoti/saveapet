@@ -32,6 +32,18 @@ async function iniDB() {
   Pet.belongsTo(Center);
   Center.hasMany(Pet);
 
+  // Pet.hasMany(UserPetMatch)
+Pet.hasMany(UserPetMatch, {
+  foreignKey: 'petId',
+  as: 'likes' // This alias can be used in queries
+});
+
+// UserPetMatch.belongsTo(Pet)
+UserPetMatch.belongsTo(Pet, {
+  foreignKey: 'petId',
+  as: 'pet'
+});
+
 module.exports = {
     User,
     Center,
