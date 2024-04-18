@@ -53,9 +53,9 @@ function App() {
 
     <Contexte.Provider value={dades}>
       <div className="p-[50px] h-screen">
-        {loguejat && <Link className="border px-4 py-2 mx-4 bg-blue-500 hover:bg-blue-700 text-white" to="/">Inici</Link>}
-        {loguejat && <Link className="border px-4 py-2 mx-4 bg-blue-500 hover:bg-blue-700 text-white" to="/perfil">Perfil</Link>}
-        {loguejat && <button className="border px-4 py-2 mx-4 bg-blue-500 hover:bg-blue-700 text-white" onClick={logout}>Logout {loguejat.userName}</button>}
+        {loguejat && <Link className="rounded-md border px-4 py-2 mx-4 bg-green-400 hover:bg-blue-700 text-white" to="/">Inici</Link>}
+        {loguejat && <Link className="rounded-md border px-4 py-2 mx-4 bg-green-400 hover:bg-blue-700 text-white" to="/perfil">Perfil</Link>}
+        {loguejat && <button className="rounded-md border px-4 py-2 mx-4 bg-green-400 hover:bg-blue-700 text-white" onClick={logout}>Logout {loguejat.userName}</button>}
         <div className="p-10">
           <Outlet />    
         </div>
