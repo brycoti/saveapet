@@ -63,7 +63,7 @@ const Profile = () => {
             </div>
 
             <hr className="mt-7" />
-            <div className="flex justify-around bg-gray-50 h-17 p-2">
+            <div className="flex justify-around bg-gray-50 h-17 p-2 content-end">
               <a href="/">
                 <img
                   src="https://www.freeiconspng.com/thumbs/dog-icon/dog-icon-4.png"
