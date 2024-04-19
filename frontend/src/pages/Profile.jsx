@@ -38,6 +38,7 @@ const Profile = () => {
           <div className=" ">
             <div className="text-center px-14">
               <h2 className="text-gray-800 text-3xl font-bold">
+                marta
                 {loguejat?.name}
               </h2>
               <p className="text-gray-400 mt-2"></p>
