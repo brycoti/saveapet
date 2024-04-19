@@ -54,8 +54,18 @@ const registerUser = async (req, res, User) => {
     }
     
   }
+
+  const userLikes = async (req, res, Model) => {
+    try {
+        const item = await Model.findAll({ where: { userId: req.userId, liked: true  } })
+        res.json(item)
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
   
   module.exports = {
     registerUser,
-    userandpet
+    userandpet,
+    userLikes
   }
