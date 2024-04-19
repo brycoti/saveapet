@@ -52,13 +52,14 @@ function App() {
  
   return (
     <Contexte.Provider value={dades}>
-      <div className="flex flex-col gap-3 justify-center items-center h-screen p-[50px]">
-
+      <div className="flex flex-col gap-3 justify-center items-center p-[50px]">
+      <h1 className="text-3xl text-lime-200 mb-10 font-extrabold">SAVE A PET</h1>
         <div>
           {loguejat && <Link className="rounded-md border px-4 py-2 mx-4 bg-yellow-300 hover:bg-blue-700 text-white" to="/">Inicio</Link>}
           {loguejat && <Link className="rounded-md border px-4 py-2 mx-4 bg-green-400 hover:bg-blue-700 text-white" to="/perfil">Perfil</Link>}
           {loguejat && <button className="rounded-md border px-4 py-2 mx-4 bg-orange-300 hover:bg-blue-700 text-white" onClick={logout}>Logout {loguejat.userName}</button>}
         </div>
+        
         <div className="p-10">
           <Outlet />
         </div>
