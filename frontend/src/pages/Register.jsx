@@ -40,7 +40,7 @@ const Register = () => {
           <div className="md:flex md:items-center bg-white p-3 mb-6 rounded-lg">
             <div className="md:w-1/3 mb-3 mt-12">
               <input
-                placeholder="Name"
+                placeholder="Nombre"
                 type="text"
                 name="name"
                 id="name"
@@ -62,7 +62,7 @@ const Register = () => {
             </div>
             <div className="md:w-1/3 mb-3">
               <input
-                placeholder="Password"
+                placeholder="Contraseña"
                 type="password"
                 name="password"
                 id="password"
@@ -71,24 +71,28 @@ const Register = () => {
                 className="font-mono text-sm bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
               />
             </div>
-            <div>
+            <div className="md:w-1/3 mb-3"x>
               <label htmlFor="phonenumber"></label>
               <input
+                placeholder="Teléfono"
                 type="text"
                 name="phonenumber"
                 id="phonenumber"
                 onChange={handleChange}
                 value={newUser.phonenumber}
+                className="font-mono text-sm bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
               />
             </div>
-            <div>
+            <div className="md:w-1/3 mb-5">
               <label htmlFor="address"></label>
               <input
+                placeholder="Ciudad"
                 type="text"
                 name="address"
                 id="address"
                 onChange={handleChange}
                 value={newUser.address}
+                className="font-mono text-sm bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
               />
             </div>
             <button
