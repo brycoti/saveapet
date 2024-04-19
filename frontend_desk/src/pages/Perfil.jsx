@@ -54,8 +54,8 @@ const Perfil = () => {
 };
 
 return (
-  <div className="text-green-800 font-bold px-4 sm:px-6 lg:px-8">
-    <h1 className="text-xl lg:text-2xl">Perfil</h1>
+  <div className="text-green-400 font-bold px-4 sm:px-6 lg:px-8 bg-green-100  mt-10 -pt-3 rounded-md ">
+    <h1 className="text-xl  lg:text-2xl text-green-700 font-bold mb-3">Perfil</h1>
     {editMode ? (
       <form className="space-y-4">
         <div className="flex flex-col">
@@ -86,7 +86,7 @@ return (
           <label>Dirección:</label>
           <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} className="form-input mt-1 block w-full"/>
         </div>
-        <button onClick={handleSave} className="mt-5 bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Guardar</button>
+        <button onClick={handleSave} className="mt-4 bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Guardar</button>
       </form>
     ) : (
       <div className="space-y-2">
@@ -96,11 +96,16 @@ return (
         <p>Sitio web: {web}</p>
         <p>Ciudad: {city}</p>
         <p>Dirección: {address}</p>
-        <button onClick={handleEdit} className="bg-blue-300 mt-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Editar</button>
+        <br />
+        <button onClick={handleEdit} className="bg-blue-300 mt-5 m-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Editar</button>
       </div>
     )}
-    <button className="mt-4  mx-2 border p-3 text-white bg-red-300 hover:bg-red-500" onClick={() => navigate('/list')}>Tus animales</button>
-    <button className="mt-4 border p-3 text-white bg-red-300 hover:bg-red-500" onClick={() => navigate('/alta')}>new pet</button>
+
+    <div className="text-center flex flex-row gap-4 mt-3">
+    <button className="mt-4  rounded mx-2 border p-3 text-white bg-red-300 hover:bg-red-500" onClick={() => navigate('/list')}>Tus animales</button>
+    <button className="mt-4 rounded border p-3 text-white bg-red-300 hover:bg-red-500" onClick={() => navigate('/alta')}>new pet</button>
+    
+    </div>
     <br />
 </div>
 

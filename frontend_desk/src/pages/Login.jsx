@@ -34,32 +34,32 @@ export default function Login() {
     };
 
     return (
-        <div className="w-full max-w-xs m-auto">
-            <form onSubmit={logueja} className="bg-blue-100 shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                <h1 className="text-center">Login</h1>
+        <div className="w-auto h-screen  flex justify-center items-center">
+            <form onSubmit={logueja} className="bg-green-100 shadow-md rounded px-8 pt-6 pb-8">
+                <h1 className="text-center font-bold text-green-500 text-2xl">Login</h1>
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                    <label className="block text-green-500 text-sm font-bold mb-2" htmlFor="email">
                         Email
                     </label>
                     <input
                         onInput={(e) => setEmail(e.target.value)}
                         value={email}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="text" placeholder="Username" />
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-green-500 leading-tight focus:outline-none focus:shadow-outline" id="email" type="text" placeholder="Username" />
                 </div>
                 <div className="mb-6">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                    <label className="block text-green-500 text-sm font-bold mb-2" htmlFor="password">
                         Password
                     </label>
                     <input
                         onInput={(e) => setPassword(e.target.value)}
                         value={password} className="shadow appearance-none border
-                    rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" />
+                    rounded w-full py-2 px-3 text-green-800 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" />
                 </div>
                 <div className="text-center">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                         Entrar
                     </button>
-                    <button className="mx-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => redirect('/register')}>
+                    <button className="mx-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => redirect('/register')}>
                         Registrar
                     </button>
                 </div>

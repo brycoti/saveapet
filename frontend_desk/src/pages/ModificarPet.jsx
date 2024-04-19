@@ -80,8 +80,8 @@ const ModificarAnimal = () => {
  
 
     return (
-        <div className="max-w-md mx-auto p-4 bg-blue-200 shadow-md rounded-lg">
-    <h2 className="text-xl font-bold text-center mb-6">Modificar Mascota</h2>
+        <div className="max-w-md mx-auto p-4 bg-green-200 shadow-md rounded-lg text-green-500">
+    <h2 className="text-xl text-white font-bold text-center mb-6">Modificar Mascota</h2>
     {error && <p className="text-red-500 text-center">{error}</p>}
     <form onSubmit={handleModificar} className="space-y-4">
         <div>
@@ -124,7 +124,7 @@ const ModificarAnimal = () => {
                 <option value="not urgent">No Urgente</option>
             </select>
         </div>
-        <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">Modificar</button>
+        <button type="submit" className="w-full bg-yellow-400 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mt-6">Modificar</button>
     </form>
 </div>
 
