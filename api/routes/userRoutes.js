@@ -12,7 +12,7 @@ const { User, UserPetMatch } = require('../Models/models'); // Correct way to im
 
 // Controllers
 const { updateItem, deleteItem, readItem, readItems, readItemsUser, login} = require('../Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
-const { registerUser, userandpet } = require('../Controllers/userController')
+const { registerUser, userandpet, userLikes } = require('../Controllers/userController')
 
 // CRUD USERS 
 router.get('/users', checkToken, async (req, res) => await readItems(req, res, User));
@@ -25,5 +25,7 @@ router.post('/login/user', async (req, res) => await login(req, res, User));
 
 // Enpoint per crear relacio user - gos
 router.post('/user/petmatch', checkToken, async (req, res, next) => await userandpet(req, res, next, User, UserPetMatch));
-router.get('/user/petmatch', checkToken, async (req, res) => await readItemsUser(req, res, UserPetMatch)); 
+router.get('/user/petmatch', checkToken, async (req, res) => await readItemsUser(req, res, UserPetMatch));
+router.get('/user/likes', checkToken, async (req, res) => await userLikes(req, res, UserPetMatch));
+  
 module.exports = router; // Exporta el router amb les rutes definides
