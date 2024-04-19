@@ -1,4 +1,42 @@
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Contexte from "../components/contexte";
+
+
 const Inicio = () => {
+    const [animales, setAnimales] = useState([]);
+    const [error, setError] = useState('');
+    const [actualitza, setActualitza] = useState(0);
+    const { logout, API_URL,loguejat } = useContext(Contexte);
+    const redirect = useNavigate();
+
+
+    useEffect(() => {
+        const opcions = {
+            credentials: 'include',
+        };
+
+        fetch(`${API_URL}/centers/${loguejat.userId}/animals`, opcions) // Modifica la ruta según la API
+            .then(resp => resp.json())
+            .then(data => {
+                console.log(data)
+                if (data.error === "Unauthorized") {
+                    logout();
+                }
+                else if (data.error) {
+                    setError(data.error); // Corregir asignación de error
+                } else {
+                    setAnimales(data);
+                }
+            })
+            .catch(err => {
+                console.error('Error fetching data:', error);
+                setError(error)
+            });
+
+    }, [actualitza]);
+
+
   return (
     <>
       <div className="flex flex-col box-border h-screen justify-between">
@@ -9,7 +47,12 @@ const Inicio = () => {
           </h1>
           <h1 className="text-right text-white">Filtros</h1>
         </div>
-
+    {
+    animales.map((animal,index) =>(
+        <p>{animal.name}</p>
+    
+    ))
+    }
         <div className="flex relative grow border">
           <div className="h-5/6 rounded-lg w-full mt-4 mx-2 p-4 border bg-gray-100">
             <img
