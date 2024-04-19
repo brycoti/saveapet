@@ -1,14 +1,35 @@
 import { useContext } from "react";
 import contexte from "../components/contexte";
 
+
 const Profile = () => {
   const { loguejat } = useContext(contexte);
+  const { setLoguejat } = useContext(contexte);
+
+  const logout = () => {
+    // Clear the authentication token cookie
+    document.cookie = "token=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/;";
+    setLoguejat(null)
+    window.history.replaceState(null, null, "/");
+    window.location.href = "/login"; // Redirect to the login page
+    
+  };
 
   return (
     <div>
       <div className="overflow flex flex-wrap items-center justify-center">
         <div className="container lg:w-2/6 xl:w-2/7 sm:w-full md:w-2/3    bg-white  shadow-lg    transform   duration-200 easy-in-out">
-          <div className="h-48 overflow-hidden bg-emerald-700"></div>
+          <div className="h-48 overflow-hidden bg-emerald-700 flex justify-between">
+
+          <h1 className="p-3 ml-2 font-sans text-white font-bold text-3xl tracking-[-.10em]"><span className="text-4xl text-black">:</span>
+          Perfil
+        </h1>            
+        
+        <a onClick={logout} className="text-sm mt-2 mr-2 text-white p-3">
+              Cerrar sesión
+            </a>
+          </div>
+
           <div className="flex justify-center px-5  -mt-28">
             <img
               className="h-40 w-40 bg-white p-1 rounded-full"
@@ -19,8 +40,7 @@ const Profile = () => {
           <div className=" ">
             <div className="text-center px-14">
               <h2 className="text-gray-800 text-3xl font-bold">
-                marta
-                {/*loguejat?.name*/}
+                {loguejat?.name}
               </h2>
               <p className="text-gray-400 mt-2"></p>
 
@@ -58,16 +78,16 @@ const Profile = () => {
               </div>
             </div>
 
-            <hr className="mt-40" />
-            <div className="flex justify-around bg-gray-50 h-20 p-2">
-            <a href="/">
+            <hr className="mt-52" />
+            <div className="flex justify-around bg-gray-50 h-15 p-2">
+              <a href="/">
                 <img
                   src="https://www.freeiconspng.com/thumbs/dog-icon/dog-icon-4.png"
                   alt="Centros"
                   width="30"
                   height="30"
                 />
-              </a>              
+              </a>
               <a href="/">
                 <img
                   src="https://www.pngall.com/wp-content/uploads/4/House-Transparent.png"
@@ -75,7 +95,8 @@ const Profile = () => {
                   width="30"
                   height="30"
                 />
-              </a>              <a href="/profile">
+              </a>
+              <a href="/profile">
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/711/711769.png"
                   alt="Perfil"
