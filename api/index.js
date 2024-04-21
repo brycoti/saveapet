@@ -14,6 +14,7 @@ app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 // permet llegir les cookies
 app.use(cookieParser());
 
+
 // Routes
 
 // Read all route files and import them
