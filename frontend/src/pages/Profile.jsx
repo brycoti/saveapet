@@ -1,29 +1,24 @@
 import { useContext } from "react";
 import contexte from "../components/contexte";
+import { Link } from "react-router-dom";
 
 
 const Profile = () => {
-  const { loguejat } = useContext(contexte);
-  const { setLoguejat } = useContext(contexte);
+  const { loguejat, logout } = useContext(contexte);
 
-  const logout = () => {
-    // Clear the authentication token cookie
-    document.cookie = "token=; expires=Thu, 01 Jan 2000 00:00:00 UTC; path=/;";
-    window.location.href = "/login"; // Redirect to the login page
-    
-  };
+
 
   return (
     <div>
       <div className="overflow flex flex-wrap items-center justify-center">
         <div className="container lg:w-2/6 xl:w-2/7 sm:w-full md:w-2/3    bg-white  shadow-lg    transform   duration-200 easy-in-out">
           <div className="h-48 overflow-hidden bg-emerald-700 flex justify-between">
+            <Link to='/settings' className="text-sm mt-2 mr-2 text-white p-3">Ajustes</Link>
+            <h1 className="p-3 ml-2 font-sans text-white font-bold text-3xl tracking-[-.10em]"><span className="text-4xl text-black">:</span>
+              Perfil
+            </h1>
 
-          <h1 className="p-3 ml-2 font-sans text-white font-bold text-3xl tracking-[-.10em]"><span className="text-4xl text-black">:</span>
-          Perfil
-        </h1>            
-        
-        <a onClick={logout} className="text-sm mt-2 mr-2 text-white p-3">
+            <a onClick={logout} className="text-sm mt-2 mr-2 text-white p-3">
               Cerrar sesión
             </a>
           </div>
@@ -41,7 +36,7 @@ const Profile = () => {
                 {loguejat?.name}
               </h2>
               <p className="text-gray-400 mt-2"></p>
-<hr />
+              <hr />
               <p className="p-3 text-gray-800 text-xl font-extrabold">
                 Favoritos
               </p>
@@ -54,10 +49,10 @@ const Profile = () => {
                   <img
                     src="https://previews.123rf.com/images/mirawonderland/mirawonderland1606/mirawonderland160600030/59794518-retrato-vertical-de-un-perro-pastor-de-shetland-bonita-en-un-fondo-blanco-frente-a-la-c%C3%A1mara.jpg"
                   /><img
-                  src="https://previews.123rf.com/images/mirawonderland/mirawonderland1606/mirawonderland160600030/59794518-retrato-vertical-de-un-perro-pastor-de-shetland-bonita-en-un-fondo-blanco-frente-a-la-c%C3%A1mara.jpg"
-                /><img
-                src="https://previews.123rf.com/images/mirawonderland/mirawonderland1606/mirawonderland160600030/59794518-retrato-vertical-de-un-perro-pastor-de-shetland-bonita-en-un-fondo-blanco-frente-a-la-c%C3%A1mara.jpg"
-              />
+                    src="https://previews.123rf.com/images/mirawonderland/mirawonderland1606/mirawonderland160600030/59794518-retrato-vertical-de-un-perro-pastor-de-shetland-bonita-en-un-fondo-blanco-frente-a-la-c%C3%A1mara.jpg"
+                  /><img
+                    src="https://previews.123rf.com/images/mirawonderland/mirawonderland1606/mirawonderland160600030/59794518-retrato-vertical-de-un-perro-pastor-de-shetland-bonita-en-un-fondo-blanco-frente-a-la-c%C3%A1mara.jpg"
+                  />
                 </div>
               </div>
             </div>

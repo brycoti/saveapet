@@ -10,6 +10,7 @@ import Inicio from './pages/Inicio.jsx';
 import Profile from './pages/Profile.jsx';
 import Landing from './pages/Landing.jsx';
 import Cuestionario from './pages/Cuestionario.jsx';
+import Settings from './pages/Settings.jsx';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -25,6 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/cuestionario" element={<Cuestionario />} />
+          <Route path="/settings" element={<Settings />} />
 
         </Route>
       </Routes>
