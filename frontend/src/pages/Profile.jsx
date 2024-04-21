@@ -19,7 +19,7 @@ const Profile = () => {
             </h1>
 
             <a onClick={logout} className="text-sm mt-2 mr-2 text-white p-3">
-              Cerrar sesión
+              Logout
             </a>
           </div>
 
