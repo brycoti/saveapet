@@ -1,10 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import contexte from "../components/contexte";
 
 const Inicio = () => {
     const { loguejat } = useContext(contexte);
+    const redirect = useNavigate();
 
+    const clickProfile = () => {
+        if (loguejat) redirect('/profile')
+        else redirect('login')
+    }
 
     return (
         <>
@@ -50,14 +55,14 @@ const Inicio = () => {
                             height="30"
                         />
                     </a>{" "}
-                    <Link href="/profile">
+                    <a onClick={clickProfile}>
                         <img
                             src="https://cdn-icons-png.flaticon.com/512/711/711769.png"
                             alt="Perfil"
                             width="30"
                             height="30"
                         />
-                    </Link>
+                    </a>
                 </div>
             </div >
         </>

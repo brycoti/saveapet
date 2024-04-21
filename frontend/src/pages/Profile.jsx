@@ -1,11 +1,17 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import contexte from "../components/contexte";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Profile = () => {
   const { loguejat, logout } = useContext(contexte);
+  const redirect = useNavigate();
 
+
+  useEffect(() => {
+    if (!loguejat) redirect('login')
+
+  }, [loguejat, redirect])
 
 
   return (
@@ -33,7 +39,6 @@ const Profile = () => {
           <div className=" ">
             <div className="text-center px-14">
               <h2 className="text-gray-800 text-3xl font-bold">
-                -
                 {loguejat?.name}
               </h2>
               <p className="text-gray-400 mt-2"></p>
