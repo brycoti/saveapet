@@ -14,11 +14,6 @@ app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 // permet llegir les cookies
 app.use(cookieParser());
 
-// Swagger
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes
 
@@ -35,7 +30,4 @@ fs.readdirSync(path.join(__dirname, 'routes')).forEach(file => {
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-
-    // swagger
-    console.log('Swagger docs: http://localhost:3000/api-docs');
 });
