@@ -34,57 +34,7 @@ const registerCenter = async (req, res, Center) => {
     res.status(500).json({ error: error.message });
   }
 }
-/*
-const newPet = async (req, res, next, Center, Pet) => {
-  // Create multer instance specific for this function
-  const upload = multer({ storage: storage }).single('foto');
 
-  // Use the multer instance to handle the file upload
-  upload(req, res, async function(err) {
-    if (err instanceof multer.MulterError) {
-      // A Multer error occurred when uploading.
-      return res.status(500).json({ error: err.message });
-    } else if (err) {
-      // An unknown error occurred when uploading.
-      return res.status(500).json({ error: err.message });
-    }
-
-    // No errors during upload, proceed with the rest of the logic
-    try {
-      const center = await Center.findByPk(req.userId);
-
-      if (!center) {
-        return res.status(400).json({ error: 'Center not found' });
-      }
-
-      const { name, breed, age, size, temper, dogs_friendly, kids_friendly, urgency } = req.body;
-      if (!name || !breed || !age) {
-        return res.status(400).json({ error: 'All fields are required' });
-      }
-
-      if (req.file) {
-        req.body.foto = req.file.filename; // Assigns the uploaded file name to 'foto' field
-      }
-
-      const item = await Pet.create({
-        name,
-        breed,
-        age,
-        size,
-        temper,
-        dogs_friendly,
-        kids_friendly,
-        urgency,
-        CenterId: req.userId,
-        foto: req.body.foto
-      });
-      res.status(201).json(item);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  });
-}
-*/
 const login2 = async (req, res, Model) => {
   try {
     const { email, password } = req.body;

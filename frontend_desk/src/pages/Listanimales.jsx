@@ -66,7 +66,7 @@ const ListaAnimales = () => {
         <>
             <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">Tus animales</h2>
             <div className=" text-white grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {animales.map((animal, index) => (
+                {animales.slice().reverse().map((animal, index) => (
                     <div key={index} className="border border-white rounded-md p-4 flex flex-col">
                         <h3 className=" text-lg font-semibold mb-2">{animal.name}</h3>
                         <p className="text-sm font-semibold mb-2">{animal.age} years</p>
