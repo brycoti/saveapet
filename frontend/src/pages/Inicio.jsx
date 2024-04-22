@@ -1,4 +1,3 @@
-// Importa useEffect, useState, y useContext si no lo has hecho ya
 import React, { useEffect, useState, useContext } from 'react';
 import { Link } from "react-router-dom";
 import contexte from "../components/contexte";
@@ -7,21 +6,23 @@ const Inicio = () => {
   const { loguejat } = useContext(contexte);
   const [animales, setAnimales] = useState([]);
   const [error, setError] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [actualitza, setActualitza] = useState(false);
+  const [likedAnimales, setLikedAnimales] = useState([]);
 
   useEffect(() => {
     const opcions = {
       credentials: "include",
     };
 
-    fetch("http://localhost:3000/api/pets", opcions) // Modifica la ruta según la API
+    fetch("http://localhost:3000/api/pets", opcions)
       .then((resp) => resp.json())
       .then((data) => {
         console.log(data);
         if (data.error === "Unauthorized") {
           logout();
         } else if (data.error) {
-          setError(data.error); // Corregir asignación de error
+          setError(data.error);
         } else {
           setAnimales(data);
         }
@@ -31,6 +32,22 @@ const Inicio = () => {
         setError(error);
       });
   }, [actualitza]);
+
+  const handleNext = () => {
+    const currentAnimal = animales[currentIndex];
+    
+    // Verificar si el animal actual ya está marcado como "me gusta"
+    if (!likedAnimales.some(animal => animal.id === currentAnimal.id)) {
+      // Agregar el animal actual a la lista de animales marcados como "me gusta"
+      setLikedAnimales(prevLikedAnimales => [...prevLikedAnimales, currentAnimal]);
+    }
+
+    setCurrentIndex(prevIndex => (prevIndex === animales.length - 1 ? 0 : prevIndex + 1));
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex(prevIndex => (prevIndex === 0 ? animales.length - 1 : prevIndex - 1));
+  };
 
   return (
     <>
@@ -51,25 +68,28 @@ const Inicio = () => {
         </div>
 
         <div className="flex flex-wrap justify-between p-4">
-          {animales.map((animal) => (
-            <div key={animal.id} className="w-1/2 p-4">
-              <div className="h-5/6 rounded-lg w-full mt-4 mx-2 p-4 border bg-gray-100">
-                {/* Construye la ruta de la imagen utilizando el nombre de la imagen en animal.foto */}
+          {animales.length > 0 && (
+            <div key={animales[currentIndex].id} className="w-full p-4 flex justify-center items-center">
+              <div className="max-w-3xl w-full rounded-lg overflow-hidden shadow-lg">
                 <img
-                  src={`../../frontend_desk/public/img/${animal.foto}`}
-                  className="p-3"
+                  src={`./img/${animales[currentIndex].foto}`}
+                  className="w-80"
                   alt="imagen"
                 />
-
-                <h1 className="font-extrabold text-xl ml-3">
-                  {animal.name}, {animal.age}
-                </h1>
+                <div className="px-6 py-4">
+                  <div className="font-bold text-xl mb-2">{animales[currentIndex].name}, {animales[currentIndex].age}</div>
+                </div>
               </div>
             </div>
-          ))}
+          )}
         </div>
 
-        <hr className="mt-34" />
+        <div className="flex justify-around bg-gray-50 h-15 p-2">
+          <button onClick={handlePrev}>Anterior</button>
+          <button onClick={handleNext}>Siguiente</button>
+          
+        </div>
+
         <div className="flex justify-around bg-gray-50 h-15 p-2">
           <Link to="/">
             <img
@@ -100,4 +120,5 @@ const Inicio = () => {
     </>
   );
 };
+
 export default Inicio;

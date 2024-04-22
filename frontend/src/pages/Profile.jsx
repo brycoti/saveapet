@@ -1,26 +1,45 @@
-import { useContext } from "react";
-import contexte from "../components/contexte";
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-
+import contexte from "../components/contexte";
+import Inicio from "./Inicio";
 
 const Profile = () => {
   const { loguejat, logout } = useContext(contexte);
+  const [animales, setAnimales] = useState([]);
+  const [actualitza, setActualitza] = useState(false);
+  const [likedAnimales, setLikedAnimales] = useState([]);
 
+  useEffect(() => {
+    const opcions = {
+      credentials: "include",
+    };
 
+    fetch("http://localhost:3000/api/pets", opcions)
+      .then((resp) => resp.json())
+      .then((data) => {
+        console.log(data);
+        if (data.error === "Unauthorized") {
+          logout();
+        } else if (data.error) {
+          setError(data.error);
+        } else {
+          setAnimales(data);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching data:", error);
+        setError(error);
+      });
+  }, [actualitza]);
 
   return (
     <div>
-      <div className="overflow flex flex-wrap items-center justify-center">
-        <div className="container lg:w-2/6 xl:w-2/7 sm:w-full md:w-2/3    bg-white  shadow-lg    transform   duration-200 easy-in-out">
+      <div className="overflow-x-auto flex flex-wrap items-center justify-center">
+        <div className="container lg:w-2/6 xl:w-2/7 sm:w-full md:w-2/3 bg-white shadow-lg transform duration-200 easy-in-out">
           <div className="h-48 overflow-hidden bg-emerald-700 flex justify-between">
             <Link to='/settings' className="text-sm mt-2 mr-2 text-white p-3">Ajustes</Link>
-            <h1 className="p-3 ml-2 font-sans text-white font-bold text-3xl tracking-[-.10em]"><span className="text-4xl text-black">:</span>
-              Perfil
-            </h1>
-
-            <a onClick={logout} className="text-sm mt-2 mr-2 text-white p-3">
-              Logout
-            </a>
+            <h1 className="p-3 ml-2 font-sans text-white font-bold text-3xl tracking-[-.10em]"><span className="text-4xl text-black">:</span>Perfil</h1>
+            <a onClick={logout} className="text-sm mt-2 mr-2 text-white p-3">Logout</a>
           </div>
 
           <div className="flex justify-center px-5  -mt-28">
@@ -30,61 +49,50 @@ const Profile = () => {
               alt=""
             />
           </div>
-          <div className=" ">
-            <div className="text-center px-14">
-              <h2 className="text-gray-800 text-3xl font-bold">
-                -
-                {loguejat?.name}
-              </h2>
-              <p className="text-gray-400 mt-2"></p>
-              <hr />
-              <p className="p-3 text-gray-800 text-xl font-extrabold">
-                Favoritos
-              </p>
-              <div className="overflow-auto">
-                <div className="flex w-44 p-2">
-                  {/*hacer aqui un map de liked dogs del usuario*/}
+          <div className="text-center px-3">
+            <h2 className="text-gray-800 text-3xl font-bold">{loguejat?.name}</h2>
+            <hr />
+            <p className="p-3 text-gray-800 text-xl font-extrabold">Favoritos</p>
+            <div className="overflow-x-auto h-46">
+              <div className="flex">
+                {animales.map(animal => (
                   <img
-                    src="https://img.freepik.com/foto-gratis/vertical-adorable-perro-raza-mixta-sobre-azul_181624-45053.jpg"
+                    key={animal.id}
+                    src={`./img/${animal.foto}`}
+                    className="w-auto h-52 m-1"
+                    alt="Animal"
                   />
-                  <img
-                    src="https://previews.123rf.com/images/mirawonderland/mirawonderland1606/mirawonderland160600030/59794518-retrato-vertical-de-un-perro-pastor-de-shetland-bonita-en-un-fondo-blanco-frente-a-la-c%C3%A1mara.jpg"
-                  /><img
-                    src="https://previews.123rf.com/images/mirawonderland/mirawonderland1606/mirawonderland160600030/59794518-retrato-vertical-de-un-perro-pastor-de-shetland-bonita-en-un-fondo-blanco-frente-a-la-c%C3%A1mara.jpg"
-                  /><img
-                    src="https://previews.123rf.com/images/mirawonderland/mirawonderland1606/mirawonderland160600030/59794518-retrato-vertical-de-un-perro-pastor-de-shetland-bonita-en-un-fondo-blanco-frente-a-la-c%C3%A1mara.jpg"
-                  />
-                </div>
+                ))}
               </div>
             </div>
+          </div>
 
-            <hr className="mt-7" />
-            <div className="flex justify-around bg-gray-50 h-17 p-2 content-end">
-              <a href="/">
-                <img
-                  src="https://www.freeiconspng.com/thumbs/dog-icon/dog-icon-4.png"
-                  alt="Centros"
-                  width="30"
-                  height="30"
-                />
-              </a>
-              <a href="/">
-                <img
-                  src="https://www.pngall.com/wp-content/uploads/4/House-Transparent.png"
-                  alt="Centros"
-                  width="30"
-                  height="30"
-                />
-              </a>
-              <a href="/profile">
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/711/711769.png"
-                  alt="Perfil"
-                  width="30"
-                  height="30"
-                />
-              </a>
-            </div>
+          <hr className="mt-7" />
+          <div className="flex justify-around bg-gray-50 h-17 p-2 content-end">
+            <Link to="/">
+              <img
+                src="https://www.freeiconspng.com/thumbs/dog-icon/dog-icon-4.png"
+                alt="Centros"
+                width="30"
+                height="30"
+              />
+            </Link>
+            <Link to="/">
+              <img
+                src="https://www.pngall.com/wp-content/uploads/4/House-Transparent.png"
+                alt="Centros"
+                width="30"
+                height="30"
+              />
+            </Link>
+            <Link to="/profile">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/711/711769.png"
+                alt="Perfil"
+                width="30"
+                height="30"
+              />
+            </Link>
           </div>
         </div>
       </div>
