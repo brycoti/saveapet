@@ -18,6 +18,11 @@ const UserPetMatch = sequelize.define('UserPetMatch', {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: false
+  },
+  watched: {  // si es true, el user ya lo ha visto y no deberia mostrarlo en front
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
   }
 });
 
