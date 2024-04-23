@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const  { sequelize } = require('../db');
+const { sequelize } = require('../db');
 
 //Models
 const { User } = require('../Models/userModel');
@@ -11,12 +11,12 @@ const { UserPetMatch } = require('./userPetMatchModel');
 
 // Function to initialize the database
 async function iniDB() {
-    try {
-        await sequelize.sync({ force: true }); // This will drop the table if it already exists
-        console.log('Database synchronized successfully.');
-    } catch (error) {
-        console.error('Failed to synchronize database:', error);
-    }
+  try {
+    await sequelize.sync({ force: true }); // This will drop the table if it already exists
+    console.log('Database synchronized successfully.');
+  } catch (error) {
+    console.error('Failed to synchronize database:', error);
+  }
 }
 
 // set up
@@ -25,14 +25,14 @@ async function iniDB() {
 
 
 // User can match a dog
-  Pet.belongsToMany(User, { through: 'UserPetMatch' });
-  User.belongsToMany(Pet, { through: 'UserPetMatch' });
+Pet.belongsToMany(User, { through: 'UserPetMatch' });
+User.belongsToMany(Pet, { through: 'UserPetMatch' });
 
 // Center can create a pet
-  Pet.belongsTo(Center);
-  Center.hasMany(Pet);
+Pet.belongsTo(Center);
+Center.hasMany(Pet);
 
-  // Pet.hasMany(UserPetMatch)
+// Pet.hasMany(UserPetMatch)
 Pet.hasMany(UserPetMatch, {
   foreignKey: 'petId',
   as: 'likes' // This alias can be used in queries
@@ -45,8 +45,8 @@ UserPetMatch.belongsTo(Pet, {
 });
 
 module.exports = {
-    User,
-    Center,
-    Pet,
-    UserPetMatch
+  User,
+  Center,
+  Pet,
+  UserPetMatch
 };
