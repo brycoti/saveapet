@@ -31,7 +31,7 @@ const registerUser = async (req, res, User) => {
       const userId = await User.findByPk(req.userId); 
       const {petId} = req.body;
       const {liked} = req.body;
-      
+      const {watched} = req.body;
       if (!userId) {
         return res.status(404).json({ error: 'User not found' });
       }
@@ -43,7 +43,8 @@ const registerUser = async (req, res, User) => {
       const newMatch = await UserPetmatch.create({
         UserId: req.userId,
         PetId : petId,
-        liked : liked
+        liked : liked,
+        watched : watched
         });
   
         res.status(201).json(newMatch);
