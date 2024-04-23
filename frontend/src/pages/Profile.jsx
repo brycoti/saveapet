@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import contexte from "../components/contexte";
-import Inicio from "./Inicio";
+
 
 const Profile = () => {
   const { loguejat, logout } = useContext(contexte);
@@ -13,7 +13,8 @@ const Profile = () => {
 
 
   useEffect(() => {
-    if (!loguejat) redirect('login')
+
+    if (!loguejat) redirect('/login')
 
   }, [loguejat, redirect])
 
@@ -29,17 +30,15 @@ const Profile = () => {
         console.log(data);
         if (data.error === "Unauthorized") {
           logout();
-        } else if (data.error) {
-          setError(data.error);
         } else {
           setAnimales(data);
         }
       })
       .catch((err) => {
-        console.error("Error fetching data:", error);
-        setError(error);
+        console.log("Error fetching data:", err);
+
       });
-  }, [actualitza]);
+  }, [actualitza, logout]);
 
   return (
     <div>
@@ -94,14 +93,14 @@ const Profile = () => {
                 height="30"
               />
             </Link>
-            <Link to="/profile">
+            <button to="/profile">
               <img
                 src="https://cdn-icons-png.flaticon.com/512/711/711769.png"
                 alt="Perfil"
                 width="30"
                 height="30"
               />
-            </Link>
+            </button>
           </div>
         </div>
       </div>
