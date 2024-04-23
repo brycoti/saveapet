@@ -6,17 +6,21 @@ const ListaAnimales = () => {
     const [animales, setAnimales] = useState([]);
     const [error, setError] = useState('');
     const [actualitza, setActualitza] = useState(0);
-    const { logout, API_URL } = useContext(Contexte);
+    const { logout, API_URL,loguejat } = useContext(Contexte);
     const redirect = useNavigate();
 
+  
+
+    
     useEffect(() => {
         const opcions = {
             credentials: 'include',
         };
 
-        fetch(API_URL + '/animales', opcions) // Modifica la ruta según la API
+        fetch(`${API_URL}/centers/${loguejat.userId}/animals`, opcions) // Modifica la ruta según la API
             .then(resp => resp.json())
             .then(data => {
+                console.log(data)
                 if (data.error === "Unauthorized") {
                     logout();
                 }
@@ -28,10 +32,11 @@ const ListaAnimales = () => {
             })
             .catch(err => {
                 console.error('Error fetching data:', err);
-                setError('Error al obtener los datos');
+                setError(error)
             });
 
     }, [actualitza]);
+    
 
     const remove = (item) => {
         const opcions = {
@@ -41,7 +46,7 @@ const ListaAnimales = () => {
                 "Content-Type": "application/json"
             }
         };
-        fetch(API_URL + '/projects/' + item.id, opcions)
+        fetch(API_URL + '/pets/' + item.id, opcions)
             .then(r => r.json())
             .then(data => {
                 if (data.error === 'Unauthorized') {
@@ -59,22 +64,23 @@ const ListaAnimales = () => {
 
     return (
         <>
-            <h2 className="text-2xl font-bold mb-4">Tus animales</h2>
-            <div className="grid grid-cols-3 gap-4">
-                {animales.map((animal, index) => (
-                    <div key={index} className="border border-gray-300 rounded-md p-4">
-                        <h3 className="text-lg font-semibold mb-2">{animal.name}</h3>
-                        <p className="text-sm">{animal.age} years</p>
-                        {/* Otros campos de información */}
-                        <button className="border p-3 bg-red-200" onClick={()=>redirect(`/modificar/${animal.id}`)}>Modificar  a {animal.name}</button>
-                        <button onClick={() => remove(animal)}>Eliminar</button>
+            <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">Tus animales</h2>
+            <div className=" text-white grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {animales.slice().reverse().map((animal, index) => (
+                    <div key={index} className="border border-white rounded-md p-4 flex flex-col">
+                        <h3 className=" text-lg font-semibold mb-2">{animal.name}</h3>
+                        <p className="text-sm font-semibold mb-2">{animal.age} years</p>
+                        <img src={`/img/${animal.foto}`} alt={animal.breed} className="mb-2"/>
+                    
+                        <button className="border rounded-md p-2 bg-blue-300 text-white mt-auto" onClick={() => redirect(`/modificar/${animal.id}`)}>Modificar a {animal.name}</button>
+                        <button className="mt-2 p-2 rounded-md bg-pink-500 text-white" onClick={() => redirect(`likes/${animal.id}`)}>likes</button>
                     </div>
                 ))}
-                 <button className="border p-3 bg-red-200" onClick={()=>redirect(`/alta`)}>Subir nuevo animal</button>
-
+                <button className="col-span-1 sm:col-span-2 lg:col-span-3 border p-3 bg-green-400" onClick={() => redirect(`/alta`)}>Subir nuevo animal</button>
             </div>
         </>
     );
+      
 };
 
 export default ListaAnimales;

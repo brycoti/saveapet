@@ -23,15 +23,16 @@ function App() {
   useEffect(() => {
     // si tenim una cookie, intentem validar-la!
     if(document.cookie.includes('token')){
-      fetch(API_URL+'/refresh', {credentials: "include"})
+      fetch(`${API_URL}/refresh/center`, {credentials: "include"})
       .then(e => e.json())
       .then(data => {
         if (data.error){
           // api rebutja la cookie local, l'esborrem per mitjà de la funció logout()
-          logout();
+          //logout();
         } else {
           // api accepta la cookie, simulem login desant les dades rebudes a "loguejat"
           setLoguejat(data)
+          redirect("perfil")
           console.log(loguejat) 
         }
       })
@@ -41,6 +42,7 @@ function App() {
     }
   
   }, [])
+  
 
 
   console.log(loguejat);
@@ -49,18 +51,22 @@ function App() {
 
  
   return (
-
     <Contexte.Provider value={dades}>
-      <div className="p-[50px]">
-        {loguejat && <Link className="border px-4 py-2 bg-blue-700 text-white" to="/">Inici</Link>}
-        {loguejat && <Link className="border px-4 py-2 bg-blue-700 text-white" to="/perfil">Perfil</Link>}
-        {loguejat && <button className="border px-4 py-2 bg-blue-700 text-white" onClick={logout}>Logout {loguejat.name}</button>}
+      <div className="flex flex-col gap-3 justify-center items-center p-[50px]">
+      <h1 className="text-3xl text-lime-200 mb-10 font-extrabold">SAVE A PET</h1>
+        <div>
+          {loguejat && <Link className="rounded-md border px-4 py-2 mx-4 bg-yellow-300 hover:bg-blue-700 text-white" to="/">Inicio</Link>}
+          {loguejat && <Link className="rounded-md border px-4 py-2 mx-4 bg-green-400 hover:bg-blue-700 text-white" to="/perfil">Perfil</Link>}
+          {loguejat && <button className="rounded-md border px-4 py-2 mx-4 bg-orange-300 hover:bg-blue-700 text-white" onClick={logout}>Logout {loguejat.userName}</button>}
+        </div>
+        
         <div className="p-10">
-          <Outlet />    
+          <Outlet />
         </div>
       </div>
     </Contexte.Provider>
   );
+  
 }
 
 export default App;
