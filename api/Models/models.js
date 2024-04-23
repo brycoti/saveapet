@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const  { sequelize } = require('../db');
+const { sequelize } = require('../db');
 
 //Models
 const { User } = require('../Models/userModel');
@@ -11,12 +11,12 @@ const { UserPetMatch } = require('./userPetMatchModel');
 
 // Function to initialize the database
 async function iniDB() {
-    try {
-        await sequelize.sync({ force: true }); // This will drop the table if it already exists
-        console.log('Database synchronized successfully.');
-    } catch (error) {
-        console.error('Failed to synchronize database:', error);
-    }
+  try {
+    await sequelize.sync({ force: true }); // This will drop the table if it already exists
+    console.log('Database synchronized successfully.');
+  } catch (error) {
+    console.error('Failed to synchronize database:', error);
+  }
 }
 
 // set up
@@ -32,7 +32,7 @@ Center.hasMany(Pet);
 // UserPetMatch Model adjustments
 UserPetMatch.belongsTo(Pet, {
   foreignKey: 'petId', // Ensuring foreign key is consistently named
-  
+
 });
 
 Pet.hasMany(UserPetMatch, {
@@ -42,22 +42,22 @@ Pet.hasMany(UserPetMatch, {
 
 UserPetMatch.belongsTo(User, {
   foreignKey: 'userId', // Make sure to use 'userId' consistently
-  
+
 });
 
 User.hasMany(UserPetMatch, {
   foreignKey: 'userId',
-  
+
 });
 
 // Ensuring consistent foreign key setup in Pet and User many-to-many relation
-Pet.belongsToMany(User, { 
+Pet.belongsToMany(User, {
   through: UserPetMatch,
   foreignKey: 'petId',
   otherKey: 'userId'
 });
 
-User.belongsToMany(Pet, { 
+User.belongsToMany(Pet, {
   through: UserPetMatch,
   foreignKey: 'userId',
   otherKey: 'petId'
@@ -65,8 +65,8 @@ User.belongsToMany(Pet, {
 
 
 module.exports = {
-    User,
-    Center,
-    Pet,
-    UserPetMatch
+  User,
+  Center,
+  Pet,
+  UserPetMatch
 };

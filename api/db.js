@@ -9,4 +9,4 @@ const sequelize = new Sequelize('saveapet', 'root', 'admin', {
 module.exports = {
     sequelize,
     DataTypes
-    };
+};
