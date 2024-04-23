@@ -21,28 +21,43 @@ async function iniDB() {
 
 // set up
 
- // iniDB();
+// iniDB();
 
 
-// User can match a dog
-  Pet.belongsToMany(User, { through: 'UserPetMatch' });
-  User.belongsToMany(Pet, { through: 'UserPetMatch' });
-
-// Center can create a pet
-  Pet.belongsTo(Center);
-  Center.hasMany(Pet);
-
-  // Pet.hasMany(UserPetMatch)
-Pet.hasMany(UserPetMatch, {
-  foreignKey: 'petId',
-  as: 'likes' // This alias can be used in queries
-});
-
-// UserPetMatch.belongsTo(Pet)
+// UserPetMatch Model adjustments
 UserPetMatch.belongsTo(Pet, {
-  foreignKey: 'petId',
-  as: 'pet'
+  foreignKey: 'petId', // Ensuring foreign key is consistently named
+  
 });
+
+Pet.hasMany(UserPetMatch, {
+  foreignKey: 'petId', // Consistent use of 'petId' as foreign key
+
+});
+
+UserPetMatch.belongsTo(User, {
+  foreignKey: 'userId', // Make sure to use 'userId' consistently
+  
+});
+
+User.hasMany(UserPetMatch, {
+  foreignKey: 'userId',
+  
+});
+
+// Ensuring consistent foreign key setup in Pet and User many-to-many relation
+Pet.belongsToMany(User, { 
+  through: UserPetMatch,
+  foreignKey: 'petId',
+  otherKey: 'userId'
+});
+
+User.belongsToMany(Pet, { 
+  through: UserPetMatch,
+  foreignKey: 'userId',
+  otherKey: 'petId'
+});
+
 
 module.exports = {
     User,
