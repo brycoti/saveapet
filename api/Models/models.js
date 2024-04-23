@@ -24,6 +24,11 @@ async function iniDB() {
 // iniDB();
 
 
+
+// Center can create a pet
+Pet.belongsTo(Center);
+Center.hasMany(Pet);
+
 // UserPetMatch Model adjustments
 UserPetMatch.belongsTo(Pet, {
   foreignKey: 'petId', // Ensuring foreign key is consistently named

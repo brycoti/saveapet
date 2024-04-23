@@ -1,8 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize('saveapet', 'root', 'root', {
+const sequelize = new Sequelize('saveapet', 'root', 'admin', {
     host: 'localhost',
-    port: 3306,
+    port: 3308,
     dialect: 'mysql'
 });
 
