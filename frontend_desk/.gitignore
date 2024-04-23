@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 
+frontend_desk/public/img
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
