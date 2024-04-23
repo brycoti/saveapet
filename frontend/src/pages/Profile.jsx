@@ -7,16 +7,15 @@ const Profile = () => {
   const { loguejat, logout } = useContext(contexte);
   const [animales, setAnimales] = useState([]);
   const [actualitza, setActualitza] = useState(false);
-  const [likedAnimales, setLikedAnimales] = useState([]);
 
   const redirect = useNavigate();
 
 
-  useEffect(() => {
-    if (!loguejat) redirect('login')
+  /*useEffect(() => {
+    if (!loguejat) redirect('/login')
 
   }, [loguejat, redirect])
-
+  */
 
   useEffect(() => {
     const opcions = {
@@ -36,8 +35,8 @@ const Profile = () => {
         }
       })
       .catch((err) => {
-        console.error("Error fetching data:", error);
-        setError(error);
+        console.error("Error fetching data:", err);
+        setError(err);
       });
   }, [actualitza]);
 
@@ -62,6 +61,7 @@ const Profile = () => {
             <h2 className="text-gray-800 text-3xl font-bold">{loguejat?.name}</h2>
             <hr />
             <p className="p-3 text-gray-800 text-xl font-extrabold">Favoritos</p>
+            <a href="/cuestionario">Cuestionario</a>
             <div className="overflow-x-auto h-46">
               <div className="flex">
                 {animales.map(animal => (

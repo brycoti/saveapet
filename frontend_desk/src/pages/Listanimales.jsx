@@ -64,19 +64,20 @@ const ListaAnimales = () => {
 
     return (
         <>
-            <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">Tus animales</h2>
-            <div className=" text-white grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            
+            <h2 className="font-mono text-2xl text-white font-bold mb-4 text-center sm:text-left">Tus animales</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {animales.slice().reverse().map((animal, index) => (
-                    <div key={index} className="border border-white rounded-md p-4 flex flex-col">
-                        <h3 className=" text-lg font-semibold mb-2">{animal.name}</h3>
-                        <p className="text-sm font-semibold mb-2">{animal.age} years</p>
+                    <div key={index} className="bg-white rounded-md p-4 flex flex-col">
+                        <h3 className="font-extrabold text-2xl mb-2">{animal.name}, {animal.age}</h3>
+                        
                         <img src={`/img/${animal.foto}`} alt={animal.breed} className="mb-2"/>
                     
                         <button className="border rounded-md p-2 bg-blue-300 text-white mt-auto" onClick={() => redirect(`/modificar/${animal.id}`)}>Modificar a {animal.name}</button>
                         <button className="mt-2 p-2 rounded-md bg-pink-500 text-white" onClick={() => redirect(`likes/${animal.id}`)}>likes</button>
                     </div>
                 ))}
-                <button className="col-span-1 sm:col-span-2 lg:col-span-3 border p-3 bg-green-400" onClick={() => redirect(`/alta`)}>Subir nuevo animal</button>
+                <button className="col-span-1 sm:col-span-2 lg:col-span-3 p-3 bg-emerald-800 rounded text-white font-bold" onClick={() => redirect(`/alta`)}>Subir nuevo animal</button>
             </div>
         </>
     );

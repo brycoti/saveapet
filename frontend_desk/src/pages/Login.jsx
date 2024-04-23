@@ -34,7 +34,7 @@ export default function Login() {
     };
 
     return (
-        <div className="w-auto h-screen  flex justify-center items-center">
+        <div className="w-auto flex justify-center p-7 items-center">
             <form onSubmit={logueja} className="bg-green-100 shadow-md rounded px-8 pt-6 pb-8">
                 <h1 className="text-center font-bold text-green-500 text-2xl">Login</h1>
                 <div className="mb-4">
