@@ -1,6 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
+const fs = require('fs').promises;
+const path = require('path');
+
 const { where } = require("sequelize");
 const { Pet } = require('../Models/petModel');
 const { UserPetMatch } = require('../Models/userPetMatchModel');
@@ -80,7 +83,7 @@ const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 1024 * 1024 * 5 // 5MB limit
+    fileSize: 320 * 210 * 4 // 4MB limit
   }
 }).single('foto');
 
@@ -94,8 +97,16 @@ const newPet = async (req, res, next, Center, Pet) => {
       return res.status(500).json({ error: err.message });
     }
 
+
+     // Ruta a la segunda ubicación donde también quieres guardar la imagen
+     const additionalPath = '../frontend/public/img/' + req.file.filename;
+
+
     // No hay errores de carga, proceder con la lógica de negocio
     try {
+       // Copiar el archivo a la segunda ubicación
+       await fs.copyFile(req.file.path, additionalPath);
+
       const center = await Center.findByPk(req.userId);
       if (!center) {
         return res.status(400).json({ error: 'Center not found' });
@@ -122,9 +133,6 @@ const newPet = async (req, res, next, Center, Pet) => {
         CenterId: req.userId,
         foto: req.body.foto
       });
-
-
-      console.log(pet)
 
       res.status(201).json(pet);
     } catch (error) {
