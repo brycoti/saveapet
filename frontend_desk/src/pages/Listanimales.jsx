@@ -31,7 +31,7 @@ const ListaAnimales = () => {
                 }
             })
             .catch(err => {
-                console.error('Error fetching data:', error);
+                console.error('Error fetching data:', err);
                 setError(error)
             });
 
@@ -73,7 +73,7 @@ const ListaAnimales = () => {
                         <img src={`/img/${animal.foto}`} alt={animal.breed} className="mb-2"/>
                     
                         <button className="border rounded-md p-2 bg-blue-300 text-white mt-auto" onClick={() => redirect(`/modificar/${animal.id}`)}>Modificar a {animal.name}</button>
-                        <button className="mt-2 p-2 rounded-md bg-red-500 text-white" onClick={() => remove(animal)}>Eliminar</button>
+                        <button className="mt-2 p-2 rounded-md bg-pink-500 text-white" onClick={() => redirect(`likes/${animal.id}`)}>likes</button>
                     </div>
                 ))}
                 <button className="col-span-1 sm:col-span-2 lg:col-span-3 border p-3 bg-green-400" onClick={() => redirect(`/alta`)}>Subir nuevo animal</button>
