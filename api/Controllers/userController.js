@@ -32,6 +32,7 @@ const registerUser = async (req, res, User) => {
       const {petId} = req.body;
       const {liked} = req.body;
       const {watched} = req.body;
+      
       if (!userId) {
         return res.status(404).json({ error: 'User not found' });
       }
