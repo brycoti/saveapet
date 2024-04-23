@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect } from 'react'
-import { useState, useCallback, useEffect } from 'react'
 import Contexte from "./components/contexte";
 import { Outlet } from "react-router-dom";
 

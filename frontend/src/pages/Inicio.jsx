@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
-import perro from '../../public/perro.png'
-import Contexte from "../components/contexte";
+import contexte from "../components/contexte";
 import { Link, useNavigate } from 'react-router-dom';
+
 
 const Inicio = () => {
     const { loguejat, logout } = useContext(contexte);
@@ -21,7 +21,7 @@ const Inicio = () => {
     const drag = useCallback((event) => {
         if (isAnimating) return
         let buffer
-        const decisionTreshold = 180;
+        const decisionTreshold = 160;
 
         const actualCard = event.target.closest('article')
 
@@ -78,7 +78,7 @@ const Inicio = () => {
         fetch("http://localhost:3000/api/pets", opcions)
             .then((resp) => resp.json())
             .then((data) => {
-                console.log(data);
+
                 if (data.error) {
                     setError(data.error);
                 } else {
@@ -114,7 +114,7 @@ const Inicio = () => {
 
     return (
         <>
-            <div className="flex flex-col box-border h-screen justify-between">
+            <div className="flex flex-col box-border h-screen justify-between overflow-hidden">
                 <div className="text-white flex justify-between items-baseline p-2 h-1/10 bg-emerald-700 ">
                     {!loguejat ? (
                         <div className="pr-2">
@@ -135,7 +135,8 @@ const Inicio = () => {
                         <div key={animales[currentIndex].id} className="w-full p-4 flex justify-center items-center">
                             <div className="max-w-3xl w-full rounded-lg overflow-hidden shadow-lg">
                                 <img
-                                    src={`./img/${animales[currentIndex].foto}`}
+
+                                    src={`../../public/img/${animales[currentIndex].foto}`}
                                     className="w-80"
                                     alt="imagen"
                                 />

@@ -63,14 +63,14 @@ const Profile = () => {
             <p className="p-3 text-gray-800 text-xl font-extrabold">Favoritos</p>
             <div className="overflow-x-auto h-46">
               <div className="flex">
-                {animales.map(animal => (
+                {/* {animales.map(animal => (
                   <img
                     key={animal.id}
                     src={`./img/${animal.foto}`}
                     className="w-auto h-52 m-1"
                     alt="Animal"
                   />
-                ))}
+                ))} */}
               </div>
             </div>
           </div>
