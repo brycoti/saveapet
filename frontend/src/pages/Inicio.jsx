@@ -16,6 +16,8 @@ const Inicio = () => {
 
     function drag(event) {
         if (isAnimating) return
+        let buffer
+        const decisionTreshold = 180;
 
         const actualCard = event.target.closest('article')
 
@@ -26,23 +28,32 @@ const Inicio = () => {
 
         function onMove(event) {
             const currentX = event.pageX ?? event.touches[0].pageX;
-            const buffer = {
+            buffer = {
                 deg: (currentX - startX) / 20,
                 deltaX: (currentX - startX)
             }
             setMov(buffer);
 
-            // console.log(deltaX)
 
-            // if (deltaX === 0) return
-
-            // setDeg((currentX - startX) / 20);
         }
 
-        function onEnd(event) {
+        function onEnd() {
 
             document.removeEventListener('touchmove', onMove);
-            document.removeEventListener('touchend', onMove);
+            document.removeEventListener('touchend', onEnd);
+            setMov({
+                deg: 0,
+                deltaX: 0
+            })
+            console.log(buffer)
+            const decisionMade = Math.abs(buffer.deltaX) >= decisionTreshold
+
+            if (decisionMade) {
+
+                console.log("decisión tomada")
+            } else {
+                console.log("indeciso")
+            }
         }
     }
 
