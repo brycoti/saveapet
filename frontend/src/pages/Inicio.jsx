@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import perro from '../../public/perro.png'
 import Contexte from "../components/contexte";
 import { Link } from 'react-router-dom';
@@ -14,7 +14,7 @@ const Inicio = () => {
     // const [deltaX, setDeltaX] = useState(0);
 
 
-    function drag(event) {
+    const drag = useCallback((event) => {
         if (isAnimating) return
         let buffer
         const decisionTreshold = 180;
@@ -55,7 +55,7 @@ const Inicio = () => {
                 console.log("indeciso")
             }
         }
-    }
+    }, [isAnimating])
 
 
 
