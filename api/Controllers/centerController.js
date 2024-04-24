@@ -83,7 +83,7 @@ const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 320 * 210 * 4 // 4MB limit
+    fileSize: 320 * 256 * 4 // 4MB limit
   }
 }).single('foto');
 
@@ -197,8 +197,6 @@ const animalLikedByUsers = async (req, res, UserPetMatch, Pet) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-
 
 module.exports = {
   registerCenter,
