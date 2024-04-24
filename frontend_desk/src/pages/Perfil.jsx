@@ -31,7 +31,6 @@ const Perfil = () => {
     const editedData = {
       name: name,
       email: email,
-      password: password,
       phonenumber: phonenumber,
       web: web,
       city: city,
@@ -62,7 +61,8 @@ const Perfil = () => {
   };
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 bg-white mt-10 -pt-3 rounded-md ">
+    <div className="p-3">
+    <div className="px-4 sm:px-6 lg:px-8 bg-white mt-10 p-3 rounded-md ">
       <h1 className="font-sans text-emerald-800 font-bold text-3xl tracking-[-.10em]">
         <span className="text-4xl text-black">:</span>Perfil
       </h1>
@@ -83,14 +83,6 @@ const Perfil = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="form-input mt-1 block w-full bg-gray-100 p-2 rounded font-mono"            />
-          </div>
-          <div className="flex flex-col mb-4">
-            <input
-            placeholder="Contraseña"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               className="form-input mt-1 block w-full bg-gray-100 p-2 rounded font-mono"            />
           </div>
           <div className="flex flex-col mb-4">
@@ -170,6 +162,7 @@ const Perfil = () => {
         </div>
         </div>
       <br />
+    </div>
     </div>
   );
 };

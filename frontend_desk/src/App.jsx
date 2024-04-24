@@ -28,55 +28,46 @@ function App() {
             // api accepta la cookie, simulem login desant les dades rebudes a "loguejat"
             setLoguejat(data);
             redirect("perfil");
-            console.log(loguejat);
           }
         });
-    }
-    if (!loguejat) {
-      return redirect("/login");
-    }
+    } 
+    /*if (!loguejat) {
+      return redirect("/register")}*/
   }, []);
-
-  console.log(loguejat);
 
   const dades = { loguejat, setLoguejat, logout, API_URL };
 
   return (
     <Contexte.Provider value={dades}>
-      <div className="w-full flex items-center justify-between bg-emerald-800 p-8 rounded-b-lg">
-        <Link className="font-sans text-white font-bold text-4xl tracking-[-.10em] mt-[-1em]">
-          Save a pet<span className="text-6xl text-black">.</span>
-        </Link>
-        <div className="text-right">
-          {loguejat && (
-            <Link
-              className="text-white font-extrabold mr-5 hover:underline"
-              to="/"
-            >
-              Inicio
-            </Link>
-          )}
-          {loguejat && (
-            <Link
-              className="text-white font-extrabold mr-5 hover:underline"
-              to="/perfil"
-            >
-              Perfil
-            </Link>
-          )}
-          {loguejat && (
-            <button
-              className="text-white font-extrabold mr-3 hover:underline"
-              onClick={logout}
-            >
-              Logout <span className="bold text-orange-500">{loguejat.userName}</span> 
-            </button>
-          )}
-        </div>
-      </div>
-      <div className="p-5">
+      {loguejat && (
+  <div className="w-full flex items-center justify-between bg-emerald-800 p-8 rounded-b-lg">
+    <Link className="font-sans text-white font-bold text-4xl tracking-[-.10em] mt-[-1em]">
+      Save a pet<span className="text-6xl text-black">.</span>
+    </Link>
+    <div className="text-right">
+      <Link
+        className="text-white font-extrabold mr-5 hover:underline"
+        to="/"
+      >
+        Inicio
+      </Link>
+      <Link
+        className="text-white font-extrabold mr-5 hover:underline"
+        to="/perfil"
+      >
+        Perfil
+      </Link>
+      <button
+        className="text-white font-extrabold mr-3 hover:underline"
+        onClick={logout}
+      >
+        Logout <span className="bold text-orange-500">{loguejat.userName}</span> 
+      </button>
+    </div>
+  </div>
+)}
+
         <Outlet />
-      </div>
     </Contexte.Provider>
   );
 }
