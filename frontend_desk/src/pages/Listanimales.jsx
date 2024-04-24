@@ -70,7 +70,7 @@ const ListaAnimales = () => {
                     <div key={index} className="border border-white rounded-md p-4 flex flex-col">
                         <h3 className=" text-lg font-semibold mb-2">{animal.name}</h3>
                         <p className="text-sm font-semibold mb-2">{animal.age} years</p>
-                        <img src={`/img/${animal.foto}`} alt={animal.breed} className="mb-2"/>
+                        <img src={`http://localhost:3000/uploads/${animal.foto}`} alt={animal.breed} className="mb-2"/>
                     
                         <button className="border rounded-md p-2 bg-blue-300 text-white mt-auto" onClick={() => redirect(`/modificar/${animal.id}`)}>Modificar a {animal.name}</button>
                         <button className="mt-2 p-2 rounded-md bg-pink-500 text-white" onClick={() => redirect(`likes/${animal.id}`)}>likes</button>

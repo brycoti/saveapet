@@ -62,7 +62,7 @@ const login2 = async (req, res, Model) => {
 // Configuración de multer para guardar imágenes en el servidor
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../frontend_desk/public/img') // Especifica la carpeta de destino de los archivos subidos
+    cb(null, 'uploads') // Especifica la carpeta de destino de los archivos subidos
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = `${Date.now()}_${Math.round(Math.random() * 1E9)}`;
@@ -97,15 +97,9 @@ const newPet = async (req, res, next, Center, Pet) => {
       return res.status(500).json({ error: err.message });
     }
 
-
-     // Ruta a la segunda ubicación donde también quieres guardar la imagen
-     const additionalPath = '../frontend/public/img/' + req.file.filename;
-
-
     // No hay errores de carga, proceder con la lógica de negocio
     try {
-       // Copiar el archivo a la segunda ubicación
-       await fs.copyFile(req.file.path, additionalPath);
+       
 
       const center = await Center.findByPk(req.userId);
       if (!center) {
