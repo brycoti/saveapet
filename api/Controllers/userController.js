@@ -26,6 +26,7 @@ const registerUser = async (req, res, User) => {
   }
 }
 
+
 const userandpet = async (req, res, next, User, UserPetmatch) => {
   try {
     const userId = await User.findByPk(req.userId);
