@@ -132,10 +132,16 @@ const ModificarAnimal = () => {
                 <option value="small">Pequeño</option>
             </select>
         </div>
-        <div>
-            <label className="block font-medium">Temperamento:</label>
-            <input type="text" value={temperamento} onChange={(e) => setTemperamento(e.target.value)} className="form-input w-full mt-1"/>
-        </div>
+        <div className="mb-4">
+                    <label className="block text-green-500 text-sm font-bold mb-2" htmlFor="temperamento">Temperamento:</label>
+                    <select  id="temperamento" value={temperamento} onChange={(e) => setTemperamento(e.target.value)} className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="" selected>seleccione una opcion</option>
+                        <option value="energetic">Energico</option>
+                        <option value="calm">Tranquilo</option>
+                        <option value="playful">Juguetón</option>
+                        <option value="shy">Tímido</option>
+                    </select>
+                </div>
         <div>
             <label className="block font-medium">Amigable con Perros:</label>
             <input type="checkbox" checked={amigablePerros} onChange={(e) => setAmigablePerros(e.target.checked)} className="mt-2"/>

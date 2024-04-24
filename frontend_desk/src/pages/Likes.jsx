@@ -22,6 +22,7 @@ const Likes = () => {
                     setError(data.error); // Corregir asignación de error
                 } else {
                     setLikes(data);
+                    console.log(likes)
                 }
             })
             .catch(err => {
@@ -35,6 +36,34 @@ const Likes = () => {
         return <h1 className='text-red-500'>{error}</h1>;
     }
 
+
+    const handleAdopt = async (x) => {
+        try {
+            console.log('ID del usuario a adoptar:', x); // Agregar este console.log
+            const response = await fetch(`${API_URL}/adopt`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify({userId:x, petId: id })
+            });
+            if (response.ok) {
+                // Lógica para manejar la adopción exitosa
+                console.log('Adoption successful');
+            } else {
+                const data = await response.json();
+                setError(data.error);
+            }
+        } catch (error) {
+            console.error('Error adopting pet:', error);
+            setError(error.message);
+        }
+    };
+
+    if (error) {
+        return <h1 className='text-red-500'>{error}</h1>;
+    }
     return (
         <>
             <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">Likes del animal</h2>
@@ -45,6 +74,12 @@ const Likes = () => {
                         <p className="text-sm mb-1">Email: {like.email}</p>
                         <p className="text-sm mb-1">Dirección: {like.address}</p>
                         <p className="text-sm mb-1">telefono: {like.phonenumber}</p>
+                        <button
+                            onClick={() => handleAdopt(like.id)}
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        >
+                            Asignar adopcion
+                        </button>
                     </div>
                 ))}
             </div>
