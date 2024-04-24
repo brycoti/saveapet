@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'http://api.saveapet.westeurope.cloudapp.azure.com/api';
 
 const postApi = async (credentials, link) => {
     const options = {

@@ -24,7 +24,7 @@ const Profile = () => {
       credentials: "include",
     };
 
-    fetch("http://localhost:3000/api/pets", opcions)
+    fetch("http://api.saveapet.westeurope.cloudapp.azure.com/api/pets", opcions)
       .then((resp) => resp.json())
       .then((data) => {
         console.log(data);
