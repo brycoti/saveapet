@@ -152,43 +152,31 @@ const centerAnimal = async (req, res, Center, Pet) => {
 };
 
 
-const animalLikedByUsers = async (req, res, UserPetMatch, Pet) => {
+const animalLikedByUsers = async (req, res,  UserPetMatch, User ) => {
   try {
-    const petId = req.params.petId;
+    const petId = req.params.id;
 
-    // Retrieve the pet and associated center with likes
-    const pet = await Pet.findOne({
-      where: { id: petId },
-      include: [
-        {
-          model: Center,
-          attributes: ['id']
-        },
-        {
-          model: UserPetMatch,
-          as: 'likes',  // Use the alias defined in the association
-          attributes: ['userId'],
-          where: { liked: true }
-        }
-      ]
+    // Recuperar los IDs de los usuarios que han dado like al animal
+    const likedUserMatches = await UserPetMatch.findAll({
+      where: { petId: petId, liked: true, watched: true },
+      attributes: ['userId'] // la columna que devuelve
     });
 
-    if (!pet) {
-      return res.status(404).json({ error: 'Pet not found' });
-    }
+    // Extraer los IDs de usuario de los matches
+    const likedUserIds = likedUserMatches.map(match => match.userId);
 
-    const userIds = pet.likes.map(like => like.userId);
+    // Recuperar información de los usuarios que han dado like al animal
+    const likedUsers = await User.findAll({
+      where: { id: likedUserIds },
+      attributes: ['name', 'address', 'email','phonenumber']
+    });
 
-    // Prepare the response object
-    const result = {
-      pet: pet,  // This now includes likes embedded within
-    };
-
-    res.json(result);
+    res.json(likedUsers);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 
 

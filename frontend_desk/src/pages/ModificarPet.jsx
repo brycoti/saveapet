@@ -93,6 +93,7 @@ const ModificarAnimal = () => {
                 } else {
                     setActualitza(prevState => prevState + 1);
                 }
+                redirect('/list');
             })
             .catch(err => console.log(err));
     };

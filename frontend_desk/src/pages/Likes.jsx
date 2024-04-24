@@ -10,24 +10,24 @@ const Likes = () => {
     const redirect = useNavigate();
 
     useEffect(() => {
-        
-         fetch(`${API_URL}/centers/${id}/animals`, { credentials: 'include' })
-         .then(resp => resp.json())
-         .then(data => {
-             
-             if (data.error === "Unauthorized") {
-                 //logout();
-             }
-             else if (data.error) {
-                 setError(data.error); // Corregir asignación de error
-             } else {
-                 setLikes(data);
-             }
-         })
-         .catch(err => {
-             console.error('Error fetching data:', err);
-             setError(error)
-         });
+
+        fetch(`${API_URL}/center/petmatches/${id}`, { credentials: 'include' })
+            .then(resp => resp.json())
+            .then(data => {
+
+                if (data.error === "Unauthorized") {
+                    //logout();
+                }
+                else if (data.error) {
+                    setError(data.error); // Corregir asignación de error
+                } else {
+                    setLikes(data);
+                }
+            })
+            .catch(err => {
+                console.error('Error fetching data:', err);
+                setError(error)
+            });
 
     }, []);
 
@@ -42,7 +42,9 @@ const Likes = () => {
                 {likes.map((like, index) => (
                     <div key={index} className="border border-gray-300 rounded-md p-4 flex flex-col">
                         <p className="text-lg font-semibold mb-2">Usuario: {like.name}</p>
-                        {/* Otros campos de información del like */}
+                        <p className="text-sm mb-1">Email: {like.email}</p>
+                        <p className="text-sm mb-1">Dirección: {like.address}</p>
+                        <p className="text-sm mb-1">telefono: {like.phonenumber}</p>
                     </div>
                 ))}
             </div>
