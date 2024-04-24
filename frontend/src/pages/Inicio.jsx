@@ -16,7 +16,7 @@ const Inicio = () => {
             credentials: "include",
         };
 
-        fetch("http://api.saveapet.westeurope.cloudapp.azure.com/api/pets", opcions)
+        fetch("http://saveapet.westeurope.cloudapp.azure.com/api/pets", opcions)
             .then((resp) => resp.json())
             .then((data) => {
                 console.log(data);

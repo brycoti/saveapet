@@ -3,7 +3,7 @@ import './App.css'
 import { Outlet, Link,useNavigate } from "react-router-dom";
 import Contexte from "./components/contexte";
 import { useState, useEffect } from 'react';
-const API_URL = 'http://api.saveapet.westeurope.cloudapp.azure.com/api';
+const API_URL = 'http://saveapet.westeurope.cloudapp.azure.com/api';
 
 function App() {
   const redirect = useNavigate()

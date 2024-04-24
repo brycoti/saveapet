@@ -14,7 +14,7 @@ function App() {
   }, [setLoguejat]);
 
   useEffect(() => {
-    const API_URL = 'http://api.saveapet.westeurope.cloudapp.azure.com/api';
+    const API_URL = 'http://saveapet.westeurope.cloudapp.azure.com/api';
 
     if (document.cookie.includes('token')) {
       fetch(API_URL + '/refresh', { credentials: "include" })

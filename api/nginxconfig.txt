@@ -30,7 +30,7 @@ server {
        listen 80;
        listen [::]:80;
 
-       server_name api.saveapet.westeurope.cloudapp.azure.com;
+       server_name saveapet.westeurope.cloudapp.azure.com;
 
         location / {
         proxy_pass http://localhost:3000;
