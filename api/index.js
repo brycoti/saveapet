@@ -10,7 +10,7 @@ const app = express();
 // permet llegir contingut json en posts
 app.use(express.json());
 // cors necessari quan api/front son a servidors diferents
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors());
 // permet llegir les cookies
 app.use(cookieParser());
 
