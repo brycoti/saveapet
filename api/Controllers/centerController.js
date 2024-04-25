@@ -242,6 +242,19 @@ const deletePet = async (req, res, Model) => {
   }
 }
 
+const animalAdoptedByUsers = async (req, res,  UserPetMatch, User ) => {
+  try {
+    const petId = req.params.id;
+
+    // Recuperar los IDs de los perros que han sido adoptados
+    const adopted = await UserPetMatch.findAll({
+      where: { petId: petId, adopted: true},
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   registerCenter,
   newPet,
@@ -249,5 +262,6 @@ module.exports = {
   centerAnimal,
   animalLikedByUsers,
   adopt,
-  deletePet
+  deletePet,
+  animalAdoptedByUsers
 }

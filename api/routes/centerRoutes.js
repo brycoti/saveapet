@@ -10,7 +10,7 @@ const { Center, Pet, UserPetMatch, User } = require('../Models/models'); // Corr
 
 // Controllers
 const { createItem, updateItem, deleteItem, readItem, readItems } = require('../Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
-const { registerCenter, login2, centerAnimal, animalLikedByUsers, adopt } = require('../Controllers/centerController')
+const { registerCenter, login2, centerAnimal, animalLikedByUsers, adopt,  } = require('../Controllers/centerController')
 
 /*
 // Configuració de multer per gestionar la pujada de fitxers
