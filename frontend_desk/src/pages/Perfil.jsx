@@ -62,107 +62,114 @@ const Perfil = () => {
 
   return (
     <div className="p-3">
-    <div className="px-4 sm:px-6 lg:px-8 bg-white mt-10 p-3 rounded-md ">
-      <h1 className="font-sans text-emerald-800 font-bold text-3xl tracking-[-.10em]">
-        <span className="text-4xl text-black">:</span>Perfil
-      </h1>
-      {editMode ? (
-        <form className="p-5">
-          <div className="flex flex-col mb-4">
-            <input
-              placeholder="Nombre"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="form-input mt-1 block w-full bg-gray-100 p-2 rounded font-mono"
-            />
-          </div>
-          <div className="flex flex-col mb-4">
-            <input
-            placeholder="Email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="form-input mt-1 block w-full bg-gray-100 p-2 rounded font-mono"            />
-          </div>
-          <div className="flex flex-col mb-4">
-            <input
-            placeholder="Número de teléfono"
-              type="text"
-              value={phonenumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              className="form-input mt-1 block w-full bg-gray-100 p-2 rounded font-mono"            />
-          </div>
-          <div className="flex flex-col mb-4">
-            <input
-            placeholder="Sitio web"
-              type="text"
-              value={web}
-              onChange={(e) => setWeb(e.target.value)}
-              className="form-input mt-1 block w-full bg-gray-100 p-2 rounded font-mono"            />
-          </div>
-          <div className="flex flex-col mb-4">
-            <input
-            placeholder="Ciudad"
-              type="text"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              className="form-input mt-1 block w-full bg-gray-100 p-2 rounded font-mono"            />
-          </div>
-          <div className="flex flex-col mb-4">
-            <input
-            placeholder="Dirección"
-              type="text"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              className="form-input mt-1 block w-full bg-gray-100 p-2 rounded font-mono"            />
-          </div>
-          <button
-            onClick={handleSave}
-            className="mt-4 bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Guardar
-          </button>
-        </form>
-      ) : (
-        <div className="mt-2">
-          <p>
-            ¡Bienvenid@, <span className="bold italic">{name}</span>
-          !</p>
-          {/*<p>Email: {email}</p>
-        <p>Número de teléfono: {phonenumber}</p>
-        <p>Sitio web: {web}</p>
-        <p>Ciudad: {city}</p>
-        <p>Dirección: {address}</p>
-    <br />*/}
-        </div>
-      )}
+      <div className="px-4 sm:px-6 lg:px-8 bg-white mt-10 p-3 rounded-md ">
+        <h1 className="font-sans text-emerald-800 font-bold text-3xl tracking-[-.10em]">
+          <span className="text-4xl text-black">:</span>Perfil
+        </h1>
+        {editMode ? (
+          <form className="p-5">
+            <div className="flex flex-col mb-4">
+              <input
+                placeholder="Nombre"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="form-input mt-1 block w-full bg-gray-100 p-2 rounded font-mono"
+              />
+            </div>
+            <div className="flex flex-col mb-4">
+              <input
+                placeholder="Email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="form-input mt-1 block w-full bg-gray-100 p-2 rounded font-mono"
+              />
+            </div>
+            <div className="flex flex-col mb-4">
+              <input
+                placeholder="Número de teléfono"
+                type="text"
+                value={phonenumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                className="form-input mt-1 block w-full bg-gray-100 p-2 rounded font-mono"
+              />
+            </div>
+            <div className="flex flex-col mb-4">
+              <input
+                placeholder="Sitio web"
+                type="text"
+                value={web}
+                onChange={(e) => setWeb(e.target.value)}
+                className="form-input mt-1 block w-full bg-gray-100 p-2 rounded font-mono"
+              />
+            </div>
+            <div className="flex flex-col mb-4">
+              <input
+                placeholder="Ciudad"
+                type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                className="form-input mt-1 block w-full bg-gray-100 p-2 rounded font-mono"
+              />
+            </div>
+            <div className="flex flex-col mb-4">
+              <input
+                placeholder="Dirección"
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                className="form-input mt-1 block w-full bg-gray-100 p-2 rounded font-mono"
+              />
+            </div>
+            <button
+              onClick={handleSave}
+              className="mt-4 bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Guardar
+            </button>
+          </form>
+        ) : (
+          <div className="mt-2">
+            <p>
+              ¡Bienvenid@, <span className="bold italic">{name}</span>!
+            </p>
+            <div className="flex flex-col items-center bg-gray-200 rounded-lg p-3 mt-2 font-mono">
+              <p><span className="font-bold">Email:</span> {email}</p>
+              <p><span className="font-bold">Número de teléfono:</span> {phonenumber}</p>
+              <p><span className="font-bold">Sitio web:</span> {web}</p>
+              <p><span className="font-bold">Ciudad:</span> {city}</p>
+              <p><span className="font-bold">Dirección:</span> {address}</p>
 
-<div className="text-center mt-3">
-  <div className="flex justify-center gap-4">
-        <button
-          className="mt-4 rounded-full border border-emerald-800 p-3 text-slate-800 bg-white hover:bg-emerald-800 hover:text-white"
-          onClick={() => navigate("/list")}
-        >
-          Animales del centro
-        </button>
-        <button
-          className="mt-4 rounded-full border border-emerald-800 p-3 text-slate-800 bg-white hover:bg-emerald-800 hover:text-white"
-          onClick={() => navigate("/alta")}
-        >
-          Añadir un animal
-        </button>
-        <button
-  onClick={handleEdit}
-  className="mt-4 rounded-full border border-emerald-800 p-3 text-slate-800 bg-white hover:bg-emerald-800 hover:text-white"
->
-  Editar datos del centro
-</button>
-        
+              <button
+                onClick={handleEdit}
+                className="mt-4 rounded-full border border-emerald-800 p-3 text-slate-800 bg-white hover:bg-emerald-800 hover:text-white"
+              >
+                Editar datos del centro
+              </button>
+            </div>
+            <br />
+          </div>
+        )}
+
+        <div className="text-center mt-3">
+          <div className="flex justify-center gap-4">
+            <button
+              className="mt-4 rounded-full border border-emerald-800 p-3 text-slate-800 bg-white hover:bg-emerald-800 hover:text-white"
+              onClick={() => navigate("/list")}
+            >
+              Animales del centro
+            </button>
+            <button
+              className="mt-4 rounded-full border border-emerald-800 p-3 text-slate-800 bg-white hover:bg-emerald-800 hover:text-white"
+              onClick={() => navigate("/alta")}
+            >
+              Añadir un animal
+            </button>
+          </div>
         </div>
-        </div>
-      <br />
-    </div>
+        <br />
+      </div>
     </div>
   );
 };
