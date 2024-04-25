@@ -31,8 +31,8 @@ function App() {
           }
         });
     } 
-    /*if (!loguejat) {
-      return redirect("/register")}*/
+    if (!loguejat) {
+      return redirect("/register")}
   }, []);
 
   const dades = { loguejat, setLoguejat, logout, API_URL };
