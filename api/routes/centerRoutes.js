@@ -12,35 +12,6 @@ const { Center, Pet, UserPetMatch, User } = require('../Models/models'); // Corr
 const { createItem, updateItem, deleteItem, readItem, readItems } = require('../Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
 const { registerCenter, login2, centerAnimal, animalLikedByUsers, adopt,  } = require('../Controllers/centerController')
 
-/*
-// Configuració de multer per gestionar la pujada de fitxers
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, '../front/public/img') // Especifica la carpeta de destinació dels fitxers pujats
-    },
-    filename: function (req, file, cb) {
-      cb(null, `${Date.now()}_${file.originalname}`) // Assigna un nom únic als fitxers pujats
-    }
-  })
-  
-  const upload = multer({ storage: storage }).single('foto'); // Configura multer per a gestionar la pujada d'un únic fitxer amb el camp 'foto'
-  
-  
-  upload(req, res, async function (err) { // Gestiona la pujada del fitxer
-    if (err) {
-      return res.status(500).json({ error: err.message }); // Retorna error 500 si hi ha algun error en la pujada del fitxer
-    }
-    if (req.file) {
-      req.body.foto = req.file.filename; // Assigna el nom del fitxer pujat al camp 'foto'
-    }
-    // IMPORTANT! user.createBolet() és una "funció"
-    // de sequelize que automàticament vincula el Bolet creat amb l'usuari user
-    const item = await user.createBolet(req.body); // Crea un nou bolet PER A L'USUARI ACTUAL amb les dades rebudes
-    res.status(201).json(item); // Retorna l'objecte del bolet creat amb el codi d'estat 201 (Creat)
-  });
-
-*/
-
 
 // CRUD CENTER
 
