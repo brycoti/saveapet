@@ -170,7 +170,7 @@ const animalLikedByUsers = async (req, res,  UserPetMatch, User ) => {
     // Recuperar información de los usuarios que han dado like al animal
     const likedUsers = await User.findAll({
       where: { id: likedUserIds },
-      attributes: ['name', 'address', 'email','phonenumber']
+      attributes: ['name', 'address', 'email','phonenumber','id']
     });
 
     res.json(likedUsers);
@@ -180,6 +180,43 @@ const animalLikedByUsers = async (req, res,  UserPetMatch, User ) => {
 };
 
 
+const adopt = async (req, res,User,Pet,UserPetMatch) => {
+  try {
+      const { userId, petId } = req.body;
+
+      // Verifica si el usuario existe
+      const user = await User.findByPk(userId);
+      if (!user) {
+          return res.status(404).json({ error: 'El usuario no existe.' });
+      }
+
+      // Verifica si el animal existe
+      const pet = await Pet.findByPk(petId);
+      if (!pet) {
+          return res.status(404).json({ error: 'El animal no existe.' });
+      }
+
+      // Busca la entrada en la tabla intermedia que coincida con los IDs del usuario y del animal
+      const userPetMatch = await UserPetMatch.findOne({
+          where: { userId: userId, petId: petId }
+      });
+
+      // Verifica si se encontró una coincidencia en la tabla intermedia
+      if (!userPetMatch) {
+          return res.status(404).json({ error: 'No se encontró una coincidencia en la tabla intermedia.' });
+      }
+
+      // Actualiza el atributo 'adopted' de la entrada encontrada a 'true'
+      await userPetMatch.update({ adopted: true });
+
+      // Envía una respuesta de éxito
+      res.status(200).json({ message: 'Usuario adoptado correctamente.' });
+  } catch (error) {
+      console.error('Error al adoptar usuario:', error);
+      res.status(500).json({ error: 'Error al procesar la adopción del usuario.' });
+  }
+};
+
 
 
 module.exports = {
@@ -187,5 +224,6 @@ module.exports = {
   newPet,
   login2,
   centerAnimal,
-  animalLikedByUsers
+  animalLikedByUsers,
+  adopt
 }
