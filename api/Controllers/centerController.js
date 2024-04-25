@@ -217,7 +217,30 @@ const adopt = async (req, res,User,Pet,UserPetMatch) => {
   }
 };
 
+const deletePet = async (req, res, Model) => {
+  try {
+      const item = await Model.findByPk(req.params.id);
+      if (!item) {
+          return res.status(404).json({ error: 'Item not found' });
+      }
 
+       // Asumiendo que 'foto' es el campo donde se almacena el nombre del archivo de la imagen
+    const photoPath = path.join(__dirname, '../uploads', item.foto);
+
+    // Elimina la imagen del sistema de archivos
+    await fs.unlink(photoPath).catch(err => {
+      // Maneja el caso en que el archivo no pueda ser eliminado (p.ej. no existe o problemas de permisos)
+      console.error('Failed to delete the photo:', err);
+      throw new Error('Failed to delete the photo');
+    });
+
+
+      await item.destroy();
+      res.json({ message: 'Pet deleted successfully' });
+  } catch (error) {
+      res.status(400).json({ error: error.message });
+  }
+}
 
 module.exports = {
   registerCenter,
@@ -225,5 +248,6 @@ module.exports = {
   login2,
   centerAnimal,
   animalLikedByUsers,
-  adopt
+  adopt,
+  deletePet
 }
