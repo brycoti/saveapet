@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Contexte from "../components/contexte";
 
 export default function Login() {
-  const { loguejat, setLoguejat, API_URL } = useContext(Contexte);
+  const {setLoguejat, API_URL } = useContext(Contexte);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("@gmail.com");
   const redirect = useNavigate();

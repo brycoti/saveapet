@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import contexte from "../components/contexte";
 
 
@@ -127,7 +127,9 @@ const Register = () => {
             
             </div>
             <div className="text-center">
-            <Link to="/login">Tengo una cuenta. <span className="font-bold">Iniciar sesión</span></Link>
+            <Link to="/login">
+              Tengo una cuenta. <span className="font-bold">Iniciar sesión</span>
+              </Link>
             </div>
           </form>
         </div>
