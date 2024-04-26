@@ -159,8 +159,8 @@ const ModificarAnimal = () => {
         </div>
         <button type="submit" className="w-full bg-yellow-400 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mt-6">Modificar</button>
     </form>
-    <button className="mt-2 p-2 rounded-md bg-red-500 text-white" onClick={() => remove(id)}>eliminar</button>
-    <button type="button" onClick={handleCancelar} className="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2">Cancelar modificacion</button>
+    <button className="mt-2 p-2 rounded-md bg-red-600 text-white" onClick={() => remove(id)}>Eliminar a {nombre}!</button>
+    <button type="button" onClick={handleCancelar} className="w-full bg-orange-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2">Cancelar modificacion</button>
 </div>
 
 );

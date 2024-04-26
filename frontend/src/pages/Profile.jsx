@@ -16,7 +16,7 @@ const Profile = () => {
     if (!loguejat) redirect('/login')
 
   }, [loguejat, redirect])
-  */
+  
 
   useEffect(() => {
     const opcions = {
