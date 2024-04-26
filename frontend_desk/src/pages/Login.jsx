@@ -1,11 +1,11 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Contexte from "../components/contexte";
 
 export default function Login() {
-  const { setLoguejat, API_URL } = useContext(Contexte);
+  const { loguejat, setLoguejat, API_URL } = useContext(Contexte);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("@gmail.com");
   const redirect = useNavigate();
 
   const logueja = (e) => {
@@ -81,10 +81,10 @@ export default function Login() {
                           </button>
                         </div>
                         <div>
-                          <a href="/register">
+                          <Link to="/register">
                             ¿No tienes cuenta? 
                             <span className="font-bold hover:underline ml-1">Regístrate</span>
-                          </a>
+                          </Link>
                         </div>
                       </div>
                     </form>
