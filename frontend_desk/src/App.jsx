@@ -41,16 +41,16 @@ function App() {
     <Contexte.Provider value={dades}>
       {loguejat && (
   <div className="w-full flex items-center justify-between bg-emerald-800 p-8 rounded-b-lg">
-    <Link className="font-sans text-white font-bold text-4xl tracking-[-.10em] mt-[-1em]">
+    <Link to="/perfil" className="font-sans text-white font-bold text-4xl tracking-[-.10em] mt-[-1em]">
       Save a pet<span className="text-6xl text-black">.</span>
     </Link>
-    <div className="text-right">
-      <Link
+  <div className="text-right">
+      {/*<Link
         className="text-white font-extrabold mr-5 hover:underline"
         to="/"
       >
         Inicio
-      </Link>
+      </Link>*/}
       <Link
         className="text-white font-extrabold mr-5 hover:underline"
         to="/perfil"

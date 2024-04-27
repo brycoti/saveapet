@@ -6,7 +6,7 @@ import { editUser, login } from "../components/generic";
 
 const Login = () => {
     const { loguejat, setLoguejat } = useContext(Contexte);
-    const [user, setUser] = useState({ email: "", password: "" });
+    const [user, setUser] = useState({ email: "", password: ""});
     const redirect = useNavigate();
 
     useEffect(() => {
