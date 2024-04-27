@@ -1,7 +1,6 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import contexte from "../components/contexte";
-
 
 const Profile = () => {
   const { loguejat, logout } = useContext(contexte);
@@ -10,13 +9,9 @@ const Profile = () => {
 
   const redirect = useNavigate();
 
-
   useEffect(() => {
-
-    if (!loguejat) redirect('/login')
-
-  }, [loguejat, redirect])
-  
+    if (!loguejat) redirect("/login");
+  }, [loguejat, redirect]);
 
   useEffect(() => {
     const opcions = {
@@ -35,7 +30,6 @@ const Profile = () => {
       })
       .catch((err) => {
         console.log("Error fetching data:", err);
-
       });
   }, [actualitza, logout]);
 
@@ -44,9 +38,15 @@ const Profile = () => {
       <div className="overflow-x-auto flex flex-wrap items-center justify-center">
         <div className="container lg:w-2/6 xl:w-2/7 sm:w-full md:w-2/3 bg-white shadow-lg transform duration-200 easy-in-out">
           <div className="h-48 overflow-hidden bg-emerald-700 flex justify-between">
-            <Link to='/settings' className="text-sm mt-2 mr-2 text-white p-3">Ajustes</Link>
-            <h1 className="p-3 ml-2 font-sans text-white font-bold text-3xl tracking-[-.10em]"><span className="text-4xl text-black">:</span>Perfil</h1>
-            <a onClick={logout} className="text-sm mt-2 mr-2 text-white p-3">Logout</a>
+            <Link to="/settings" className="text-sm mt-2 mr-2 text-white p-3">
+              Ajustes
+            </Link>
+            <h1 className="p-3 ml-2 font-sans text-white font-bold text-3xl tracking-[-.10em]">
+              <span className="text-4xl text-black">:</span>Perfil
+            </h1>
+            <a onClick={logout} className="text-sm mt-2 mr-2 text-white p-3">
+              Logout
+            </a>
           </div>
 
           <div className="flex justify-center px-5  -mt-28">
@@ -57,16 +57,20 @@ const Profile = () => {
             />
           </div>
           <div className="text-center px-3">
-            <h2 className="text-gray-800 text-3xl font-bold">{loguejat?.name}</h2>
+            <h2 className="text-gray-800 text-3xl font-bold">
+              {loguejat?.name}
+            </h2>
             <hr />
-            <p className="p-3 text-gray-800 text-xl font-extrabold">Favoritos</p>
+            <p className="p-3 text-gray-800 text-xl font-extrabold">
+              Favoritos
+            </p>
             <a href="/cuestionario">Cuestionario</a>
             <div className="overflow-x-auto h-46">
               <div className="flex">
-                {animales.map(animal => (
+                {animales.map((animal) => (
                   <img
                     key={animal.id}
-                    src={`./img/${animal.foto}`}
+                    src={`http://localhost:3000/uploads/${animal.foto}`}
                     className="w-auto h-52 m-1"
                     alt="Animal"
                   />

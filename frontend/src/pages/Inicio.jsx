@@ -76,7 +76,7 @@ const Inicio = () => {
                         <div key={animales[currentIndex].id} className="w-full p-4 flex justify-center items-center">
                             <div className="max-w-3xl w-full rounded-lg overflow-hidden shadow-lg">
                                 <img
-                                    src={`./img/${animales[currentIndex].foto}`}
+                                    src={`http://localhost:3000/uploads/${animales[currentIndex].foto}`}
                                     className="w-80"
                                     alt="imagen"
                                 />
