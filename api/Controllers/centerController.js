@@ -62,7 +62,7 @@ const login2 = async (req, res, Model) => {
 // Configuración de multer para guardar imágenes en el servidor
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../frontend_desk/public/img') // Especifica la carpeta de destino de los archivos subidos
+    cb(null, 'uploads') // Especifica la carpeta de destino de los archivos subidos
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = `${Date.now()}_${Math.round(Math.random() * 1E9)}`;
@@ -83,7 +83,7 @@ const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 320 * 210 * 4 // 4MB limit
+    fileSize: 320 * 256 * 4 // 4MB limit
   }
 }).single('foto');
 
@@ -97,15 +97,9 @@ const newPet = async (req, res, next, Center, Pet) => {
       return res.status(500).json({ error: err.message });
     }
 
-
-     // Ruta a la segunda ubicación donde también quieres guardar la imagen
-     const additionalPath = '../frontend/public/img/' + req.file.filename;
-
-
     // No hay errores de carga, proceder con la lógica de negocio
     try {
-       // Copiar el archivo a la segunda ubicación
-       await fs.copyFile(req.file.path, additionalPath);
+       
 
       const center = await Center.findByPk(req.userId);
       if (!center) {
@@ -160,50 +154,114 @@ const centerAnimal = async (req, res, Center, Pet) => {
 };
 
 
-const animalLikedByUsers = async (req, res, UserPetMatch, Pet) => {
+const animalLikedByUsers = async (req, res,  UserPetMatch, User ) => {
   try {
-    const petId = req.params.petId;
+    const petId = req.params.id;
 
-    // Retrieve the pet and associated center with likes
-    const pet = await Pet.findOne({
-      where: { id: petId },
-      include: [
-        {
-          model: Center,
-          attributes: ['id']
-        },
-        {
-          model: UserPetMatch,
-          as: 'likes',  // Use the alias defined in the association
-          attributes: ['userId'],
-          where: { liked: true }
-        }
-      ]
+    // Recuperar los IDs de los usuarios que han dado like al animal
+    const likedUserMatches = await UserPetMatch.findAll({
+      where: { petId: petId, liked: true, watched: true },
+      attributes: ['userId'] // la columna que devuelve
     });
 
-    if (!pet) {
-      return res.status(404).json({ error: 'Pet not found' });
-    }
+    // Extraer los IDs de usuario de los matches
+    const likedUserIds = likedUserMatches.map(match => match.userId);
 
-    const userIds = pet.likes.map(like => like.userId);
+    // Recuperar información de los usuarios que han dado like al animal
+    const likedUsers = await User.findAll({
+      where: { id: likedUserIds },
+      attributes: ['name', 'address', 'email','phonenumber','id']
+    });
 
-    // Prepare the response object
-    const result = {
-      pet: pet,  // This now includes likes embedded within
-    };
-
-    res.json(result);
+    res.json(likedUsers);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
 
+const adopt = async (req, res,User,Pet,UserPetMatch) => {
+  try {
+      const { userId, petId } = req.body;
+
+      // Verifica si el usuario existe
+      const user = await User.findByPk(userId);
+      if (!user) {
+          return res.status(404).json({ error: 'El usuario no existe.' });
+      }
+
+      // Verifica si el animal existe
+      const pet = await Pet.findByPk(petId);
+      if (!pet) {
+          return res.status(404).json({ error: 'El animal no existe.' });
+      }
+
+      // Busca la entrada en la tabla intermedia que coincida con los IDs del usuario y del animal
+      const userPetMatch = await UserPetMatch.findOne({
+          where: { userId: userId, petId: petId }
+      });
+
+      // Verifica si se encontró una coincidencia en la tabla intermedia
+      if (!userPetMatch) {
+          return res.status(404).json({ error: 'No se encontró una coincidencia en la tabla intermedia.' });
+      }
+
+      // Actualiza el atributo 'adopted' de la entrada encontrada a 'true'
+      await userPetMatch.update({ adopted: true });
+
+      // Envía una respuesta de éxito
+      res.status(200).json({ message: 'Usuario adoptado correctamente.' });
+  } catch (error) {
+      console.error('Error al adoptar usuario:', error);
+      res.status(500).json({ error: 'Error al procesar la adopción del usuario.' });
+  }
+};
+
+const deletePet = async (req, res, Model) => {
+  try {
+      const item = await Model.findByPk(req.params.id);
+      if (!item) {
+          return res.status(404).json({ error: 'Item not found' });
+      }
+
+       // Asumiendo que 'foto' es el campo donde se almacena el nombre del archivo de la imagen
+    const photoPath = path.join(__dirname, '../uploads', item.foto);
+
+    // Elimina la imagen del sistema de archivos
+    await fs.unlink(photoPath).catch(err => {
+      // Maneja el caso en que el archivo no pueda ser eliminado (p.ej. no existe o problemas de permisos)
+      console.error('Failed to delete the photo:', err);
+      throw new Error('Failed to delete the photo');
+    });
+
+
+      await item.destroy();
+      res.json({ message: 'Pet deleted successfully' });
+  } catch (error) {
+      res.status(400).json({ error: error.message });
+  }
+}
+
+const animalAdoptedByUsers = async (req, res,  UserPetMatch, User ) => {
+  try {
+    const petId = req.params.id;
+
+    // Recuperar los IDs de los perros que han sido adoptados
+    const adopted = await UserPetMatch.findAll({
+      where: { petId: petId, adopted: true},
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 module.exports = {
   registerCenter,
   newPet,
   login2,
   centerAnimal,
-  animalLikedByUsers
+  animalLikedByUsers,
+  adopt,
+  deletePet,
+  animalAdoptedByUsers
 }

@@ -204,7 +204,7 @@ const Inicio = () => {
                             <div className="max-w-3xl w-full rounded-lg overflow-hidden shadow-lg">
                                 <img
 
-                                    src={`../../public/img/${animales[0].foto}`}
+                                    src={`http://localhost:3000/uploads/${animales[0].foto}`}
                                     className="w-80 min-h-64 max-h-64"
                                     alt="imagen"
                                 />
@@ -221,7 +221,7 @@ const Inicio = () => {
                             <div className="max-w-3xl w-full rounded-lg overflow-hidden shadow-lg">
                                 <img
 
-                                    src={`../../public/img/${animales[1].foto}`}
+                                    src={`http://localhost:3000/uploads/${animales[1].foto}`}
                                     className="w-80 min-h-64 max-h-64"
                                     alt="imagen"
                                 />

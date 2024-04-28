@@ -16,6 +16,8 @@ app.use(cookieParser());
 
 
 // Routes
+app.use('/uploads', express.static('uploads'))
+
 
 // Read all route files and import them
 fs.readdirSync(path.join(__dirname, 'routes')).forEach(file => {

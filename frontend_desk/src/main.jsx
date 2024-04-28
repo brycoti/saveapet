@@ -27,7 +27,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/modificar/:id" element={<ModificarAnimal />} />
           <Route path="/alta" element={<Alta />} />
           <Route path="/list/likes/:id" element={<Likes />} />
-
         </Route>
       </Routes>
     </React.StrictMode>
