@@ -11,8 +11,7 @@ const Inicio = () => {
     const myRef = useRef();
     const [animales, setAnimales] = useState([]);
     const [error, setError] = useState(null);
-    const [actualitza, setActualitza] = useState(false);
-    const [likedAnimales, setLikedAnimales] = useState([]);
+
 
     const [mov, setMov] = useState({
         deg: 0,
@@ -166,7 +165,7 @@ const Inicio = () => {
                 console.error("Error fetching data:", error);
                 setError(err);
             });
-    }, [actualitza, error, logout]);
+    }, [error, logout]);
 
     useEffect(() => {
         const node = myRef.current;
