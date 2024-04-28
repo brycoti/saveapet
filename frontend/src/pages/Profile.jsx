@@ -47,7 +47,7 @@ const Profile = () => {
               </Link>
               <div className="flex flex-col">
                 <h1 className="px-3 font-sans text-white font-bold text-3xl tracking-[-.10em]">
-                  <span className="text-2xl text-black">:</span>Perfil
+                  <span className="text-3xl text-black">:</span>Perfil
                 </h1>
                 <h1 className="px-2 font-sans text-white font-bold text-2xl">{loguejat?.name}</h1>
               </div>
