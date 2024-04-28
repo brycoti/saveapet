@@ -40,6 +40,11 @@ const putApi = async (state, link) => {
     }
 }
 
+const createReaction = async (information) => {
+    const reactionLink = '/user/petmatch';
+    return (postApi(information, reactionLink))
+}
+
 const editUser = async (state, id) => {
     const userLink = '/users/' + id
 
@@ -61,4 +66,4 @@ const login = async (credentials) => {
     return (postApi(credentials, loginLink));
 }
 
-export { login, createUser, editUser }
+export { login, createUser, editUser, createReaction }

@@ -1,29 +1,107 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState, useRef } from 'react';
 import contexte from "../components/contexte";
 import { Link, useNavigate } from 'react-router-dom';
+import { createReaction } from '../components/generic';
 
 
 const Inicio = () => {
     const { loguejat, logout } = useContext(contexte);
     const redirect = useNavigate();
+    const myRef = useRef();
     const [animales, setAnimales] = useState([]);
     const [error, setError] = useState(null);
-    const [currentIndex, setCurrentIndex] = useState(0);
     const [actualitza, setActualitza] = useState(false);
     const [likedAnimales, setLikedAnimales] = useState([]);
 
     const [mov, setMov] = useState({
         deg: 0,
-        deltaX: 0
+        deltaX: 0,
+        transition: 'none'
     });
     const [isAnimating, setIsAnimating] = useState(false);
 
+
+    const like = async () => {
+        setIsAnimating(false);
+
+        const information = {
+            liked: true,
+            watched: true,
+            petId: animales[0].id
+        }
+        if (loguejat) {
+            const data = await createReaction(information);
+        } else {
+            redirect('/login')
+        }
+
+        while (isAnimating == true) {
+            myRef.current.addEventListener('transitionend', () => {
+                setIsAnimating(false)
+            })
+        }
+
+        const arrayAuxiliar = animales.slice(1);
+
+        setAnimales(arrayAuxiliar);
+
+        setMov({
+            deg: 0,
+            deltaX: 0,
+            // transition: 'none'
+        })
+    }
+
+    const disLike = async () => {
+        setIsAnimating(false);
+        const information = {
+            liked: false,
+            watched: true,
+            petId: animales[0].id
+        }
+        if (loguejat) {
+            const data = await createReaction(information);
+        } else {
+            redirect('/login')
+        }
+        while (isAnimating == true) {
+            myRef.current.addEventListener('transitionend', () => {
+                setIsAnimating(false)
+
+            })
+        }
+
+        const arrayAuxiliar = animales.slice(1);
+
+        setAnimales(arrayAuxiliar);
+
+        setMov({
+            deg: 0,
+            deltaX: 0,
+            transition: 'none'
+        })
+    }
+
+    const slideRight = () => {
+
+        setMov({ deg: 600 / 14, deltaX: 600, transition: 'transform .3s ease' })
+        if (!isAnimating) like();
+
+    }
+
+    const slideLeft = () => {
+
+        setMov({ deg: -600 / 14, deltaX: -600, transition: 'transform .3s ease' })
+        disLike();
+    }
+
+
+
     const drag = useCallback((event) => {
+
         if (isAnimating) return
         let buffer
         const decisionTreshold = 160;
-
-        const actualCard = event.target.closest('article')
 
         const startX = event.touches[0].pageX;
 
@@ -34,7 +112,8 @@ const Inicio = () => {
             const currentX = event.pageX ?? event.touches[0].pageX;
             buffer = {
                 deg: (currentX - startX) / 20,
-                deltaX: (currentX - startX)
+                deltaX: (currentX - startX),
+                transition: 'none'
             }
             setMov(buffer);
 
@@ -45,30 +124,27 @@ const Inicio = () => {
 
             document.removeEventListener('touchmove', onMove);
             document.removeEventListener('touchend', onEnd);
-            setMov({
-                deg: 0,
-                deltaX: 0
-            })
-            console.log(buffer)
+
+
             const decisionMade = Math.abs(buffer.deltaX) >= decisionTreshold
-
+            setIsAnimating(true)
             if (decisionMade) {
-
-                console.log("decisión tomada")
+                const goRight = buffer.deltaX > 0
+                if (goRight) {
+                    slideRight();
+                } else {
+                    slideLeft();
+                }
             } else {
-                console.log("indeciso")
+                setMov({
+                    deg: 0,
+                    deltaX: 0,
+                    transition: 'transform .3s easy'
+                })
+                setIsAnimating(false);
             }
         }
-    }, [isAnimating])
-
-
-
-    useEffect(() => {
-
-        document.addEventListener('touchstart', drag)
-        return () => document.removeEventListener('touchstart', drag);
-
-    }, [drag]);
+    }, [isAnimating, slideLeft, slideRight])
 
     useEffect(() => {
         const opcions = {
@@ -78,7 +154,7 @@ const Inicio = () => {
         fetch("http://localhost:3000/api/pets", opcions)
             .then((resp) => resp.json())
             .then((data) => {
-
+                console.log(data)
                 if (data.error) {
                     setError(data.error);
                 } else {
@@ -91,21 +167,13 @@ const Inicio = () => {
             });
     }, [actualitza, error, logout]);
 
-    const handleNext = () => {
-        const currentAnimal = animales[currentIndex];
-
-        // Verificar si el animal actual ya está marcado como "me gusta"
-        if (!likedAnimales.some(animal => animal.id === currentAnimal.id)) {
-            // Agregar el animal actual a la lista de animales marcados como "me gusta"
-            setLikedAnimales(prevLikedAnimales => [...prevLikedAnimales, currentAnimal]);
-        }
-
-        setCurrentIndex(prevIndex => (prevIndex === animales.length - 1 ? 0 : prevIndex + 1));
-    };
-
-    const handlePrev = () => {
-        setCurrentIndex(prevIndex => (prevIndex === 0 ? animales.length - 1 : prevIndex - 1));
-    };
+    useEffect(() => {
+        const node = myRef.current;
+        node.addEventListener('touchstart', drag);
+        return () => {
+            node.removeEventListener('touchstart', drag);
+        };
+    }, [drag, myRef]);
 
     const clickProfile = () => {
         if (loguejat) redirect('/profile')
@@ -114,8 +182,8 @@ const Inicio = () => {
 
     return (
         <>
-            <div className="flex flex-col box-border h-screen justify-between overflow-hidden">
-                <div className="text-white flex justify-between items-baseline p-2 h-1/10 bg-emerald-700 ">
+            <div className="flex flex-col box-border h-screen justify-between overflow-hidden relative items-center">
+                <div className="text-white flex justify-between items-baseline p-2 h-1/10 bg-emerald-700 w-full ">
                     {!loguejat ? (
                         <div className="pr-2">
                             <Link to="/login">login</Link>
@@ -130,31 +198,49 @@ const Inicio = () => {
                     <h1 className="text-right"> Filtros</h1>
                 </div>
 
-                <article style={{ transform: `translateX(${mov.deltaX}px) rotate(${mov.deg}deg)` }} className="flex flex-wrap justify-between p-4">
+                <article ref={myRef} style={{ transform: `translateX(${mov.deltaX}px) rotate(${mov.deg}deg)`, transition: `${mov.transition}` }} className="flex flex-wrap justify-between p-4 absolute z-10 bottom-1/3">
                     {animales.length > 0 && (
-                        <div key={animales[currentIndex].id} className="w-full p-4 flex justify-center items-center">
+                        <div key={animales[0].id} className="w-full p-4 flex justify-center items-center">
                             <div className="max-w-3xl w-full rounded-lg overflow-hidden shadow-lg">
                                 <img
 
-                                    src={`../../public/img/${animales[currentIndex].foto}`}
-                                    className="w-80"
+                                    src={`../../public/img/${animales[0].foto}`}
+                                    className="w-80 min-h-64 max-h-64"
                                     alt="imagen"
                                 />
-                                <div className="px-6 py-4">
-                                    <div className="font-bold text-xl mb-2">{animales[currentIndex].name}, {animales[currentIndex].age}</div>
+                                <div className="px-6 py-4 bg-white">
+                                    <div className="font-bold text-xl mb-2">{animales[0].name}, {animales[0].age}</div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </article>
+                <article className="flex flex-wrap justify-between p-4 absolute z-0 bottom-1/3">
+                    {animales.length > 0 && (
+                        <div key={animales[1].id} className="w-full p-4 flex justify-center items-center ">
+                            <div className="max-w-3xl w-full rounded-lg overflow-hidden shadow-lg">
+                                <img
+
+                                    src={`../../public/img/${animales[1].foto}`}
+                                    className="w-80 min-h-64 max-h-64"
+                                    alt="imagen"
+                                />
+                                <div className="px-6 py-4 bg-white">
+                                    <div className="font-bold text-xl mb-2">{animales[1].name}, {animales[1].age}</div>
                                 </div>
                             </div>
                         </div>
                     )}
                 </article>
 
-                <div className="flex justify-around bg-gray-50 h-15 p-2">
-                    <button onClick={handlePrev}>Anterior</button>
-                    <button onClick={handleNext}>Siguiente</button>
+
+                <div className="flex justify-around bg-gray-50 h-15 p-2 w-full absolute top-3/4">
+                    {/* <button onClick={ }>Anterior</button>
+                    <button onClick={ }>Siguiente</button> */}
 
                 </div>
 
-                <div className="flex justify-around bg-gray-50 h-15 p-2">
+                <div className="flex justify-around bg-gray-50 h-15 p-2 w-full">
                     <Link to="/">
                         <img
                             src="https://www.freeiconspng.com/thumbs/dog-icon/dog-icon-4.png"
