@@ -46,7 +46,7 @@ const Likes = () => {
                     'Content-Type': 'application/json'
                 },
                 credentials: 'include',
-                body: JSON.stringify({userId:x, petId: id })
+                body: JSON.stringify({ userId: x, petId: id })
             });
             if (response.ok) {
                 // Lógica para manejar la adopción exitosa
@@ -69,7 +69,7 @@ const Likes = () => {
             <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">Likes del animal</h2>
             <div className="grid grid-cols-1 gap-4">
                 {likes.map((like, index) => (
-                    <div key={index} className="border border-gray-300 rounded-md p-4 flex flex-col">
+                    <div key={index} className="border border-gray-300 rounded-md p-4 flex flex-col text-white">
                         <p className="text-lg font-semibold mb-2">Usuario: {like.name}</p>
                         <p className="text-sm mb-1">Email: {like.email}</p>
                         <p className="text-sm mb-1">Dirección: {like.address}</p>

@@ -2,7 +2,8 @@ import { useCallback, useContext, useEffect, useState, useRef } from 'react';
 import contexte from "../components/contexte";
 import { Link, useNavigate } from 'react-router-dom';
 import { createReaction } from '../components/generic';
-
+import corazon from '../../public/like.png';
+import cruz from '../../public/nop.png';
 
 const Inicio = () => {
     const { loguejat, logout } = useContext(contexte);
@@ -217,16 +218,16 @@ const Inicio = () => {
                 </article>
                 <article className="flex flex-wrap justify-between p-4 absolute z-0 bottom-1/3">
                     {animales.length > 0 && (
-                        <div key={animales[1].id} className="w-full p-4 flex justify-center items-center ">
+                        <div key={animales[1]?.id} className="w-full p-4 flex justify-center items-center ">
                             <div className="max-w-3xl w-full rounded-lg overflow-hidden shadow-lg">
                                 <img
 
-                                    src={`http://localhost:3000/uploads/${animales[1].foto}`}
+                                    src={`http://localhost:3000/uploads/${animales[1]?.foto}`}
                                     className="w-80 min-h-64 max-h-64"
                                     alt="imagen"
                                 />
                                 <div className="px-6 py-4 bg-white">
-                                    <div className="font-bold text-xl mb-2">{animales[1].name}, {animales[1].age}</div>
+                                    <div className="font-bold text-xl mb-2">{animales[1]?.name}, {animales[1]?.age}</div>
                                 </div>
                             </div>
                         </div>
@@ -235,8 +236,9 @@ const Inicio = () => {
 
 
                 <div className="flex justify-around bg-gray-50 h-15 p-2 w-full absolute top-3/4">
-                    {/* <button onClick={ }>Anterior</button>
-                    <button onClick={ }>Siguiente</button> */}
+                    <button className='p2' onClick={slideLeft}><img src={cruz} alt="corazon" width='50px' height='50px' /></button>
+
+                    <button className='p2' onClick={slideRight}><img src={corazon} alt="corazon" width='40px' height='40px' /></button>
 
                 </div>
 
