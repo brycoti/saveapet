@@ -10,6 +10,7 @@ import Inicio from './pages/Inicio.jsx';
 import Profile from './pages/Profile.jsx';
 import Cuestionario from './pages/Cuestionario.jsx';
 import Settings from './pages/Settings.jsx';
+import PetEspecific from './pages/PetEspecific.jsx';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -25,7 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/profile" element={<Profile />} />
           <Route path="/cuestionario" element={<Cuestionario />} />
           <Route path="/settings" element={<Settings />} />
-
+          <Route path='/pet/:id' element={<PetEspecific />} />
         </Route>
       </Routes>
     </React.StrictMode>

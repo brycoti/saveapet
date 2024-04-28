@@ -1,9 +1,11 @@
 import { useCallback, useContext, useEffect, useState, useRef } from 'react';
 import contexte from "../components/contexte";
 import { Link, useNavigate } from 'react-router-dom';
-import { createReaction } from '../components/generic';
+import { createReaction, getPets } from '../components/generic';
 import corazon from '../../public/like.png';
 import cruz from '../../public/nop.png';
+import information from '../../public/info-icon--6.png';
+
 
 const Inicio = () => {
     const { loguejat, logout } = useContext(contexte);
@@ -61,6 +63,7 @@ const Inicio = () => {
         }
         if (loguejat) {
             const data = await createReaction(information);
+
         } else {
             redirect('/login')
         }
@@ -147,24 +150,16 @@ const Inicio = () => {
     }, [isAnimating, slideLeft, slideRight])
 
     useEffect(() => {
-        const opcions = {
-            credentials: "include",
-        };
 
-        fetch("http://localhost:3000/api/pets", opcions)
-            .then((resp) => resp.json())
+        getPets()
             .then((data) => {
-                console.log(data)
                 if (data.error) {
                     setError(data.error);
                 } else {
                     setAnimales(data);
                 }
             })
-            .catch((err) => {
-                console.error("Error fetching data:", error);
-                setError(err);
-            });
+
     }, [error, logout]);
 
     useEffect(() => {
@@ -203,7 +198,6 @@ const Inicio = () => {
                         <div key={animales[0]?.id} className="w-full p-4 flex justify-center items-center">
                             <div className="max-w-3xl w-full rounded-lg overflow-hidden shadow-lg">
                                 <img
-
                                     src={`http://localhost:3000/uploads/${animales[0]?.foto}`}
                                     className="w-80 min-h-64 max-h-64"
                                     alt="imagen"
@@ -236,7 +230,7 @@ const Inicio = () => {
                 {animales.length > 0 ?
                     (<div className="flex justify-around bg-gray-50 h-15 p-2 w-full absolute top-3/4">
                         <button className='p2' onClick={slideLeft}><img src={cruz} alt="corazon" width='50px' height='50px' /></button>
-
+                        <Link to={`/pet/${animales[0]?.id}`} ><img src={information} alt="informació" width='45px' height='45px' /></Link>
                         <button className='p2' onClick={slideRight}><img src={corazon} alt="corazon" width='40px' height='40px' /></button>
 
                     </div>

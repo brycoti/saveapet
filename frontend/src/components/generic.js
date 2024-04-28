@@ -40,6 +40,21 @@ const putApi = async (state, link) => {
     }
 }
 
+const getApi = async (link) => {
+
+    const options = {
+        credentials: "include",
+    };
+    try {
+        const response = await fetch(API_URL + link, options)
+        const data = await response.json()
+        return data
+    } catch (e) {
+        return e;
+    }
+
+}
+
 const createReaction = async (information) => {
     const reactionLink = '/user/petmatch';
     return (postApi(information, reactionLink))
@@ -66,4 +81,14 @@ const login = async (credentials) => {
     return (postApi(credentials, loginLink));
 }
 
-export { login, createUser, editUser, createReaction }
+const getOnePet = (id) => {
+    const getOnePetLink = '/pets/' + id
+    return (getApi(getOnePetLink));
+}
+
+const getPets = () => {
+    const getPets = '/pets';
+    return (getApi(getPets));
+}
+
+export { login, createUser, editUser, createReaction, getOnePet, getPets }
