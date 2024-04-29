@@ -43,19 +43,20 @@ const PetEspecific = () => {
             </div>
 
             <div className="px-6">
-                <img className='rounded-xl' src={`http://localhost:3000/uploads/${pet.foto}`} alt="foto perro" />
+                <img className="rounded-xl" src={`http://localhost:3000/uploads/${pet.foto}`} alt="foto perro" />
                 <div className="px-2 py-4 bg-white">
-                    <p className="font-bold text-xl mb-2">{pet.name}, {pet.age}</p>
-                    <p className="font-semibold text-xl mb-2">{pet.breed}</p>
+                    <p className="font-extrabold text-2xl mb-2">{pet.name}, {pet.age}</p>
+                    <p className="font-semibold text-xl">{pet.breed}</p>
                 </div>
             </div>
-            <div className="px-8 text-l">
-                <span className="text-xl font-semibold">Comportamiento:</span>
+            <div className="mx-auto bg-emerald-700 text-white px-12 py-3 rounded-lg">
+                <span className="text-xl font-extrabold text-white">Comportamiento</span>
+                
                 {pet.kids_friendly ? <div>- Amigable con los niños</div> : <div>- No recomendado si tiene niños</div>}
                 {pet.dogs_friendly ? <div>- Amigable con otros perros</div> : <div>- No recomendado si tiene más perros</div>}
-                <div>-  Temperamento: {pet.temper}</div>
+                <div>-  Temperamento {pet.temper}</div>
             </div>
-            <div className="px-8 ">La necesidad de adopción es: {pet.urgency}</div>
+            <div className="mx-auto">La necesidad de adopción es: <span className="font-bold">{pet.urgency}</span></div>
             <div className="flex justify-around bg-gray-50 h-17 p-2 content-end">
                 <Link to="/">
                     <img

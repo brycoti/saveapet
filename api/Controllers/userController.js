@@ -6,7 +6,7 @@ const { where } = require("sequelize");
 
 const registerUser = async (req, res, User) => {
   try {
-    const { name, email, password, phonenumber, address } = req.body;
+    const { name, email, password, phonenumber, address,  home, other_pets, age_range, kids_at_home, ill_pets} = req.body;
 
     if (!name || !email || !password, !phonenumber, !address) {
       return res.status(400).json({ error: 'name, email, password, phonenumber i address requerits' });
@@ -18,9 +18,9 @@ const registerUser = async (req, res, User) => {
       return res.status(400).json({ error: 'Email ja existeix' });
     }
 
-    const user = await User.create({ name, email, password, phonenumber, address });
+    const user = await User.create({ name, email, password, phonenumber, address, home, other_pets, age_range, kids_at_home, ill_pets});
 
-    res.status(201).json({ userId: user.id, name: user.name, email: user.email });
+    res.status(201).json({ userId: user.id, name: user.name, email: user.email, });
   } catch (error) {
     res.status(500).json({ error: "Cannot create" });
   }

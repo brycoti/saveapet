@@ -30,23 +30,6 @@ function App() {
 
   }, [logout])
 
-  useEffect(() => {
-    const API_URL = 'http://localhost:3000/api';
-
-    if (document.cookie.includes('token')) {
-      fetch(API_URL + '/refresh', { credentials: "include" })
-        .then(e => e.json())
-        .then(data => {
-          if (data.error) {
-            logout();
-          } else {
-            setLoguejat(data)
-          }
-        })
-    }
-
-  }, [logout])
-
   const dades = { loguejat, setLoguejat, logout }
   return (
     <>
