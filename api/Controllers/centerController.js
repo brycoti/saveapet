@@ -205,7 +205,9 @@ const adopt = async (req, res,User,Pet,UserPetMatch) => {
       if (!userPetMatch) {
           return res.status(404).json({ error: 'No se encontró una coincidencia en la tabla intermedia.' });
       }
-
+      if (userPetMatch.adopted) {
+        return res.status(404).json({error:"El animal ya ha sido adoptado"})
+      }
       // Actualiza el atributo 'adopted' de la entrada encontrada a 'true'
       await userPetMatch.update({ adopted: true });
 
