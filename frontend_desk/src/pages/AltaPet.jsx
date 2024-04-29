@@ -124,10 +124,10 @@ const AltaMascota = () => {
                 <option value="" selected>
                   --Seleciona una opción--
                 </option>
-                <option value="energetic">Enérgico</option>
-                <option value="calm">Tranquilo</option>
-                <option value="playful">Juguetón</option>
-                <option value="shy">Tímido</option>
+                <option value="energico">Enérgico</option>
+                <option value="calmado">Tranquilo</option>
+                <option value="jugueton">Juguetón</option>
+                <option value="timido">Tímido</option>
               </select>
             </div>
           </div>
