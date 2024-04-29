@@ -31,6 +31,26 @@ const User = sequelize.define('User', {
   already_logged: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
+  },
+  home: {
+    type: DataTypes.ENUM('casa', 'piso', 'otro'),
+    allowNull: true,
+  },
+  other_pets: {
+    type: DataTypes.BOOLEAN,
+    allowNull: true
+  },
+  age_range: {
+    type: DataTypes.ENUM('cachorro', 'joven', 'mayor'),
+    allowNull: true
+  },
+  kids_at_home : {
+    type: DataTypes.BOOLEAN,
+    allowNull: true
+  },
+  ill_pets : {
+    type: DataTypes.BOOLEAN,
+    allowNull: true
   }
   });
 
