@@ -170,7 +170,7 @@ const animalLikedByUsers = async (req, res,  UserPetMatch, User ) => {
     // Recuperar información de los usuarios que han dado like al animal
     const likedUsers = await User.findAll({
       where: { id: likedUserIds },
-      attributes: ['name', 'address', 'email','phonenumber','id']
+      attributes: ['name', 'address', 'email','phonenumber','id','home','other_pets','age_range','kids_at_home','ill_pets']
     });
 
     res.json(likedUsers);
