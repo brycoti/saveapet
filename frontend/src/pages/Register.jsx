@@ -71,7 +71,7 @@ const Register = () => {
                 className="font-mono text-sm bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
               />
             </div>
-            <div className="md:w-1/3 mb-3"x>
+            <div className="md:w-1/3 mb-3" x>
               <label htmlFor="phonenumber"></label>
               <input
                 placeholder="Teléfono"
@@ -103,7 +103,7 @@ const Register = () => {
             </button>
             <div className="flex justify-center items-center">
               <a href="/login">
-                Tengo una cuenta. 
+                Tengo una cuenta.
                 <span className="font-bold text-emerald-700"> Iniciar sesión</span>
               </a>
             </div>

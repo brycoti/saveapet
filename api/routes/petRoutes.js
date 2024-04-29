@@ -1,14 +1,14 @@
 const express = require('express'); // Importa la llibreria Express per gestionar les rutes
 const router = express.Router(); // Crea un router d'Express
 
-const { checkToken } = require('../Middleware/checkToken'); 
+const { checkToken } = require('../Middleware/checkToken');
 
 // Models
-const { Center, Pet} = require('../Models/models');
- 
+const { Center, Pet } = require('../Models/models');
+
 // Controllers
-const {updateItem, deleteItem, readItem, readItems} = require('../Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
-const {newPet, deletePet, animalAdoptedByUsers} = require('../Controllers/centerController')
+const { updateItem, deleteItem, readItem, readItems } = require('../Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
+const { newPet, deletePet, animalAdoptedByUsers } = require('../Controllers/centerController')
 
 
 // CRUD PET

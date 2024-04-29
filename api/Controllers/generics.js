@@ -9,12 +9,12 @@ const login = async (req, res, Model) => {
         const user = await Model.findOne({ where: { email } }); // Cerca l'usuari pel seu email
 
         if (!user) {
-            return res.status(404).json({ error: 'User no trobat' }); 
+            return res.status(404).json({ error: 'User no trobat' });
         }
         const passwordMatch = await bcrypt.compare(password, user.password); // Compara la contrasenya proporcionada amb la contrasenya encriptada 
-       
+
         if (!passwordMatch) {
-            return res.status(401).json({ error: 'Password incorrecte' }); 
+            return res.status(401).json({ error: 'Password incorrecte' });
         }
 
         const token = jwt.sign({ userId: user.id, userName: user.name }, SECRET_KEY, { expiresIn: '2h' }); // Genera un token JWT vàlid durant 2 hores
@@ -24,7 +24,7 @@ const login = async (req, res, Model) => {
     } catch (error) {
 
 
-        res.status(500).json({ error: error.message }); 
+        res.status(500).json({ error: error.message });
     }
 }
 
