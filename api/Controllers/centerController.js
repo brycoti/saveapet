@@ -99,8 +99,6 @@ const newPet = async (req, res, next, Center, Pet) => {
 
     // No hay errores de carga, proceder con la lógica de negocio
     try {
-       
-
       const center = await Center.findByPk(req.userId);
       if (!center) {
         return res.status(400).json({ error: 'Center not found' });
@@ -152,7 +150,6 @@ const centerAnimal = async (req, res, Center, Pet) => {
     res.status(500).json({ error: error.message }); // Manejar errores
   }
 };
-
 
 const animalLikedByUsers = async (req, res,  UserPetMatch, User ) => {
   try {

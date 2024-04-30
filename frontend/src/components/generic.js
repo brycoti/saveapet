@@ -91,4 +91,9 @@ const getPets = () => {
     return (getApi(getPets));
 }
 
-export { login, createUser, editUser, createReaction, getOnePet, getPets }
+const getPetsNotWatched = (id) => {
+    const getPets = '/user/' + id + '/petmatch';
+    return (getApi(getPets));
+}
+
+export { login, createUser, editUser, createReaction, getOnePet, getPets, getPetsNotWatched }

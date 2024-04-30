@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { where } = require("sequelize");
+const { where, QueryTypes } = require("sequelize");
+const { sequelize } = require("../db");
 
 
 
@@ -66,10 +67,26 @@ const userLikes = async (req, res, Model) => {
   }
 }
 
+const getPetsNotMatchedToUser = async (req, res, Pet, UserPetMatch) => {
+
+  try {
+
+    const pets = await sequelize.query(`select * from pets where id not in (select petId from UserPetMatches where userId = ${req.userId})`, {
+      type: QueryTypes.SELECT,
+    });
+
+
+    console.log(pets)
+    res.json(pets)
+  } catch (error) {
+    console.error('Error al obtener las mascotas no emparejadas:', error);
+    res.status(400).json({ error: error.message });
+  }
+};
 
 module.exports = {
   registerUser,
   userandpet,
   userLikes,
-
+  getPetsNotMatchedToUser
 }

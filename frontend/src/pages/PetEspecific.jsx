@@ -17,13 +17,11 @@ const PetEspecific = () => {
     }, [loguejat, redirect])
 
     useEffect(() => {
-
         getOnePet(id)
             .then((data) => {
-                console.log(data)
+
                 setPet(data);
             })
-
     }, [id, setPet]);
 
     return (<>

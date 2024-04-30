@@ -21,7 +21,6 @@ router.delete('/logout', (req, res) => {
     return res.json({ userId: user.id, name: user.name, email: user.email })
   })
 
-  
   router.get('/refresh/center', checkToken, async (req, res) => {
     const user = await Center.findByPk(req.userId); 
     if (!user) {

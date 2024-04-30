@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useState, useRef } from 'react';
 import contexte from "../components/contexte";
 import { Link, useNavigate } from 'react-router-dom';
-import { createReaction, getPets } from '../components/generic';
+import { createReaction, getPets, getPetsNotWatched } from '../components/generic';
 import corazon from '../../public/like.png';
 import cruz from '../../public/nop.png';
 import information from '../../public/info-icon--6.png';
@@ -62,11 +62,11 @@ const Inicio = () => {
             petId: animales[0].id
         }
         if (loguejat) {
-            const data = await createReaction(information);
 
-        } else {
-            redirect('/login')
+            const data = await createReaction(information);
         }
+
+
         while (isAnimating == true) {
             myRef.current.addEventListener('transitionend', () => {
                 setIsAnimating(false)
@@ -150,16 +150,25 @@ const Inicio = () => {
     }, [isAnimating, slideLeft, slideRight])
 
     useEffect(() => {
-
-        getPets()
-            .then((data) => {
-                if (data.error) {
-                    setError(data.error);
-                } else {
-                    setAnimales(data);
-                }
-            })
-
+        if (loguejat) {
+            getPetsNotWatched(loguejat.id)
+                .then((data) => {
+                    if (data.error) {
+                        setError(data.error);
+                    } else {
+                        setAnimales(data);
+                    }
+                })
+        } else {
+            getPets()
+                .then((data) => {
+                    if (data.error) {
+                        setError(data.error);
+                    } else {
+                        setAnimales(data);
+                    }
+                })
+        }
     }, [error, logout]);
 
     useEffect(() => {
