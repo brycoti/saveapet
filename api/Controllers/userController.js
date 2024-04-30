@@ -58,14 +58,21 @@ const userandpet = async (req, res, next, User, UserPetmatch) => {
 
 }
 
-const userLikes = async (req, res, Model) => {
+const userLikes = async (req, res, UserPetMatch, Pet) => {
   try {
-    const item = await Model.findAll({ where: { userId: req.userId, liked: true } })
-    res.json(item)
+    console.log(req.userId)
+    const pets = await sequelize.query(`SELECT*
+    FROM UserPetMatches 
+    JOIN pets ON pets.id = UserPetMatches.petId
+    WHERE userId = ${req.userId}`, {
+      type: QueryTypes.SELECT,
+    });
+    res.json(pets)
   } catch (error) {
+    console.error('Error al obtener las mascotas no emparejadas:', error);
     res.status(400).json({ error: error.message });
   }
-}
+};
 
 const getPetsNotMatchedToUser = async (req, res, Pet, UserPetMatch) => {
 
@@ -74,9 +81,6 @@ const getPetsNotMatchedToUser = async (req, res, Pet, UserPetMatch) => {
     const pets = await sequelize.query(`select * from pets where id not in (select petId from UserPetMatches where userId = ${req.userId})`, {
       type: QueryTypes.SELECT,
     });
-
-
-    console.log(pets)
     res.json(pets)
   } catch (error) {
     console.error('Error al obtener las mascotas no emparejadas:', error);

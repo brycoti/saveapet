@@ -21,12 +21,13 @@ const Profile = () => {
       credentials: "include",
     };
 
-    fetch("http://localhost:3000/api/pets", opcions)
+    fetch("http://localhost:3000/api/user/likes", opcions)
       .then((resp) => resp.json())
       .then((data) => {
         if (data.error === "Unauthorized") {
           logout();
         } else {
+          console.log('1', data)
           setAnimales(data);
         }
       })
@@ -73,10 +74,10 @@ const Profile = () => {
 
             <div className="overflow-x-auto h-46">
               <div className="flex">
-                {animales.map(animal => (
+                {animales?.map(animal => (
                   <img
                     onClick={() => { redirect('/pet/' + animal.id) }}
-                    key={animal.id}
+                    key={animal?.id}
                     src={`http://localhost:3000/uploads/${animal.foto}`}
                     className="w-auto h-52 m-1"
                     alt="Animal"
