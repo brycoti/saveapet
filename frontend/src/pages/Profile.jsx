@@ -24,7 +24,6 @@ const Profile = () => {
     fetch("http://localhost:3000/api/pets", opcions)
       .then((resp) => resp.json())
       .then((data) => {
-        console.log(data);
         if (data.error === "Unauthorized") {
           logout();
         } else {
@@ -45,7 +44,7 @@ const Profile = () => {
               <Link to="/settings" className="text-sm mt-2 mr-2 text-white p-3">
                 Ajustes
               </Link>
-              <div className="flex flex-col">
+              <div className="flex flex-col items-center">
                 <h1 className="px-3 font-sans text-white font-bold text-3xl tracking-[-.10em]">
                   <span className="text-3xl text-black">:</span>Perfil
                 </h1>
@@ -65,14 +64,13 @@ const Profile = () => {
             />
           </div>
           <div className="text-center px-3">
-            {/* <h2 className="text-gray-800 text-3xl font-">
-              {loguejat?.name}
-            </h2> */}
-
+            <Link className="p-3 bg-emerald-700 text-white text-xl font-semibold border border-emerald-700 rounded-full" to="/cuestionario">Cuestionario</Link>
+            <br />
+            <br />
             <p className="p-3 text-gray-800 text-xl font-extrabold">
               Favoritos
             </p>
-            <a href="/cuestionario">Cuestionario</a>
+
             <div className="overflow-x-auto h-46">
               <div className="flex">
                 {animales.map(animal => (
