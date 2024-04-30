@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createUser } from "../components/generic";
 
 const Register = () => {
@@ -9,6 +9,11 @@ const Register = () => {
     password: "",
     phonenumber: "",
     address: "",
+    home: "",
+    other_pets: "",
+    age_range: "",
+    kids_at_home: "",
+    ill_pets: "",
   });
   const redirect = useNavigate();
 
@@ -38,7 +43,8 @@ const Register = () => {
       <div>
         <form onSubmit={handleSubmit}>
           <div className="md:flex md:items-center bg-white p-3 mb-6 rounded-lg">
-            <div className="md:w-1/3 mb-3 mt-12">
+            <h1></h1>
+            <div className="md:w-1/3 mb-3 mt-8">
               <input
                 placeholder="Nombre"
                 type="text"
@@ -95,6 +101,90 @@ const Register = () => {
                 className="font-mono text-sm bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
               />
             </div>
+
+            <div className="bg-emerald-800 p-4 text-white rounded-lg font-mono text-sm">
+            <div className="md:w-1/3 mb-5">
+              <label htmlFor="home">
+                ¿En qué tipo de vivienda resides habitualmente?
+              </label>
+              <select
+                name="home"
+                id="home"
+                onChange={handleChange}
+                value={newUser.home}
+                className="font-mono text-sm bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+              >
+                <option value="casa">Casa</option>
+                <option value="piso">Piso</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+
+            <div className="md:w-1/3 mb-5">
+              <label htmlFor="other_pets">
+                ¿Tienes otros animales en casa?
+              </label>
+              <select
+                name="other_pets"
+                id="other_pets"
+                onChange={handleChange}
+                value={newUser.other_pets}
+                className="font-mono text-sm bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+              >
+                <option value="si">Sí</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+
+            <div className="md:w-1/3 mb-5">
+              <label htmlFor="age_range">
+                ¿Qué edad preferirías que tuviera el perro que vas a adoptar?
+              </label>
+              <select
+                name="age_range"
+                id="age_range"
+                onChange={handleChange}
+                value={newUser.ill_pets}
+                className="font-mono text-sm bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+              >
+                <option value="cachorro">Cachorro</option>
+                <option value="joven">Joven</option>
+                <option value="mayor">Mayor</option>
+              </select>
+            </div>
+
+            <div className="md:w-1/3 mb-5">
+              <label htmlFor="kids_at_home">¿Tienes niños en casa?</label>
+              <select
+                name="kids_at_home"
+                id="kids_at_home"
+                onChange={handleChange}
+                value={newUser.kids_at_home}
+                className="font-mono text-sm bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+              >
+                <option value="si">Sí</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+
+            <div className="md:w-1/3">
+              <label htmlFor="ill_pets">
+                ¿Estarías dispuesto a adoptar un animal con leishmania, leucemia
+                u otras enfermedades?
+              </label>
+              <select
+                name="ill_pets"
+                id="ill_pets"
+                onChange={handleChange}
+                value={newUser.ill_pets}
+                className="font-mono text-sm bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+              >
+                <option value="si">Sí</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            </div>
+<br />
             <button
               type="submit"
               className="text-white bg-emerald-700 hover:bg-emerald-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-3xl text-sm w-full sm:w-auto px-5 py-3 text-center"
@@ -104,7 +194,10 @@ const Register = () => {
             <div className="flex justify-center items-center">
               <a href="/login">
                 Tengo una cuenta.
-                <span className="font-bold text-emerald-700"> Iniciar sesión</span>
+                <span className="font-bold text-emerald-700">
+                  {" "}
+                  Iniciar sesión
+                </span>
               </a>
             </div>
           </div>
