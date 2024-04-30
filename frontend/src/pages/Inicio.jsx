@@ -62,11 +62,11 @@ const Inicio = () => {
             petId: animales[0].id
         }
         if (loguejat) {
-            const data = await createReaction(information);
 
-        } else {
-            redirect('/login')
+            const data = await createReaction(information);
         }
+
+
         while (isAnimating == true) {
             myRef.current.addEventListener('transitionend', () => {
                 setIsAnimating(false)
