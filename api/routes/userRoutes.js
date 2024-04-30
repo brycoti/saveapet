@@ -24,6 +24,6 @@ router.post('/login/user', async (req, res) => await login(req, res, User));
 router.post('/user/petmatch', checkToken, async (req, res, next) => await userandpet(req, res, next, User, UserPetMatch));
 router.get('/user/:id/petmatch', checkToken, async (req, res, next) => await getPetsNotMatchedToUser(req, res, Pet, UserPetMatch));// endpoint perros que el usuario con :id no ha visto
 router.get('/user/petmatch', checkToken, async (req, res) => await readItemsUser(req, res, UserPetMatch));
-router.get('/user/likes', checkToken, async (req, res) => await userLikes(req, res, UserPetMatch));
+router.get('/user/likes', checkToken, async (req, res) => await userLikes(req, res, UserPetMatch, Pet));
 
 module.exports = router; // Exporta el router amb les rutes definides
