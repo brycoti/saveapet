@@ -7,7 +7,6 @@ const { Center } = require('../Models/centerModel');
 const { Pet } = require('../Models/petModel');
 const { UserPetMatch } = require('./userPetMatchModel');
 
-// Call the function to initialize the database
 
 // Function to initialize the database
 async function iniDB() {
@@ -19,10 +18,9 @@ async function iniDB() {
   }
 }
 
-// set up
 
-//iniDB();
-
+// Call the function to initialize the database
+  // iniDB();
 
 
 // Center can create a pet

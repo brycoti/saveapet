@@ -22,8 +22,6 @@ const login = async (req, res, Model) => {
 
         res.json({ name: user.name, id: user.id, already_logged: user.already_logged, home: user.home, other_pets: user.other_pets, age_range: user.age_range, kids_at_home: user.kids_at_home, ill_pets: user.ill_pets }); // 
     } catch (error) {
-
-
         res.status(500).json({ error: error.message });
     }
 }
