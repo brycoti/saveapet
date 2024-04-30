@@ -8,11 +8,11 @@ const bcrypt = require('bcrypt'); // Importa la llibreria bcrypt per a encriptar
 
 
 // Models
-const { User, UserPetMatch } = require('../Models/models'); // Correct way to import the User model if it's part of an exported object
+const { User, UserPetMatch, Pet } = require('../Models/models'); // Correct way to import the User model if it's part of an exported object
 
 // Controllers
 const { updateItem, deleteItem, readItem, readItems, readItemsUser, login, editUser } = require('../Controllers/generics'); // Importa les funcions per a realitzar operacions CRUD genèriques
-const { registerUser, userandpet, userLikes } = require('../Controllers/userController')
+const { registerUser, userandpet, userLikes, getPetsNotMatchedToUser } = require('../Controllers/userController')
 
 // CRUD USERS 
 router.get('/users', checkToken, async (req, res) => await readItems(req, res, User));
@@ -25,6 +25,7 @@ router.post('/login/user', async (req, res) => await login(req, res, User));
 
 // Enpoint per crear relacio user - gos
 router.post('/user/petmatch', checkToken, async (req, res, next) => await userandpet(req, res, next, User, UserPetMatch));
+router.get('/user/:id/petmatch', checkToken, async (req, res, next) => await getPetsNotMatchedToUser(req, res, Pet, UserPetMatch));// endpoint perros que el usuario con :id no ha visto
 router.get('/user/petmatch', checkToken, async (req, res) => await readItemsUser(req, res, UserPetMatch));
 router.get('/user/likes', checkToken, async (req, res) => await userLikes(req, res, UserPetMatch));
 
