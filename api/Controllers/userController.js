@@ -7,7 +7,7 @@ const { sequelize } = require("../db");
 
 const registerUser = async (req, res, User) => {
   try {
-    const { name, email, password, phonenumber, address,  home, other_pets, age_range, kids_at_home, ill_pets} = req.body;
+    const { name, email, password, phonenumber, address, home, other_pets, age_range, kids_at_home, ill_pets } = req.body;
 
     if (!name || !email || !password, !phonenumber, !address) {
       return res.status(400).json({ error: 'name, email, password, phonenumber i address requerits' });
@@ -19,7 +19,7 @@ const registerUser = async (req, res, User) => {
       return res.status(400).json({ error: 'Email ja existeix' });
     }
 
-    const user = await User.create({ name, email, password, phonenumber, address, home, other_pets, age_range, kids_at_home, ill_pets});
+    const user = await User.create({ name, email, password, phonenumber, address });
 
     res.status(201).json({ userId: user.id, name: user.name, email: user.email, });
   } catch (error) {
@@ -62,9 +62,9 @@ const userLikes = async (req, res, UserPetMatch, Pet) => {
   try {
     console.log(req.userId)
     const pets = await sequelize.query(`SELECT*
-    FROM UserPetMatches 
-    JOIN pets ON pets.id = UserPetMatches.petId
-    WHERE userId = ${req.userId}`, {
+    FROM UserPetMatches u
+    JOIN pets p ON p.id = u.petId 
+    WHERE u.userId = ${req.userId} and liked=true`, {
       type: QueryTypes.SELECT,
     });
     res.json(pets)
