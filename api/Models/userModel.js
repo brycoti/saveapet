@@ -1,4 +1,3 @@
-
 const { sequelize, DataTypes } = require('../db');
 const bcrypt = require('bcrypt');
 
@@ -59,9 +58,6 @@ User.beforeCreate(async (user) => {
   const hashedPassword = await bcrypt.hash(user.password, 10); // Encrypt the password with bcrypt
   user.password = hashedPassword; // Set the user's password to the hashed password
 });
-
-
-
 
 
 module.exports = {

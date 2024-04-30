@@ -9,24 +9,16 @@ const app = express();
 // Middlewares
 // permet llegir contingut json en posts
 app.use(express.json());
-// cors necessari quan api/front son a servidors diferents
 
-
-// 5173 and 5174 front and back
-
-
-
-
+// Permet CORS con doble front
 app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:5174'],
  credentials: true }));
 
 // permet llegir les cookies
 app.use(cookieParser());
 
-
 // Routes
 app.use('/uploads', express.static('uploads'))
-
 
 // Read all route files and import them
 fs.readdirSync(path.join(__dirname, 'routes')).forEach(file => {

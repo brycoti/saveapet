@@ -1,11 +1,8 @@
 const express = require('express'); // Importa la llibreria Express per gestionar les rutes
 const router = express.Router(); // Crea un router d'Express
-
 const { checkToken } = require('../Middleware/checkToken');
-
 const multer = require('multer'); // Importa la llibreria multer per gestionar peticions de fitxers
 const bcrypt = require('bcrypt'); // Importa la llibreria bcrypt per a encriptar contrasenyes
-
 
 // Models
 const { User, UserPetMatch } = require('../Models/models'); // Correct way to import the User model if it's part of an exported object
