@@ -106,9 +106,9 @@ const AltaMascota = () => {
                 <option value="" selected>
                   --Seleciona una opción--
                 </option>
-                <option value="big">Grande</option>
-                <option value="medium">Mediano</option>
-                <option value="small">Pequeño</option>
+                <option value="grande">Grande</option>
+                <option value="mediano">Mediano</option>
+                <option value="pequeño">Pequeño</option>
               </select>
             </div>
             <div className="mb-4">
@@ -124,10 +124,10 @@ const AltaMascota = () => {
                 <option value="" selected>
                   --Seleciona una opción--
                 </option>
-                <option value="energetic">Enérgico</option>
-                <option value="calm">Tranquilo</option>
-                <option value="playful">Juguetón</option>
-                <option value="shy">Tímido</option>
+                <option value="energico">Enérgico</option>
+                <option value="calmado">Tranquilo</option>
+                <option value="jugueton">Juguetón</option>
+                <option value="timido">Tímido</option>
               </select>
             </div>
           </div>
@@ -176,8 +176,8 @@ const AltaMascota = () => {
                 <option value="" selected>
                   --Seleciona una opción--
                 </option>
-                <option value="urgent">Urgente</option>
-                <option value="not urgent">No Urgente</option>
+                <option value="urgente">Urgente</option>
+                <option value="no urgente">No Urgente</option>
               </select>
             </div>
             <div>

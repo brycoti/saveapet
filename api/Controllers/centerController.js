@@ -99,8 +99,6 @@ const newPet = async (req, res, next, Center, Pet) => {
 
     // No hay errores de carga, proceder con la lógica de negocio
     try {
-       
-
       const center = await Center.findByPk(req.userId);
       if (!center) {
         return res.status(400).json({ error: 'Center not found' });
@@ -153,7 +151,6 @@ const centerAnimal = async (req, res, Center, Pet) => {
   }
 };
 
-
 const animalLikedByUsers = async (req, res,  UserPetMatch, User ) => {
   try {
     const petId = req.params.id;
@@ -170,7 +167,7 @@ const animalLikedByUsers = async (req, res,  UserPetMatch, User ) => {
     // Recuperar información de los usuarios que han dado like al animal
     const likedUsers = await User.findAll({
       where: { id: likedUserIds },
-      attributes: ['name', 'address', 'email','phonenumber','id']
+      attributes: ['name', 'address', 'email','phonenumber','id','home','other_pets','age_range','kids_at_home','ill_pets']
     });
 
     res.json(likedUsers);
@@ -180,40 +177,47 @@ const animalLikedByUsers = async (req, res,  UserPetMatch, User ) => {
 };
 
 
-const adopt = async (req, res,User,Pet,UserPetMatch) => {
+const adopt = async (req, res, User, Pet, UserPetMatch) => {
   try {
-      const { userId, petId } = req.body;
+    const { userId, petId } = req.body;
 
-      // Verifica si el usuario existe
-      const user = await User.findByPk(userId);
-      if (!user) {
-          return res.status(404).json({ error: 'El usuario no existe.' });
-      }
+    // Verifica si el usuario existe
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'El usuario no existe.' });
+    }
 
-      // Verifica si el animal existe
-      const pet = await Pet.findByPk(petId);
-      if (!pet) {
-          return res.status(404).json({ error: 'El animal no existe.' });
-      }
+    // Verifica si el animal existe
+    const pet = await Pet.findByPk(petId);
+    if (!pet) {
+      return res.status(404).json({ error: 'El animal no existe.' });
+    }
 
-      // Busca la entrada en la tabla intermedia que coincida con los IDs del usuario y del animal
-      const userPetMatch = await UserPetMatch.findOne({
-          where: { userId: userId, petId: petId }
-      });
+    // Verifica si el animal ya ha sido adoptado en alguna relación en UserPetMatch
+    const alreadyAdopted = await UserPetMatch.findOne({
+      where: { petId: petId, adopted: true }
+    });
+    if (alreadyAdopted) {
+      return res.status(400).json({ error: 'El animal ya ha sido adoptado.' });
+    }
 
-      // Verifica si se encontró una coincidencia en la tabla intermedia
-      if (!userPetMatch) {
-          return res.status(404).json({ error: 'No se encontró una coincidencia en la tabla intermedia.' });
-      }
+    // Encuentra la entrada correspondiente en UserPetMatch
+    const userPetMatch = await UserPetMatch.findOne({
+      where: { petId: petId, userId: userId }
+    });
 
-      // Actualiza el atributo 'adopted' de la entrada encontrada a 'true'
-      await userPetMatch.update({ adopted: true });
+    if (!userPetMatch) {
+      return res.status(404).json({ error: 'No se encontró una relación entre el usuario y la mascota.' });
+    }
 
-      // Envía una respuesta de éxito
-      res.status(200).json({ message: 'Usuario adoptado correctamente.' });
+    // Actualiza el atributo 'adopted' de la entrada encontrada a 'true'
+    await userPetMatch.update({ adopted: true });
+
+    // Envía una respuesta de éxito
+    res.status(200).json({ message: 'Usuario adoptado correctamente.' });
   } catch (error) {
-      console.error('Error al adoptar usuario:', error);
-      res.status(500).json({ error: 'Error al procesar la adopción del usuario.' });
+    console.error('Error al adoptar usuario:', error);
+    res.status(500).json({ error: 'Error al procesar la adopción del usuario.' });
   }
 };
 

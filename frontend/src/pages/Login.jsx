@@ -6,7 +6,7 @@ import { editUser, login } from "../components/generic";
 
 const Login = () => {
     const { loguejat, setLoguejat } = useContext(Contexte);
-    const [user, setUser] = useState({ email: "", password: ""});
+    const [user, setUser] = useState({ email: "", password: "" });
     const redirect = useNavigate();
 
     useEffect(() => {
@@ -28,10 +28,11 @@ const Login = () => {
         const data = await login(user);
         if (!data.error) {
             setLoguejat(data)
+
             if (!data.already_logged) {
                 const information = { already_logged: true }
                 editUser(information, data.id);
-                redirect('/profile')
+                redirect('/cuestionario')
             } else {
                 redirect('/')
             }
@@ -40,9 +41,9 @@ const Login = () => {
 
     return (
         <>
-        <div className="flex justify-center items-center">
-            <h1 className="font-sans font-bold text-4xl tracking-[-.10em]">Save a pet<span className="text-6xl text-emerald-700">.</span></h1>
-        </div>
+            <div className="flex justify-center items-center">
+                <h1 className="font-sans font-bold text-4xl tracking-[-.10em]">Save a pet<span className="text-6xl text-emerald-700">.</span></h1>
+            </div>
             <div>
                 <form onSubmit={handleSubmit}>
                     <div className="md:flex md:items-center bg-white p-3 mb-6 rounded-lg">
@@ -76,13 +77,13 @@ const Login = () => {
                             Iniciar sesión
                         </button>
                         <div className="flex justify-center items-center">
-                        <a href="/register">¿No tienes cuenta? <span className="font-bold text-emerald-700">Regístrate</span></a>
+                            <a href="/register">¿No tienes cuenta? <span className="font-bold text-emerald-700">Regístrate</span></a>
                         </div>
                     </div>
-                    
+
                     <div className="flex justify-center items-center">
 
-                    <a href="" className="text-white bg-slate-900 hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-3xl text-sm sm:w-auto px-5 py-3 text-center">Acceso centros</a>
+                        <a href="" className="text-white bg-slate-900 hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-3xl text-sm sm:w-auto px-5 py-3 text-center">Acceso centros</a>
                     </div>
                 </form>
             </div>

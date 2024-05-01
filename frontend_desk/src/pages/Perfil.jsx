@@ -134,8 +134,8 @@ const Perfil = () => {
             <p>
               ¡Bienvenid@, <span className="bold italic">{name}</span>!
             </p>
-            <div className="flex justify-center mx-auto shadow-md rounded px-4 py-2 mt-2 mb-4 font-mono bg-emerald-800 text-gray-100 text-xs w-1/2">
-              <div className="grid grid-cols-2 md:grid-cols-2">
+            <div className="flex justify-center mx-auto shadow-md rounded px-4 py-2 mt-2 mb-4 font-mono bg-emerald-800 text-gray-100 w-2/3">
+              <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
                 <div className="flex items-center">
                   <p><span className="font-bold">Email:</span> {email}</p>
                 </div>

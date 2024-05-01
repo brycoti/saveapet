@@ -1,8 +1,6 @@
 const { sequelize, DataTypes } = require('../db');
 
-
 const UserPetMatch = sequelize.define('UserPetMatch', {
-
   id:{
     type: DataTypes.BIGINT,
     primaryKey: true,

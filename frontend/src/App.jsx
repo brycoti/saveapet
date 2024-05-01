@@ -4,13 +4,13 @@ import { Outlet } from "react-router-dom";
 
 
 function App() {
-  const [loguejat, setLoguejat] = useState(null)
+  const [loguejat, setLoguejat,] = useState(null)
+
 
   const logout = useCallback(() => {
-
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; // 
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; // Set the expiration date to a past date
     setLoguejat(null)
-    window.location.href = "/login"; // 
+    window.location.href = "/";
   }, [setLoguejat]);
 
   useEffect(() => {
