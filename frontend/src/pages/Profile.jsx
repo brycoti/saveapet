@@ -49,7 +49,7 @@ const Profile = () => {
                 <h1 className="px-3 font-sans text-white font-bold text-3xl tracking-[-.10em]">
                   <span className="text-3xl text-black">:</span>Perfil
                 </h1>
-                <h1 className="px-2 font-sans text-white font-bold text-2xl">{loguejat?.name}</h1>
+                <h1 className="px-2 font-sans text-white bg-slate-800 mt-3 p-2 rounded-full font-bold text-2xl">{loguejat?.name}</h1>
               </div>
               <a onClick={logout} className="text-sm mt-2 mr-2 text-white p-3">
                 Logout
@@ -57,7 +57,7 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="flex justify-center px-5 relative mt-2">
+          <div className="flex justify-center px-5 relative mt-4">
             <img
               className="h-40 w-40 bg-white p-1 rounded-full absolute bottom-1/4"
               src="https://i.pinimg.com/236x/00/60/f8/0060f80e1526bbaa26f4c1628cc53c17.jpg"
@@ -65,9 +65,10 @@ const Profile = () => {
             />
           </div>
           <div className="text-center px-3">
-            <Link className="p-3 bg-emerald-700 text-white text-xl font-semibold border border-emerald-700 rounded-full" to="/cuestionario">Cuestionario</Link>
+            <Link className="p-3 bg-emerald-700 hover:bg-emerald-600 px-20 text-white text-xl font-semibold border border-emerald-700 rounded-full" to="/cuestionario">Cuestionario</Link>
             <br />
             <br />
+            <hr />
             <p className="p-3 text-gray-800 text-xl font-extrabold">
               Favoritos
             </p>

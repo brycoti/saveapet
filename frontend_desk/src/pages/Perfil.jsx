@@ -63,8 +63,8 @@ const Perfil = () => {
   return (
     <div className="p-3 w-full text-center">
       <div className="px-4 sm:px-6 lg:px-8 bg-white mt-10 p-3 rounded-md ">
-        <h1 className="font-sans text-emerald-800 font-bold text-3xl tracking-[-.10em]">
-          <span className="text-4xl text-black">:</span>Perfil
+        <h1 className="font-sans text-emerald-800 font-bold text-5xl tracking-[-.10em]">
+          <span className="text-5xl text-black">:</span>Perfil
         </h1>
         {editMode ? (
           <form className="p-5">
@@ -130,11 +130,11 @@ const Perfil = () => {
             </button>
           </form>
         ) : (
-          <div className="mt-2">
+          <div className="mt-2 text-lg">
             <p>
-              ¡Bienvenid@, <span className="bold italic">{name}</span>!
+              ¡Bienvenid@, <span className="bold italic text-xl">{name}</span>!
             </p>
-            <div className="flex justify-center mx-auto shadow-md rounded px-4 py-2 mt-2 mb-4 font-mono bg-emerald-800 text-gray-100 w-2/3">
+            <div className="flex justify-center mx-auto shadow-md rounded px-4 py-2 mt-2 mb-4 font-mono bg-emerald-800 text-gray-100 w-2/3 text-lg">
               <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
                 <div className="flex items-center">
                   <p><span className="font-bold">Email:</span> {email}</p>

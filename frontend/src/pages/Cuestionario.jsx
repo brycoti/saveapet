@@ -28,7 +28,7 @@ const Cuestionario = () => {
       <div className="text-white flex justify-between items-baseline bg-emerald-700 p-8 px-4 h-1/10  w-full ">
 
         <div className="pr-2 text-white">
-          <Link to='/profile'>Atras</Link>
+          <Link to='/profile'>Atrás</Link>
         </div>
 
         <h1 className="ml-2 text-center font-sans font-bold text-white text-3xl tracking-[-.10em]">
@@ -98,6 +98,7 @@ const Cuestionario = () => {
             </div>
             <button
               type="submit"
+              href="/profile"
               className="text-white bg-emerald-700 hover:bg-emerald-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-3xl text-sm w-full sm:w-auto px-5 py-3 text-center"
             >
               Guardar
