@@ -1,80 +1,124 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext, useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import contexte from "../components/contexte";
 
 const Profile = () => {
-  const [usuario, setUsuario] = useState({});
-  const [error, setError] = useState(false);
-  const { loguejat } = useContext(contexte);
+  const { loguejat, logout } = useContext(contexte);
+  const [animales, setAnimales] = useState([]);
 
-  // Verifica si loguejat está definido antes de acceder a sus propiedades
-  const nombreUsuario = loguejat ? loguejat.name : "";
+
+  const redirect = useNavigate();
 
   useEffect(() => {
-    // Realiza alguna lógica adicional que necesites cuando loguejat cambie
-    // Por ejemplo, podrías hacer una llamada a la API para obtener más datos del usuario
-    if (loguejat) {
-      // Aquí podrías realizar alguna lógica adicional, como cargar más datos del usuario
-      console.log("Usuario logueado:", loguejat);
-    }
-  }, [loguejat]);
+
+    if (!loguejat) redirect('/login')
+
+  }, [loguejat, redirect])
+
+
+  useEffect(() => {
+    const opcions = {
+      credentials: "include",
+    };
+
+    fetch("http://localhost:3000/api/user/likes", opcions)
+      .then((resp) => resp.json())
+      .then((data) => {
+        if (data.error === "Unauthorized") {
+          logout();
+        } else {
+          console.log('1', data)
+          setAnimales(data);
+        }
+      })
+      .catch((err) => {
+        console.log("Error fetching data:", err);
+      });
+  }, [logout]);
 
   return (
-    <div>
-      <div className="overflow flex flex-wrap items-center justify-center">
-        <div className="container lg:w-2/6 xl:w-2/7 sm:w-full md:w-2/3    bg-white  shadow-lg    transform   duration-200 easy-in-out">
-          <div className=" h-32 overflow-hidden">
-            <img
-              className="w-full"
-              src="https://img.freepik.com/free-photo/grunge-black-concrete-textured-background_53876-124541.jpg"
-              alt=""
-            />
+    <>
+      <div className="overflow-x-auto flex flex-wrap items-center justify-center">
+        <div className="container lg:w-2/6 xl:w-2/7 sm:w-full md:w-2/3 bg-white shadow-lg transform duration-200 easy-in-out flex flex-col justify-between h-screen w-full">
+          <div className="flex flex-col">
+            <div className="h-48 overflow-hidden bg-emerald-700 flex justify-between">
+              <Link to="/settings" className="text-sm mt-2 mr-2 text-white p-3">
+                Ajustes
+              </Link>
+              <div className="flex flex-col items-center">
+                <h1 className="px-3 font-sans text-white font-bold text-3xl tracking-[-.10em]">
+                  <span className="text-3xl text-black">:</span>Perfil
+                </h1>
+                <h1 className="px-2 font-sans text-white bg-slate-800 mt-3 p-2 rounded-full font-bold text-2xl">{loguejat?.name}</h1>
+              </div>
+              <a onClick={logout} className="text-sm mt-2 mr-2 text-white p-3">
+                Logout
+              </a>
+            </div>
           </div>
-          <div className="flex justify-center px-5  -mt-12">
+
+          <div className="flex justify-center px-5 relative mt-4">
             <img
-              className="h-32 w-32 bg-white p-2 rounded-full"
+              className="h-40 w-40 bg-white p-1 rounded-full absolute bottom-1/4"
               src="https://i.pinimg.com/236x/00/60/f8/0060f80e1526bbaa26f4c1628cc53c17.jpg"
               alt=""
             />
           </div>
-          <div className=" ">
-            <div className="text-center px-14">
-              <h2 className="text-gray-800 text-3xl font-bold">
-                {nombreUsuario}
-              </h2>
-              <p className="text-gray-400 mt-2"></p>
-              <p className="mt-2 text-gray-500 text-sm">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s,
-              </p>
+          <div className="text-center px-3">
+            <Link className="p-3 bg-emerald-700 hover:bg-emerald-600 px-20 text-white text-xl font-semibold border border-emerald-700 rounded-full" to="/cuestionario">Cuestionario</Link>
+            <br />
+            <br />
+            <hr />
+            <p className="p-3 text-gray-800 text-xl font-extrabold">
+              Favoritos
+            </p>
 
-              <p className="mt-5 mb-1 text-gray-800 font-extrabold">Favourite dogs</p>
-              <div className="overflow-auto">
-                <div className="flex">
-                <img className="w-20 h-auto mr-2" src="https://img.freepik.com/foto-gratis/vertical-adorable-perro-raza-mixta-sobre-azul_181624-45053.jpg"/>
-                <img className="w-20 h-auto mr-2" src="https://previews.123rf.com/images/mirawonderland/mirawonderland1606/mirawonderland160600030/59794518-retrato-vertical-de-un-perro-pastor-de-shetland-bonita-en-un-fondo-blanco-frente-a-la-c%C3%A1mara.jpg"/>
-                <img className="w-20 h-auto mr-2" src="https://st4.depositphotos.com/27201292/41849/i/450/depositphotos_418498294-stock-photo-vertical-shot-white-dog-forest.jpg"/>
-                <img className="w-20 h-auto mr-2" src="https://st4.depositphotos.com/27201292/41849/i/450/depositphotos_418498294-stock-photo-vertical-shot-white-dog-forest.jpg"/>
-                <img className="w-20 h-auto mr-2" src="https://st4.depositphotos.com/27201292/41849/i/450/depositphotos_418498294-stock-photo-vertical-shot-white-dog-forest.jpg"/>
-                <img className="w-20 h-auto mr-2" src="https://st4.depositphotos.com/27201292/41849/i/450/depositphotos_418498294-stock-photo-vertical-shot-white-dog-forest.jpg"/>
+            <div className="overflow-x-auto h-46">
+              <div className="flex">
+                {animales?.map(animal => (
+                  <img
+                    onClick={() => { redirect('/pet/' + animal.id) }}
+                    key={animal?.id}
+                    src={`http://localhost:3000/uploads/${animal.foto}`}
+                    className="w-auto h-52 m-1"
+                    alt="Animal"
+                  />
+                ))}
 
-                </div>
-              </div>
-            </div>
-            <hr className="mt-6" />
-            <div className="flex bg-gray-50">
-              <div className="text-center w-1/2 p-4 hover:bg-gray-100 cursor-pointer">
-                <a href="/">Al inicio</a>
-              </div>
-              <div className="border"></div>
-              <div className="text-center w-1/2 p-4 hover:bg-gray-100 cursor-pointer">
-                <a href="/cuestionario">Cuestionario</a>
               </div>
             </div>
           </div>
+
+          <hr className="mt-8" />
+          <div className="flex justify-around bg-gray-50 h-17 p-2 content-end">
+            <Link to="/">
+              <img
+                src="https://www.freeiconspng.com/thumbs/dog-icon/dog-icon-4.png"
+                alt="Centros"
+                width="30"
+                height="30"
+              />
+            </Link>
+            <Link to="/">
+              <img
+                src="https://www.pngall.com/wp-content/uploads/4/House-Transparent.png"
+                alt="Centros"
+                width="30"
+                height="30"
+              />
+            </Link>
+            <button to="/profile">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/711/711769.png"
+                alt="Perfil"
+                width="30"
+                height="30"
+              />
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

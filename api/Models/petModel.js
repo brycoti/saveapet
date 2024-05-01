@@ -1,4 +1,4 @@
-const {sequelize, DataTypes } = require('./db');
+const {sequelize, DataTypes } = require('../db');
 
 // Definir modelo pet
 const Pet = sequelize.define('Pet', {
@@ -8,17 +8,21 @@ const Pet = sequelize.define('Pet', {
     },
     breed: {
       type: DataTypes.STRING,
+      allowNull: false
     },
     age: {
       type: DataTypes.INTEGER,  
+      allowNull: false
     },
     size: {
-      type: DataTypes.ENUM('big', 'medium', 'small'),
-      defaultValue: 'big'
+      type: DataTypes.ENUM('grande', 'mediano', 'pequeño'),
+      allowNull: false,
+      defaultValue: 'grande'
     },
     temper: {
-      type: DataTypes.ENUM('energetic', 'calm', 'playful', 'shy'),
-      defaultValue: 'calm',
+      type: DataTypes.ENUM('energico', 'calmado', 'jugueton', 'timido'),
+      allowNull: false,
+      defaultValue: 'energico'
     },
     dogs_friendly: {
       type: DataTypes.BOOLEAN,
@@ -31,12 +35,15 @@ const Pet = sequelize.define('Pet', {
       defaultValue: false
     },
     urgency: {
-      type: DataTypes.ENUM('urgent', 'not urgent'),
-      defaultValue: 'not urgent',
+      type: DataTypes.ENUM('urgente', 'no urgente'),
+      allowNull: false,
+      defaultValue: 'no urgente'
+    },
+    foto: {
+      type: DataTypes.STRING,
+      allowNull: true // Es permet valor nul per a la foto
     }
   });
-
-
 
   module.exports = {
     Pet

@@ -12,6 +12,7 @@ import Inicio from './pages/Inicio.jsx';
 import Listanimales from './pages/Listanimales.jsx';
 import ModificarAnimal from './pages/ModificarPet';
 import Alta from './pages/AltaPet.jsx';
+import Likes from './pages/Likes.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -25,6 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/list" element={<Listanimales />} />
           <Route path="/modificar/:id" element={<ModificarAnimal />} />
           <Route path="/alta" element={<Alta />} />
+          <Route path="/list/likes/:id" element={<Likes />} />
         </Route>
       </Routes>
     </React.StrictMode>

@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const {sequelize, DataTypes } = require('./db');
+const {sequelize, DataTypes } = require('../db');
 
 // Define the Center model
 const Center = sequelize.define('Center', {
@@ -37,10 +37,9 @@ const Center = sequelize.define('Center', {
 Center.beforeCreate(async (center) => {
     const hashedPassword = await bcrypt.hash(center.password, 10); // Encrypt the password with bcrypt
     center.password = hashedPassword; // Set the user's password to the hashed password
-  });
+});
 
 
-
-  module.exports = {
+module.exports = {
     Center,
 };

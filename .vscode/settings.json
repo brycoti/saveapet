@@ -1,5 +1,4 @@
 {
-    "githubPullRequests.ignoredPullRequestBranches": [
-        "develop"
-    ]
+    "workbench.colorTheme": "One Dark Pro",
+    "terminal.integrated.fontWeightBold": "bold"
 }
